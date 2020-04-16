@@ -1,6 +1,8 @@
 import each from "https://deno.land/x/lodash/each.js"
 import reduce from "https://deno.land/x/lodash/reduce.js"
-import Validations from "./validations.js"
+import Validations from "./model/validations.js"
+import Errors from "./model/errors.js"
+import Query from "./model/query.js"
 
 export function validates(property, validations={}) {
   return target => {
@@ -10,21 +12,6 @@ export function validates(property, validations={}) {
 
       target.validations.push(new Validation(property, options))
     })
-  }
-}
-
-export class Errors {
-  constructor() {
-    this.all = {}
-  }
-
-  add(property, message) {
-    this.all[property] = this.all[property] || []
-    this.all[property].push(message)
-  }
-
-  get any() {
-    return Object.keys(this.all).length
   }
 }
 
@@ -46,8 +33,9 @@ export default class Model {
     if (typeof query === "string") {
       return this.all.where(query.split("\n"))
     }
+    const append = (val, key, q) => q.where(key, "=", val)
 
-    return reduce(query, (val, key, q) q.where(key, "=", val), this.all)
+    return reduce(query, append, this.all)
   }
 
   static findBy(query) {

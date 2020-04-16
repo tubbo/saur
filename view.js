@@ -1,4 +1,4 @@
-import Template from "./template.js"
+import Template from "./view/template.js"
 
 export default class View {
   static template = null
@@ -9,6 +9,7 @@ export default class View {
       this.constructor.template,
       this.controller.layout
     )
+    this.url_for = App.routes.resolve.bind(App)
   }
 
   render(partial, context={}) {

@@ -1,4 +1,4 @@
-import Builder from "https://deno.land/x/sql-builder@1.3.5/mod.ts";
+import Builder from "https://deno.land/x/sql_builder/mod.ts";
 
 export default class Query extends Builder.Query {
   constructor(model) {
@@ -27,6 +27,10 @@ export default class Query extends Builder.Query {
     const records = this.run()
 
     return records[records.length]
+  }
+
+  get length() {
+    return this.run().length
   }
 
   forEach(iterator) {

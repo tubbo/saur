@@ -1,12 +1,13 @@
 import { Router } from "https://deno.land/x/oak/mod.ts"
-import RouteSet from "./route-set.js"
-import Namespace, { ResourceNamespace } from "./namespace.js"
+import RouteSet from "./routes/route-set.js"
+import MissingRouteError from "./errors/missing-route.js"
 
 export default class Routes {
   constructor(app) {
     this.app = app
     this.router = new Router()
     this.set = new RouteSet(this.router)
+    this.draw = this.set.draw.bind(this.set)
   }
 
   get methods() {
@@ -17,6 +18,10 @@ export default class Routes {
     return this.router.routes()
   }
 
+  /**
+   * Find the first matching route given the controller, action, and
+   * parameters.
+   */
   resolve(controller, action, params={}) {
     let url
     this.set.forEach
@@ -28,7 +33,7 @@ export default class Routes {
     ))
 
     if (!route) {
-      throw new Error("No route matches")
+      throw new MissingRouteError(controller, action, params)
     }
 
     return keys.reduce((k, p) => p.replace(`:${k}`, params[k]), route.path)
