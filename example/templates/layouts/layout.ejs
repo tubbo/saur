@@ -1,6 +1,8 @@
 <html>
   <head>
+  <%= cache("title", () => ( %>
     <title>example</title>
+  <%= )) %>
   </head>
   <body>
     <%= innerHTML %>

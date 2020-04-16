@@ -4,24 +4,24 @@ window.App = new Application({
   layout: "layout.ejs",
 })
 
-App.routes.draw(() => {
-  this.resources("users", UsersController, (collection, member) => {
-    collection(() => {
-      this.get("active")
+App.routes.draw(({ resources, namespace, root }) => {
+  resources("users", UsersController, (collection, member) => {
+    collection(({ get }) => {
+      get("active")
     })
 
-    member(() => {
-      this.get("setup")
-    })
-  })
-
-  this.namespace("foo", () => {
-    this.namespace("bar", () => {
-      this.get("baz", HomeController)
+    member(({ get }) => {
+      get("setup")
     })
   })
 
-  this.root(HomeController, "index")
+  namespace("foo", ({ namespace }) => {
+    namespace("bar", ({ get }) => {
+      get("baz", { controller: HomeController })
+    })
+  })
+
+  root(HomeController, "index")
 })
 
 App.start()
