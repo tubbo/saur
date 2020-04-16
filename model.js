@@ -2,7 +2,7 @@ import each from "https://deno.land/x/lodash/each.js"
 import reduce from "https://deno.land/x/lodash/reduce.js"
 import Validations from "./model/validations.js"
 import Errors from "./model/errors.js"
-import Query from "./model/query.js"
+import Relation from "./model/query.js"
 
 export function validates(property, validations={}) {
   return target => {
@@ -43,7 +43,7 @@ export default class Model {
   }
 
   static get all() {
-    return new Query(this)
+    return new Relation(this)
   }
 
   constructor(attributes = {}) {
@@ -76,7 +76,7 @@ export default class Model {
       return false
     }
 
-    const query = new Query(this)
+    const query = new Relation(this)
 
     if (this.id) {
       query.where("id", this.id).update(this.attributes)
@@ -96,10 +96,9 @@ export default class Model {
   }
 
   destroy() {
-    const query = new Query(this)
+    const query = new Relation(this)
 
     query.where("id", this.id).delete()
-
     query.run()
 
     return true

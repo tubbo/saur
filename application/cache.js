@@ -30,17 +30,34 @@ export class Redis extends Adapter {
 
   async write(key, value, { expire=null }) {
     if (expire) {
-      await this.redis.setex(key, expire, value)
+      await this.client.setex(key, expire, value)
     } else {
-      await this.redis.set(key, value)
+      await this.client.set(key, value)
     }
 
     return value
   }
 }
 
+export class Memory extends Adapter {
+  initialize() {
+    this.data = {}
+  }
+
+  read(key) {
+    return this.data[key]
+  }
+
+  write(key, value) {
+    this.data[key] = value
+
+    return value
+  }
+}
+
 export const ADAPTERS = {
-  redis: RedisAdapter
+  redis: RedisAdapter,
+  memory: MemoryAdapter
 }
 
 export default { ADAPTERS }

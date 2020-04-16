@@ -10,10 +10,17 @@ export default class Routes {
     this.draw = this.set.draw.bind(this.set)
   }
 
+  /**
+   * Create the AllowedMethods middleware to insert a header based on
+   * the given routes.
+   */
   get methods() {
     return this.router.allowedMethods()
   }
 
+  /**
+   * Compile all routes into Oak middleware.
+   */
   get all() {
     return this.router.routes()
   }
@@ -37,11 +44,5 @@ export default class Routes {
     }
 
     return keys.reduce((k, p) => p.replace(`:${k}`, params[k]), route.path)
-  }
-
-  private perform(context, Controller, action) {
-    const controller = new Controller(context)
-
-    controller.perform(action)
   }
 }

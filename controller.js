@@ -1,6 +1,19 @@
 import each from "https://deno.land/x/lodash/each.js"
 
 export default class Controller {
+  /**
+   * Perform a request using an action method on this controller.
+   */
+  static perform(action) {
+    return context => {
+      const controller = new this(context)
+      const handler = controller[method].bind(controller)
+      const params = context.request.params
+
+      handler(params)
+    }
+  }
+
   constructor(context, config) {
     this.request = context.request
     this.response = context.response
@@ -11,14 +24,12 @@ export default class Controller {
   }
 
   /**
-   * Perform the requested action in order to fulfill this request.
+   * Prepare the response for rendering by setting its status and
+   * headers based on the information in the controller.
    */
-  private perform(method) {
-    const action = this[method]
-
-    this.response.body = action(this.request.params)
+  prepare() {
     this.response.status = this.status
-    each(this.headers, header, value => this.response.set(header, value))
+    each(this.headers, (header, value) => this.response.set(header, value))
   }
 
   /**
@@ -27,21 +38,23 @@ export default class Controller {
   private render(View) {
     const view = new View(this)
 
-    return view.template.render(view)
+    this.prepare()
+    this.response.body = view.template.render(view)
   }
 
   /**
    * Redirect to an entirely new location
    */
-  private redirect(Controller, action, params={}) {
-    const url = this.app.routes.resolve(Controller, action, params)
+  private redirect(action, { controller=null, params={} })
+    controller = controller || this
+    const url = App.routes.resolve(controller, action, params)
     this.status = 302
     this.headers["Location"] = url
-
-    return `You are being <a href="${url}">redirected</a>`
+    this.response.body = `You are being <a href="${url}">redirected</a>`
   }
 
   private head(status) {
     this.status = status
+    this.prepare()
   }
 }

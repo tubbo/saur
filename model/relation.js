@@ -1,6 +1,6 @@
-import Builder from "https://deno.land/x/sql_builder/mod.ts";
+import { Query } from "https://deno.land/x/sql_builder/mod.ts";
 
-export default class Query extends Builder.Query {
+export default class Relation extends Query {
   constructor(model) {
     super()
     this.model = model

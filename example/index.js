@@ -4,6 +4,10 @@ window.App = new Application({
   layout: "layout.ejs",
 })
 
+App.initialize(app => {
+  console.log('initializing', app)
+})
+
 App.routes.draw(({ resources, namespace, root }) => {
   resources("users", UsersController, (collection, member) => {
     collection(({ get }) => {
@@ -24,4 +28,4 @@ App.routes.draw(({ resources, namespace, root }) => {
   root(HomeController, "index")
 })
 
-App.start()
+await App.start()
