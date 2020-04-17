@@ -34,9 +34,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/mailer.js~Mailer.html">Mailer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/model.js~Model.html">Model</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/routes.js~Routes.html">Routes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/view.js~View.html">View</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validate">validate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validates">validates</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-task">task</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#application">application</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Adapter.html">Adapter</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Memory.html">Memory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Redis.html">Redis</a></span></span></li>
@@ -74,7 +76,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">62/194</span></h1>
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">65/203</span></h1>
 
 <table class="files-summary" data-ice="files" data-use-coverage="true">
   <thead>
@@ -95,7 +97,7 @@
       <td class="coverage"><span data-ice="coverage">30 %</span><span data-ice="coverageCount" class="coverage-count">4/13</span></td>
       <td style="display: none;" data-ice="size">2160 byte</td>
       <td style="display: none;" data-ice="lines">78</td>
-      <td style="display: none;" data-ice="updated">2020-04-06 04:45:19 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2020-04-06 09:21:27 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/saur/application/cache.js.html#errorLines=17,20,25,26,28,3,31,35,4,46,47,48,5,51,55,62,9">saur/application/cache.js</a></span></td>
@@ -160,12 +162,12 @@
       <td style="display: none;" data-ice="updated">2020-04-05 22:49:25 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/saur/cli.js.html#errorLines=1,10,9">saur/cli.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/saur/cli.js.html#errorLines=1,10,11">saur/cli.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/3</span></td>
-      <td style="display: none;" data-ice="size">767 byte</td>
-      <td style="display: none;" data-ice="lines">38</td>
-      <td style="display: none;" data-ice="updated">2020-04-06 06:14:51 (UTC)</td>
+      <td style="display: none;" data-ice="size">891 byte</td>
+      <td style="display: none;" data-ice="lines">45</td>
+      <td style="display: none;" data-ice="updated">2020-04-06 09:33:00 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/saur/cli/generate.js.html">saur/cli/generate.js</a></span></td>
@@ -176,12 +178,12 @@
       <td style="display: none;" data-ice="updated">2020-04-06 08:30:59 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/saur/cli/generate/controller.js.html#errorLines=1">saur/cli/generate/controller.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/saur/cli/generate/controller.js.html">saur/cli/generate/controller.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-GenerateController">GenerateController</a></span></td>
-      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
-      <td style="display: none;" data-ice="size">669 byte</td>
-      <td style="display: none;" data-ice="lines">18</td>
-      <td style="display: none;" data-ice="updated">2020-04-06 07:49:05 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">766 byte</td>
+      <td style="display: none;" data-ice="lines">23</td>
+      <td style="display: none;" data-ice="updated">2020-04-06 08:31:48 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/saur/cli/generate/model.js.html#errorLines=1">saur/cli/generate/model.js</a></span></td>
@@ -224,12 +226,12 @@
       <td style="display: none;" data-ice="updated">2020-04-06 08:24:51 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/saur/cli/usage.js.html">saur/cli/usage.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/saur/cli/usage.js.html#errorLines=3">saur/cli/usage.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
-      <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">275 byte</td>
-      <td style="display: none;" data-ice="lines">11</td>
-      <td style="display: none;" data-ice="updated">2020-04-06 08:24:51 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">540 byte</td>
+      <td style="display: none;" data-ice="lines">22</td>
+      <td style="display: none;" data-ice="updated">2020-04-06 09:34:10 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/saur/controller.js.html#errorLines=26,27,28,29,3,30,31,36,83">saur/controller.js</a></span></td>
@@ -278,6 +280,14 @@
       <td style="display: none;" data-ice="size">178 byte</td>
       <td style="display: none;" data-ice="lines">6</td>
       <td style="display: none;" data-ice="updated">2020-04-05 06:48:24 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/saur/example/tasks/db.js.html">saur/example/tasks/db.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">119 byte</td>
+      <td style="display: none;" data-ice="lines">5</td>
+      <td style="display: none;" data-ice="updated">2020-04-06 09:33:04 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/saur/example/views/home-page.js.html#errorLines=3,4">saur/example/views/home-page.js</a></span></td>
@@ -340,12 +350,12 @@
       <td style="display: none;" data-ice="updated">2020-04-06 08:24:51 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/saur/routes.js.html#errorLines=10,5,6,7,8,9">saur/routes.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/saur/routes.js.html#errorLines=11,12,13,14,15">saur/routes.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/saur/routes.js~Routes.html">Routes</a></span></td>
-      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">3/9</span></td>
-      <td style="display: none;" data-ice="size">1166 byte</td>
-      <td style="display: none;" data-ice="lines">46</td>
-      <td style="display: none;" data-ice="updated">2020-04-06 05:44:36 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">44 %</span><span data-ice="coverageCount" class="coverage-count">4/9</span></td>
+      <td style="display: none;" data-ice="size">1348 byte</td>
+      <td style="display: none;" data-ice="lines">51</td>
+      <td style="display: none;" data-ice="updated">2020-04-06 08:33:12 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/saur/routes/route-set.js.html#errorLines=11,12,13,14,15,16">saur/routes/route-set.js</a></span></td>
@@ -354,6 +364,15 @@
       <td style="display: none;" data-ice="size">5510 byte</td>
       <td style="display: none;" data-ice="lines">154</td>
       <td style="display: none;" data-ice="updated">2020-04-06 08:24:51 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/saur/task.js.html#errorLines=19,29,30,31,32,36,8">saur/task.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/saur/task.js~Task.html">Task</a></span>
+<span><a href="function/index.html#static-function-task">task</a></span></td>
+      <td class="coverage"><span data-ice="coverage">12 %</span><span data-ice="coverageCount" class="coverage-count">1/8</span></td>
+      <td style="display: none;" data-ice="size">887 byte</td>
+      <td style="display: none;" data-ice="lines">38</td>
+      <td style="display: none;" data-ice="updated">2020-04-06 09:50:53 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/saur/view.js.html#errorLines=12,15,19,3,4,6,7,8">saur/view.js</a></span></td>

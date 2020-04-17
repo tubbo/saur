@@ -5,6 +5,7 @@ import { titleCase, pascalCase } from "https://deno.land/x/case/mod.ts"
 import New from "./cli/new.js"
 import Generate from "./cli/generate.js"
 import USAGE from "./cli/usage.js"
+import { Task } from "./task.js"
 
 const encoder = new TextEncoder()
 const { _: [command, ...argv], help } = parse(args)
@@ -29,9 +30,15 @@ switch (command) {
     console.log(USAGE)
     break
   default:
-    if (command) {
-      console.log("Invalid command", command)
+    try {
+      const task = Task.find(command)
+      task.perform(...argv)
+    } catch(e) {
+      console.error(e.message)
+      Deno.exit(1)
+      break
     }
+
     console.log(USAGE)
     Deno.exit(1)
     break

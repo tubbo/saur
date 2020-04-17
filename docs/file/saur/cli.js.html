@@ -34,9 +34,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/mailer.js~Mailer.html">Mailer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/model.js~Model.html">Model</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/routes.js~Routes.html">Routes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/view.js~View.html">View</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validate">validate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validates">validates</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-task">task</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#application">application</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Adapter.html">Adapter</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Memory.html">Memory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Redis.html">Redis</a></span></span></li>
@@ -82,6 +84,7 @@ import { titleCase, pascalCase } from &quot;https://deno.land/x/case/mod.ts&quot
 import New from &quot;./cli/new.js&quot;
 import Generate from &quot;./cli/generate.js&quot;
 import USAGE from &quot;./cli/usage.js&quot;
+import { Task } from &quot;./task.js&quot;
 
 const encoder = new TextEncoder()
 const { _: [command, ...argv], help } = parse(args)
@@ -106,9 +109,15 @@ switch (command) {
     console.log(USAGE)
     break
   default:
-    if (command) {
-      console.log(&quot;Invalid command&quot;, command)
+    try {
+      const task = Task.find(command)
+      task.perform(...argv)
+    } catch(e) {
+      console.error(e.message)
+      Deno.exit(1)
+      break
     }
+
     console.log(USAGE)
     Deno.exit(1)
     break

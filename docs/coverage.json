@@ -1,7 +1,7 @@
 {
-  "coverage": "31.95%",
-  "expectCount": 194,
-  "actualCount": 62,
+  "coverage": "32.01%",
+  "expectCount": 203,
+  "actualCount": 65,
   "files": {
     "saur/application/cache.js": {
       "expectCount": 17,
@@ -89,10 +89,8 @@
     },
     "saur/cli/generate/controller.js": {
       "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        1
-      ]
+      "actualCount": 1,
+      "undocumentLines": []
     },
     "saur/cli/generate/model.js": {
       "expectCount": 1,
@@ -134,13 +132,20 @@
         3
       ]
     },
+    "saur/cli/usage.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
     "saur/cli.js": {
       "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
         1,
-        9,
-        10
+        10,
+        11
       ]
     },
     "saur/controller.js": {
@@ -289,14 +294,26 @@
     },
     "saur/routes.js": {
       "expectCount": 9,
-      "actualCount": 3,
+      "actualCount": 4,
       "undocumentLines": [
-        5,
-        6,
-        7,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "saur/task.js": {
+      "expectCount": 8,
+      "actualCount": 1,
+      "undocumentLines": [
         8,
-        9,
-        10
+        19,
+        29,
+        30,
+        31,
+        32,
+        36
       ]
     },
     "saur/view/template.js": {

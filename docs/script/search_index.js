@@ -168,6 +168,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "./saur/task.js~task",
+    "class/saur/task.js~Task.html",
+    "<span>Task</span> <span class=\"search-result-import-path\">./saur/task.js</span>",
+    "class"
+  ],
+  [
     "./saur/view/template.js~template",
     "class/saur/view/template.js~Template.html",
     "<span>Template</span> <span class=\"search-result-import-path\">./saur/view/template.js</span>",
@@ -225,6 +231,12 @@ window.esdocSearchIndex = [
     "./saur/application/middleware/logger.js~logger",
     "function/index.html#static-function-logger",
     "<span>logger</span> <span class=\"search-result-import-path\">./saur/application/middleware/logger.js</span>",
+    "function"
+  ],
+  [
+    "./saur/task.js~task",
+    "function/index.html#static-function-task",
+    "<span>task</span> <span class=\"search-result-import-path\">./saur/task.js</span>",
     "function"
   ],
   [
@@ -1008,6 +1020,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "saur/example/tasks/db.js",
+    "file/saur/example/tasks/db.js.html",
+    "saur/example/tasks/db.js",
+    "file"
+  ],
+  [
     "saur/example/views/home-page.js",
     "file/saur/example/views/home-page.js.html",
     "saur/example/views/home-page.js",
@@ -1510,6 +1528,48 @@ window.esdocSearchIndex = [
     "class/saur/routes/route-set.js~RouteSet.html#instance-member-routes",
     "saur/routes/route-set.js~RouteSet#routes",
     "member"
+  ],
+  [
+    "saur/task.js",
+    "file/saur/task.js.html",
+    "saur/task.js",
+    "file"
+  ],
+  [
+    "saur/task.js~task#constructor",
+    "class/saur/task.js~Task.html#instance-constructor-constructor",
+    "saur/task.js~Task#constructor",
+    "method"
+  ],
+  [
+    "saur/task.js~task#description",
+    "class/saur/task.js~Task.html#instance-member-description",
+    "saur/task.js~Task#description",
+    "member"
+  ],
+  [
+    "saur/task.js~task#name",
+    "class/saur/task.js~Task.html#instance-member-name",
+    "saur/task.js~Task#name",
+    "member"
+  ],
+  [
+    "saur/task.js~task#perform",
+    "class/saur/task.js~Task.html#instance-member-perform",
+    "saur/task.js~Task#perform",
+    "member"
+  ],
+  [
+    "saur/task.js~task.all",
+    "class/saur/task.js~Task.html#static-get-all",
+    "saur/task.js~Task.all",
+    "member"
+  ],
+  [
+    "saur/task.js~task.find",
+    "class/saur/task.js~Task.html#static-method-find",
+    "saur/task.js~Task.find",
+    "method"
   ],
   [
     "saur/view.js",

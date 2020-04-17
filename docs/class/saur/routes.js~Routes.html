@@ -34,9 +34,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/mailer.js~Mailer.html">Mailer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/model.js~Model.html">Model</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/routes.js~Routes.html">Routes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/view.js~View.html">View</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validate">validate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validates">validates</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-task">task</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#application">application</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Adapter.html">Adapter</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Memory.html">Memory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/saur/application/cache.js~Redis.html">Redis</a></span></span></li>
@@ -75,13 +77,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Routes from &apos;<span><a href="file/saur/routes.js.html#lineNumber5">./saur/routes.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Routes from &apos;<span><a href="file/saur/routes.js.html#lineNumber10">./saur/routes.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/saur/routes.js.html#lineNumber5">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/saur/routes.js.html#lineNumber10">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -101,7 +103,10 @@
 
   
   
-  
+  <div class="description" data-ice="description"><p>Routes are used to collect all routes defined in <code>RouteSet</code>s and
+connect them to the <code>Oak.Router</code> that actually does the work of
+routing requests to their handlers.</p>
+</div>
   
 
   
@@ -384,7 +389,7 @@ parameters.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber6">source</a></span></span>
+      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber11">source</a></span></span>
     </span>
   </h3>
 
@@ -430,7 +435,7 @@ parameters.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber24">source</a></span></span>
+      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
@@ -474,7 +479,7 @@ parameters.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber7">source</a></span></span>
+      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber12">source</a></span></span>
     </span>
   </h3>
 
@@ -517,7 +522,7 @@ parameters.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber10">source</a></span></span>
+      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber15">source</a></span></span>
     </span>
   </h3>
 
@@ -560,7 +565,7 @@ parameters.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber17">source</a></span></span>
+      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber22">source</a></span></span>
     </span>
   </h3>
 
@@ -605,7 +610,7 @@ the given routes.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber8">source</a></span></span>
+      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber13">source</a></span></span>
     </span>
   </h3>
 
@@ -648,7 +653,7 @@ the given routes.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber9">source</a></span></span>
+      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
@@ -694,7 +699,7 @@ the given routes.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber32">source</a></span></span>
+      <span data-ice="source"><span><a href="file/saur/routes.js.html#lineNumber37">source</a></span></span>
     </span>
   </h3>
 
