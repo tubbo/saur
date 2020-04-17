@@ -1,4 +1,4 @@
-import { renderFile } from "https://deno.land/x/dejs/mod.ts"
+import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 /**
  * RouteSet defines the routing DSL used by the top-level application
  * router. It uses `Oak.Router` under the hood, but pre-fills
@@ -8,12 +8,12 @@ import { renderFile } from "https://deno.land/x/dejs/mod.ts"
  * `namespace()`.
  */
 export default class RouteSet {
-  constructor(router, options={}) {
-    this.router = router
-    this.controller = options.controller
-    this.base = options.base
-    this.routes = []
-    this.namespaces = []
+  constructor(router, options = {}) {
+    this.router = router;
+    this.controller = options.controller;
+    this.base = options.base;
+    this.routes = [];
+    this.namespaces = [];
   }
 
   /**
@@ -23,16 +23,16 @@ export default class RouteSet {
    * will nest the path of the GET request into the namespace itself.
    */
   draw(routing) {
-    const get = this.get.bind(this)
-    const post = this.post.bind(this)
-    const put = this.put.bind(this)
-    const patch = this.patch.bind(this)
-    const del = this.delete.bind(this)
-    const resources = this.resources.bind(this)
-    const namespace = this.namespace.bind(this)
-    const root = this.root.bind(this)
+    const get = this.get.bind(this);
+    const post = this.post.bind(this);
+    const put = this.put.bind(this);
+    const patch = this.patch.bind(this);
+    const del = this.delete.bind(this);
+    const resources = this.resources.bind(this);
+    const namespace = this.namespace.bind(this);
+    const root = this.root.bind(this);
 
-    routing({ get, post, put, patch, delete: del, resources, namespace, root })
+    routing({ get, post, put, patch, delete: del, resources, namespace, root });
   }
 
   /**
@@ -41,12 +41,12 @@ export default class RouteSet {
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-  get(path, options={}) {
-    const action = options.action || path
-    const controller = options.controller || this.controller
+  get(path, options = {}) {
+    const action = options.action || path;
+    const controller = options.controller || this.controller;
 
-    this.routes.push({ path, controller, action })
-    this.router.get(path, controller.perform(action))
+    this.routes.push({ path, controller, action });
+    this.router.get(path, controller.perform(action));
   }
 
   /**
@@ -56,12 +56,12 @@ export default class RouteSet {
    * name of the path, respectively.
    */
 
-  post(path, options={}) {
-    const action = options.action || path
-    const controller = options.controller || this.controller
+  post(path, options = {}) {
+    const action = options.action || path;
+    const controller = options.controller || this.controller;
 
-    this.routes.push({ path, controller, action })
-    this.router.post(path, controller.perform(action))
+    this.routes.push({ path, controller, action });
+    this.router.post(path, controller.perform(action));
   }
 
   /**
@@ -70,12 +70,12 @@ export default class RouteSet {
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-  put(path, options={}) {
-    const action = options.action || path
-    const controller = options.controller || this.controller
+  put(path, options = {}) {
+    const action = options.action || path;
+    const controller = options.controller || this.controller;
 
-    this.routes.push({ path, controller, action })
-    this.router.put(path, controller.perform(action))
+    this.routes.push({ path, controller, action });
+    this.router.put(path, controller.perform(action));
   }
 
   /**
@@ -84,12 +84,12 @@ export default class RouteSet {
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-  patch(path, options={}) {
-    const action = options.action || path
-    const controller = options.controller || this.controller
+  patch(path, options = {}) {
+    const action = options.action || path;
+    const controller = options.controller || this.controller;
 
-    this.routes.push({ path, controller, action })
-    this.router.patch(path, controller.perform(action))
+    this.routes.push({ path, controller, action });
+    this.router.patch(path, controller.perform(action));
   }
 
   /**
@@ -98,24 +98,24 @@ export default class RouteSet {
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-  delete(path, options={}) {
-    const action = options.action || path
-    const controller = options.controller || this.controller
+  delete(path, options = {}) {
+    const action = options.action || path;
+    const controller = options.controller || this.controller;
 
-    this.routes.push({ path, controller, action })
-    this.router.delete(path, controller.perform(action))
+    this.routes.push({ path, controller, action });
+    this.router.delete(path, controller.perform(action));
   }
 
   /**
    * Define a RouteSet that is nested within this one.
    */
   namespace(path, routes) {
-    const controller = this.controller
-    const base = `${this.base}/${path}`
-    const set = new RouteSet(this.router, { controller, base })
+    const controller = this.controller;
+    const base = `${this.base}/${path}`;
+    const set = new RouteSet(this.router, { controller, base });
 
-    this.namespaces.push({ path, controller, base })
-    set.draw(routes)
+    this.namespaces.push({ path, controller, base });
+    set.draw(routes);
   }
 
   /**
@@ -123,7 +123,7 @@ export default class RouteSet {
    * request.
    */
   root(action, controller) {
-    this.get("/", { controller, action })
+    this.get("/", { controller, action });
   }
 
   /**
@@ -133,22 +133,22 @@ export default class RouteSet {
    * sets of nested resources for the "collection" and "member" routes.
    */
   resources(path, controller, nested) {
-    this.get(path, { controller, action: "index" })
-    this.post(path, { controller, action: "create" })
-    this.get(`${path}/new`, { controller, action: "new" })
-    this.get(`${path}/:id`, { controller, action: "show" })
-    this.get(`${path}/:id/edit`, { controller, action: "edit" })
-    this.put(`${path}/:id`, { controller, action: "update" })
-    this.patch(`${path}/:id`, { controller, action: "update" })
-    this.delete(`${path}/:id`, { controller, action: "destroy" })
+    this.get(path, { controller, action: "index" });
+    this.post(path, { controller, action: "create" });
+    this.get(`${path}/new`, { controller, action: "new" });
+    this.get(`${path}/:id`, { controller, action: "show" });
+    this.get(`${path}/:id/edit`, { controller, action: "edit" });
+    this.put(`${path}/:id`, { controller, action: "update" });
+    this.patch(`${path}/:id`, { controller, action: "update" });
+    this.delete(`${path}/:id`, { controller, action: "destroy" });
 
     if (nested) {
-      const cs = new RouteSet(this.router, { controller, base: path })
-      const ms = new RouteSet(this.router, { controller, base: `${path}/:id` })
-      const collection = cs.draw.bind(cs)
-      const member = ms.draw.bind(ms)
+      const cs = new RouteSet(this.router, { controller, base: path });
+      const ms = new RouteSet(this.router, { controller, base: `${path}/:id` });
+      const collection = cs.draw.bind(cs);
+      const member = ms.draw.bind(ms);
 
-      nested({ collection, member })
+      nested({ collection, member });
     }
   }
 }

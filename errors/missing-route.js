@@ -4,7 +4,7 @@ export default class MissingRouteError extends Error {
       `No route matches for
         controller=${controller}
         action=${action}
-      with params ${params}`
-    )
+      with params ${params}`,
+    );
   }
 }

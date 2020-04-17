@@ -1,5 +1,5 @@
-import { Query } from "https://deno.land/x/sql_builder/mod.ts"
-import each from "https://deno.land/x/lodash/each.ts"
+import { Query } from "https://deno.land/x/sql_builder/mod.ts";
+import each from "https://deno.land/x/lodash/each.ts";
 
 /**
  * An extension of `SQLBuilder.Query`, Relations are used to both build
@@ -8,10 +8,10 @@ import each from "https://deno.land/x/lodash/each.ts"
  */
 export default class Relation extends Query {
   constructor(model) {
-    super()
-    this.model = model
-    this.table(this.model.table)
-    this.filters = {}
+    super();
+    this.model = model;
+    this.table(this.model.table);
+    this.filters = {};
   }
 
   /**
@@ -19,48 +19,48 @@ export default class Relation extends Query {
    */
   get sql() {
     if (!this._fields) {
-      this.select("*")
+      this.select("*");
     }
 
-    return this.build()
+    return this.build();
   }
 
   /**
    * Perform the compiled query specified by this object.
    */
   run() {
-    const result = App.db.exec(this.sql)
+    const result = App.db.exec(this.sql);
 
     if (!Array.isArray(result)) {
-      return result
+      return result;
     }
 
-    rows.map(row => new this.model(row))
+    rows.map((row) => new this.model(row));
   }
 
   /**
    * Return the first record in the result set.
    */
   get first() {
-    const records = this.run()
+    const records = this.run();
 
-    return records[0]
+    return records[0];
   }
 
   /**
    * Return the last record in the result set.
    */
   get last() {
-    const records = this.run()
+    const records = this.run();
 
-    return records[records.length]
+    return records[records.length];
   }
 
   /**
    * Find the length of all returned records in the result.
    */
   get length() {
-    return this.run().length
+    return this.run().length;
   }
 
   /**
@@ -68,9 +68,9 @@ export default class Relation extends Query {
    * the result.
    */
   get count() {
-    this.select("count(*)")
+    this.select("count(*)");
 
-    return this.run()
+    return this.run();
   }
 
   /**
@@ -79,29 +79,29 @@ export default class Relation extends Query {
    */
   where(query = {}, ...context) {
     if (typeof query === "string") {
-      return super.where(query, ...context)
+      return super.where(query, ...context);
     }
 
-    this.filters = { ...this.filters, ...query }
+    this.filters = { ...this.filters, ...query };
 
     each(query, (value, param) => {
       if (typeof value === "function") {
-        super.where(param, ...value())
+        super.where(param, ...value());
       } else {
-        super.where(param, "=", value())
+        super.where(param, "=", value());
       }
-    })
+    });
 
-    return this
+    return this;
   }
 
   /**
    * Perform the query and iterate over all of its results.
    */
   forEach(iterator) {
-    const records = this.run()
+    const records = this.run();
 
-    return records.forEach(iterator)
+    return records.forEach(iterator);
   }
 
   /**
@@ -109,9 +109,9 @@ export default class Relation extends Query {
    * new Array of each iteration's return value.
    */
   map(iterator) {
-    const records = this.run()
+    const records = this.run();
 
-    return records.map(iterator)
+    return records.map(iterator);
   }
 
   /**
@@ -119,9 +119,9 @@ export default class Relation extends Query {
    * new memoized object based on the logic performed in each iteration.
    */
   reduce(iterator, memo) {
-    const records = this.run()
+    const records = this.run();
 
-    return records.reduce(iterator, memo)
+    return records.reduce(iterator, memo);
   }
 
   /**
@@ -130,9 +130,9 @@ export default class Relation extends Query {
    * value was truthy.
    */
   filter(iterator) {
-    const records = this.run()
+    const records = this.run();
 
-    return records.filter(iterator)
+    return records.filter(iterator);
   }
 
   /**
@@ -141,20 +141,20 @@ export default class Relation extends Query {
    * property is used to evaluate this.
    */
   contains(record) {
-    return this.map(record => record.id).contains(record.id)
+    return this.map((record) => record.id).contains(record.id);
   }
 
   /**
    * Create a new model that would appear in this query.
    */
-  create(attributes={}) {
-    return this.model.create({ ...attributes, ...this.filters })
+  create(attributes = {}) {
+    return this.model.create({ ...attributes, ...this.filters });
   }
 
   /**
    * Instantiate a new model that would appear in this query.
    */
-  build(attributes={}) {
-    return new this.model({ ...attributes, ...this.filters })
+  build(attributes = {}) {
+    return new this.model({ ...attributes, ...this.filters });
   }
 }

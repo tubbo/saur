@@ -1,0 +1,12 @@
+name: Tests
+on: push
+jobs:
+  test:
+    name: Run Automated Tests
+    steps:
+      - uses: actions/checkout@v1
+      - uses: denolib/setup-deno@master
+        with:
+          deno-version: 0.36.0
+      - run: make fmt
+      - run: make check

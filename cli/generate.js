@@ -1,32 +1,33 @@
-import GenerateModel from "./generate/model.js"
-import GenerateController from "./generate/controller.js"
-import GenerateView from "./generate/view.js"
-import GenerateTemplate from "./generate/template.js"
+import GenerateModel from "./generate/model.js";
+import GenerateController from "./generate/controller.js";
+import GenerateView from "./generate/view.js";
+import GenerateTemplate from "./generate/template.js";
 
 export default function Generate(type, name) {
-  const className = pascalCase(name)
-  const USAGE = "Usage: saur generate [model|view|controller|template|help] NAME [OPTIONS]"
+  const className = pascalCase(name);
+  const USAGE =
+    "Usage: saur generate [model|view|controller|template|help] NAME [OPTIONS]";
 
-  switch(type) {
+  switch (type) {
     case "model":
-      GenerateModel(name, className)
-      break
+      GenerateModel(name, className);
+      break;
     case "controller":
-      GenerateController(name, className)
-      break
+      GenerateController(name, className);
+      break;
     case "view":
-      GenerateView(name, className)
-      GenerateTemplate(name, className)
-      break
+      GenerateView(name, className);
+      GenerateTemplate(name, className);
+      break;
     case "template":
-      GenerateTemplate(name, className)
-      break
+      GenerateTemplate(name, className);
+      break;
     case "resource":
-      GenerateModel(name, className)
-      GenerateController(name, className)
+      GenerateModel(name, className);
+      GenerateController(name, className);
     default:
-      console.log("Invalid generator", type)
-      console.log(USAGE)
-      Deno.exit(1)
+      console.log("Invalid generator", type);
+      console.log(USAGE);
+      Deno.exit(1);
   }
 }

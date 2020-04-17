@@ -1,32 +1,32 @@
-import Application from "../application.js"
-import UsersController from "./controllers/users.js"
-import HomeController from "./controllers/home.js"
+import Application from "../application.js";
+import UsersController from "./controllers/users.js";
+import HomeController from "./controllers/home.js";
 
 window.App = new Application({
   layout: "layout.ejs",
   db: {
-    name: "example"
-  }
-})
+    name: "example",
+  },
+});
 
 App.routes.draw(({ resources, namespace, root }) => {
   resources("users", UsersController, ({ collection, member }) => {
     collection(({ get }) => {
-      get("active")
-    })
+      get("active");
+    });
 
     member(({ get }) => {
-      get("setup")
-    })
-  })
+      get("setup");
+    });
+  });
 
   namespace("foo", ({ namespace }) => {
     namespace("bar", ({ get }) => {
-      get("baz", { controller: HomeController })
-    })
-  })
+      get("baz", { controller: HomeController });
+    });
+  });
 
-  root("index", HomeController)
-})
+  root("index", HomeController);
+});
 
-await App.start()
+await App.start();

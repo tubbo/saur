@@ -8,4 +8,4 @@ Description:
 Run the following command to view more information:
 
     saur help COMMAND
-`
+`;

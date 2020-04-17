@@ -15,8 +15,11 @@ dist:
 tags:
 	@ctags -R .
 
-docs:
+docs: node_modules
 	@esdoc
+
+node_modules:
+	@yarn install --check-files
 
 html: docs
 .PHONY: html
@@ -33,8 +36,12 @@ maintainer-clean: clean
 .PHONY: maintainer-clean
 
 check:
-	@deno test
+	@cd tests; deno test
 .PHONY: check
+
+fmt:
+	@deno fmt **/*.js
+.PHONY: fmt
 
 distclean:
 	@rm -rf dist

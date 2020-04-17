@@ -16,7 +16,7 @@ export default {
   log: {
     level: "DEBUG",
     filename: "saur.log",
-    formatter: "{datetime} [{levelName}] {msg}"
+    formatter: "{datetime} [{levelName}] {msg}",
   },
 
   // Database configuration passed to the client, except the `adapter`
@@ -26,7 +26,7 @@ export default {
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: null
+    password: null,
   },
 
   // Cache configuration passed to the client, except the `enabled` and
@@ -35,6 +35,6 @@ export default {
   cache: {
     enabled: false,
     adapter: "memory",
-    url: "redis://localhost:6379"
-  }
-}
+    url: "redis://localhost:6379",
+  },
+};

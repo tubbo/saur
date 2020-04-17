@@ -2,9 +2,9 @@ import * as PostgreSQL from "https://deno.land/x/postgres/mod.ts";
 import * as MySQL from "https://deno.land/x/mysql/mod.ts";
 
 export default class Database {
-  constructor(config={}) {
-    this.config = config
-    this.initialize()
+  constructor(config = {}) {
+    this.config = config;
+    this.initialize();
   }
 
   initialize() {}
@@ -13,41 +13,41 @@ export default class Database {
 
 export class PostgresAdapter extends Database {
   initialize() {
-    this.client = new PostgreSQL.Client(this.config)
+    this.client = new PostgreSQL.Client(this.config);
   }
 
   async exec(sql) {
-    App.log.debug(`Running Query "${sql}"`)
+    App.log.debug(`Running Query "${sql}"`);
 
-    await client.connect()
+    await client.connect();
 
-    const result = await this.client.query(sql)
+    const result = await this.client.query(sql);
 
-    await client.end()
+    await client.end();
 
-    return result.rowsOfObjects()
+    return result.rowsOfObjects();
   }
 }
 
 export class MysqlAdapter extends Database {
   initialize() {
-    this.client = new MySQL.Client(this.config)
+    this.client = new MySQL.Client(this.config);
   }
 
   async exec(sql) {
-    App.log.debug(`Running Query "${sql}"`)
+    App.log.debug(`Running Query "${sql}"`);
 
-    await client.connect()
+    await client.connect();
 
-    const result = await this.client.query(sql)
+    const result = await this.client.query(sql);
 
-    await client.end()
+    await client.end();
 
-    return result.rowsOfObjects()
+    return result.rowsOfObjects();
   }
 }
 
 export const ADAPTERS = {
   postgres: PostgresAdapter,
-  mysql: MysqlAdapter
-}
+  mysql: MysqlAdapter,
+};
