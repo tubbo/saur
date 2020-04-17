@@ -8,6 +8,7 @@ import DEFAULTS from "./application/defaults.js"
 import RequestLogger from "./application/middleware/logger.js"
 import RequestTimer from "./application/middleware/timing.js"
 import StaticFiles from "./application/middleware/static-files.js"
+import MethodOverride from "./application/middleware/method-override.js"
 import ForceSSL from "./application/initializers/force-ssl.js"
 import EnvironmentConfig from "./application/initializers/environment-config.js"
 
@@ -52,6 +53,7 @@ export default class Application {
     this.initializers.forEach(initializer => initializer(this))
     this.use(RequestLogger)
     this.use(RequestTimer)
+    this.use(MethodOverride)
     this.use(this.routes.all)
     this.use(this.routes.methods)
     if (this.config.serveStaticFiles) {
