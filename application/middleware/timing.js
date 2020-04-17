@@ -1,4 +1,4 @@
-export default async function(ctx, next) {
+export default async function (ctx, next) {
   const start = Date.now();
   await next();
   const ms = Date.now() - start;

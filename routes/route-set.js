@@ -34,10 +34,12 @@ export default class RouteSet {
     const use = this.use.bind(this);
 
     if (this.base) {
-      routing({ use, get, post, put, patch, delete: del, resources, namespace });
+      routing(
+        { use, get, post, put, patch, delete: del, resources, namespace },
+      );
     } else {
       routing(
-        { use, get, post, put, patch, delete: del, resources, namespace, root }
+        { use, get, post, put, patch, delete: del, resources, namespace, root },
       );
     }
   }
@@ -50,16 +52,16 @@ export default class RouteSet {
    */
   get(path, options = {}) {
     const action = options.action || path;
-    const as = options.as || action
+    const as = options.as || action;
     const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path
+    path = this.base ? `${this.base}/${path}` : path;
 
     this.routes.push({ as, path, controller, action });
     this.router.get(path, controller.perform(action));
   }
 
   use(middleware) {
-    this.router.use(this.base, middleware)
+    this.router.use(this.base, middleware);
   }
 
   /**
@@ -71,9 +73,9 @@ export default class RouteSet {
 
   post(path, options = {}) {
     const action = options.action || path;
-    const as = options.as || action
+    const as = options.as || action;
     const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path
+    path = this.base ? `${this.base}/${path}` : path;
 
     this.routes.push({ as, path, controller, action });
     this.router.post(path, controller.perform(action));
@@ -87,9 +89,9 @@ export default class RouteSet {
    */
   put(path, options = {}) {
     const action = options.action || path;
-    const as = options.as || action
+    const as = options.as || action;
     const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path
+    path = this.base ? `${this.base}/${path}` : path;
 
     this.routes.push({ as, path, controller, action });
     this.router.put(path, controller.perform(action));
@@ -103,9 +105,9 @@ export default class RouteSet {
    */
   patch(path, options = {}) {
     const action = options.action || path;
-    const as = options.as || action
+    const as = options.as || action;
     const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path
+    path = this.base ? `${this.base}/${path}` : path;
 
     this.routes.push({ as, path, controller, action });
     this.router.patch(path, controller.perform(action));
@@ -119,9 +121,9 @@ export default class RouteSet {
    */
   delete(path, options = {}) {
     const action = options.action || path;
-    const as = options.as || action
+    const as = options.as || action;
     const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path
+    path = this.base ? `${this.base}/${path}` : path;
 
     this.routes.push({ as, path, controller, action });
     this.router.delete(path, controller.perform(action));
@@ -134,7 +136,7 @@ export default class RouteSet {
     const controller = this.controller;
     const base = `${this.base}/${path}`;
     const set = new RouteSet(this.router, { controller, base });
-    path = this.base ? `${this.base}/${path}` : path
+    path = this.base ? `${this.base}/${path}` : path;
 
     this.namespaces.push({ path, controller, base });
     set.draw(routes);
@@ -145,7 +147,7 @@ export default class RouteSet {
    * request.
    */
   root(action, controller) {
-    this.routes.push({ path: "/", as: "root", controller, action })
+    this.routes.push({ path: "/", as: "root", controller, action });
     this.get("/", { controller, action });
   }
 
@@ -179,12 +181,12 @@ export default class RouteSet {
    * Mount an application or Oak middleware at the given path.
    */
   mount(path, app) {
-    path = this.base ? `${this.base}/${path}` : path
+    path = this.base ? `${this.base}/${path}` : path;
 
     if (app.routes) {
-      this.namespace(path, ({ use }) => use(app.routes.all))
+      this.namespace(path, ({ use }) => use(app.routes.all));
     } else {
-      this.router.use(path, app)
+      this.router.use(path, app);
     }
   }
 }

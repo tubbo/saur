@@ -45,8 +45,8 @@ export default {
     url: "redis://localhost:6379",
     http: {
       expires: 900,
-      enabled: false
-    }
+      enabled: false,
+    },
   },
 
   // Default environment to "development"
@@ -61,7 +61,7 @@ export default {
     },
     request: {
       scheme: "http",
-      host: "example.com"
-    }
-  }
+      host: "example.com",
+    },
+  },
 };

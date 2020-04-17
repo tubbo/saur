@@ -1,6 +1,8 @@
-import { Task } from "../task.js"
+import { Task } from "../task.js";
 
-const tasks = Task.all.map(task => `${task.name} - ${task.description}`).join("\n")
+const tasks = Task.all.map((task) => `${task.name} - ${task.description}`).join(
+  "\n",
+);
 
 export default `Usage:
   saur COMMAND [ARGUMENTS] [options]

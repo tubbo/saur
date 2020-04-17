@@ -5,22 +5,22 @@ import { Hash, encode } from "https://deno.land/x/checksum/mod.ts";
  */
 export default function AuthenticityToken(context, next) {
   if (context.request.method === "GET") {
-    next()
-    return
+    next();
+    return;
   }
 
-  const hash = new Hash("sha1")
-  const timestamp = new Date().getTime()
-  const token = `${encode(timestamp)}|${App.secret}`
-  const digest = hash.digest(token)
-  App.authenticityToken = digest.hex()
+  const hash = new Hash("sha1");
+  const timestamp = new Date().getTime();
+  const token = `${encode(timestamp)}|${App.secret}`;
+  const digest = hash.digest(token);
+  App.authenticityToken = digest.hex();
 
-  next()
+  next();
 
   const token = context.params.authenticity_token ||
-                  context.request.headers.get("X-Authenticity-Token")
+    context.request.headers.get("X-Authenticity-Token");
 
   if (token !== App.authenticityToken) {
-    throw new Error(`Invalid authenticity token: "${token}"`)
+    throw new Error(`Invalid authenticity token: "${token}"`);
   }
 }

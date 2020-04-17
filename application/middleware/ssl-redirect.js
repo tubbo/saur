@@ -3,14 +3,14 @@
  */
 export default function* SSLRedirect(next) {
   if (this.secure) {
-    return yield next
+    return yield next;
   }
 
-  const host = this.request.header.host
-  const path = this.request.url
-  const url = `https://${host}/${path}`
+  const host = this.request.header.host;
+  const path = this.request.url;
+  const url = `https://${host}/${path}`;
 
-  this.response.status = 301
+  this.response.status = 301;
 
-  this.response.redirect(url)
+  this.response.redirect(url);
 }

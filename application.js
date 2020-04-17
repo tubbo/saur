@@ -11,6 +11,7 @@ import StaticFiles from "./application/middleware/static-files.js";
 import MethodOverride from "./application/middleware/method-override.js";
 import CSP from "./application/middleware/content-security-policy.js";
 import CORS from "./application/middleware/cors.js";
+import MissingRoute from "./application/middleware/missing-route.js";
 import AuthenticityToken from "./application/middleware/authenticity-token.js";
 import ForceSSL from "./application/initializers/force-ssl.js";
 import EnvironmentConfig from "./application/initializers/environment-config.js";
@@ -40,7 +41,9 @@ export default class Application {
    * Run all initialization code and start the app server.
    */
   async start() {
-    const { log: { level, formatter } } = this.config;
+    const {
+      log: { level, formatter },
+    } = this.config;
 
     await log.setup({
       handlers: {

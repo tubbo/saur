@@ -1,5 +1,5 @@
-import View from "../../view.js"
+import View from "../../view.js";
 
 export default class UserConfirmationView extends View {
-  static template = "confirmation.ejs"
+  static template = "confirmation.ejs";
 }

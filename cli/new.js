@@ -1,6 +1,6 @@
 import { titleCase } from "https://deno.land/x/case/mod.ts";
 
-const encoder = new TextEncoder()
+const encoder = new TextEncoder();
 
 export default async function New(name) {
   const title = titleCase(name);
