@@ -1,5 +1,5 @@
 export class Validation {
-  constructor({ property, ...options })
+  constructor({ property, ...options }) {
     this.property = property
     this.options = options
   }

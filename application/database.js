@@ -48,6 +48,6 @@ export class MysqlAdapter extends Database {
 }
 
 export const ADAPTERS = {
-  postgres: PostgresAdapter
+  postgres: PostgresAdapter,
   mysql: MysqlAdapter
 }

@@ -2,7 +2,7 @@
 # Makefile for the `saur` command
 #
 
-all: bin/saur tags
+all: bin/saur tags docs
 
 bin/saur:
 	@mkdir -p bin
@@ -15,11 +15,17 @@ dist:
 tags:
 	@ctags -R .
 
+docs:
+	@esdoc
+
+html: docs
+.PHONY: html
+
 clean: distclean mostlyclean
 .PHONY: clean
 
 mostlyclean:
-	@rm -rf bin
+	@rm -rf bin docs
 .PHONY: mostlyclean
 
 maintainer-clean: clean

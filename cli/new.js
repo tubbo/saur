@@ -26,8 +26,12 @@ export default async function New() {
 
   console.log("Creating new application", name)
   await Deno.mkdir(name)
-  await Deno.mkdir(`${name}/templates`)
   await Deno.mkdir(`${name}/bin`)
+  await Deno.mkdir(`${name}/controllers`)
+  await Deno.mkdir(`${name}/models`)
+  await Deno.mkdir(`${name}/mailers`)
+  await Deno.mkdir(`${name}/templates`)
+  await Deno.mkdir(`${name}/views`)
   Deno.writeFileSync(`${name}/index.js`, encoder.encode(app))
   Deno.writeFileSync(`${name}/templates/layout.ejs`, encoder.encode(layout))
   console.log("Creating bin/server")

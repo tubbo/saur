@@ -4,6 +4,7 @@ export default function View(name, className) {
   export default class ${className}View extends View {
   }
   `
+
   Deno.writeFileSync(`views/${name}.js`, encoder.encode(view))
   console.log(`Created ${className} in views/${name}.js`)
 }

@@ -1,7 +1,13 @@
 import { SmtpClient } from "https://deno.land/x/smtp/mod.ts"
 
 /**
- * Send emails to users with Views and Templates.
+ * Mailers send HTML-rendered emails to users based on predefined
+ * information. They fill the same role as Controllers, except instead
+ * of handling the request/response cycle of HTTP, they render their
+ * results to an email message. Mailers use the SMTP configuration found
+ * in `App.config.smtp` to configure the SMTP client when sending mails,
+ * and are capable of rendering Views (and, subsequently, Templates) just
+ * like controllers can.
  */
 export default class Mailer {
   static layout = "mailer.ejs"

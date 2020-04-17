@@ -13,15 +13,26 @@ A rapid development web framework for [deno][].
 
 Install the CLI with `deno install`:
 
-    deno install --allow-all create-saur-app https://deno.land/x/saur/cli.js
+    deno install --allow-run --allow-write saur https://deno.land/x/saur/cli.js
 
-Then create your app using the new command:
+Then create your app using the `new` command:
 
-    create-saur-app my-app
+    saur new my-app
     cd my-app
 
-You'll get an **index.js** file to start out. Add your routes in there,
-and start defining your controllers.
+You'll get an **index.js** file to start out.
+
+Generate code by running the `generate` command:
+
+    saur generate controller home
+
+And start the server by running:
+
+    saur server
+
+You can also run tests:
+
+    deno test
 
 ## Usage
 
@@ -261,3 +272,5 @@ cache.
 
 [deno]: https://deno.land
 [SQL Builder]: https://github.com/manyuanrong/sql-builder
+[Django]: https://djangoproject.com
+[Ruby on Rails]: https://rubyonrails.org
