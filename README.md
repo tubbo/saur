@@ -8,7 +8,20 @@ A rapid development web framework for [deno][].
 * Supports multiple SQL database backends
 * Built-in caching
 * Routing DSL
-* Return an object from an action to make it JSON
+
+## Installation
+
+Install the CLI with `deno install`:
+
+    deno install --allow-net --allow-read --allow-write create-saur-app https://deno.land/x/saur/cli.js
+
+Then create your app using the new command:
+
+    create-saur-app my-app
+    cd my-app
+
+You'll get an **index.js** file to start out. Add your routes in there,
+and start defining your controllers.
 
 ## Usage
 
