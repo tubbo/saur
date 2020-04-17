@@ -1,7 +1,17 @@
 import * as PostgreSQL from "https://deno.land/x/postgres/mod.ts";
 import * as MySQL from "https://deno.land/x/mysql/mod.ts";
 
+export const ADAPTERS = {
+  postgres: PostgresAdapter,
+  mysql: MysqlAdapter,
+};
+
 export default class Database {
+  static adapt(adapter) {
+    return ADAPTERS[adapter] ||
+           throw new Error(`Database adapter "${adapter}" not found`)
+  }
+
   constructor(config = {}) {
     this.config = config;
     this.initialize();
@@ -46,8 +56,3 @@ export class MysqlAdapter extends Database {
     return result.rowsOfObjects();
   }
 }
-
-export const ADAPTERS = {
-  postgres: PostgresAdapter,
-  mysql: MysqlAdapter,
-};

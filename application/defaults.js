@@ -45,5 +45,18 @@ export default {
   },
 
   // Default environment to "development"
-  environment: "development"
+  environment: "development",
+
+  mail: {
+    smtp: {
+      hostname: null,
+      username: null,
+      password: null,
+      port: 25,
+    },
+    request: {
+      scheme: "http",
+      host: "example.com"
+    }
+  }
 };

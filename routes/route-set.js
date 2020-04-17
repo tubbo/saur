@@ -50,10 +50,11 @@ export default class RouteSet {
    */
   get(path, options = {}) {
     const action = options.action || path;
+    const as = options.as || action
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path
 
-    this.routes.push({ path, controller, action });
+    this.routes.push({ as, path, controller, action });
     this.router.get(path, controller.perform(action));
   }
 
@@ -70,10 +71,11 @@ export default class RouteSet {
 
   post(path, options = {}) {
     const action = options.action || path;
+    const as = options.as || action
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path
 
-    this.routes.push({ path, controller, action });
+    this.routes.push({ as, path, controller, action });
     this.router.post(path, controller.perform(action));
   }
 
@@ -85,10 +87,11 @@ export default class RouteSet {
    */
   put(path, options = {}) {
     const action = options.action || path;
+    const as = options.as || action
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path
 
-    this.routes.push({ path, controller, action });
+    this.routes.push({ as, path, controller, action });
     this.router.put(path, controller.perform(action));
   }
 
@@ -100,10 +103,11 @@ export default class RouteSet {
    */
   patch(path, options = {}) {
     const action = options.action || path;
+    const as = options.as || action
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path
 
-    this.routes.push({ path, controller, action });
+    this.routes.push({ as, path, controller, action });
     this.router.patch(path, controller.perform(action));
   }
 
@@ -115,10 +119,11 @@ export default class RouteSet {
    */
   delete(path, options = {}) {
     const action = options.action || path;
+    const as = options.as || action
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path
 
-    this.routes.push({ path, controller, action });
+    this.routes.push({ as, path, controller, action });
     this.router.delete(path, controller.perform(action));
   }
 
@@ -140,6 +145,7 @@ export default class RouteSet {
    * request.
    */
   root(action, controller) {
+    this.routes.push({ path: "/", as: "root", controller, action })
     this.get("/", { controller, action });
   }
 

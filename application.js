@@ -9,6 +9,7 @@ import RequestLogger from "./application/middleware/logger.js"
 import RequestTimer from "./application/middleware/timing.js"
 import StaticFiles from "./application/middleware/static-files.js"
 import MethodOverride from "./application/middleware/method-override.js"
+import AuthenticityToken from "./application/middleware/authenticity-token.js"
 import ForceSSL from "./application/initializers/force-ssl.js"
 import EnvironmentConfig from "./application/initializers/environment-config.js"
 
@@ -48,12 +49,13 @@ export default class Application {
     })
 
     this.log = log.getLogger()
-    this.initialize(EnvironmentConfig)
     this.initialize(ForceSSL)
-    this.initializers.forEach(initializer => initializer(this))
+    this.initialize(EnvironmentConfig)
     this.use(RequestLogger)
     this.use(RequestTimer)
     this.use(MethodOverride)
+    this.use(AuthenticityToken)
+    this.initializers.forEach(initializer => initializer(this))
     this.use(this.routes.all)
     this.use(this.routes.methods)
     if (this.config.serveStaticFiles) {
@@ -70,7 +72,7 @@ export default class Application {
    * Database connection for the application.
    */
   get db() {
-    const Adapter = Database.ADAPTERS[this.config.db.adapter]
+    const Adapter = Database.adapt(this.config.db.adapter)
 
     return new Adapter(this.config.db)
   }
@@ -79,7 +81,7 @@ export default class Application {
    * Cache database connection for the application.
    */
   get cache() {
-    const Adapter = Cache.ADAPTERS[this.config.cache.adapter]
+    const Adapter = Cache.adapt(this.config.cache.adapter)
 
     return new Adapter(this.config.cache)
   }

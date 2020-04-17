@@ -1,8 +1,10 @@
 <html>
   <head>
+    <%- csrfMetaTag %>
     <title>example</title>
   </head>
   <body>
+    <h1><%- linkTo("example app", rootURL()) %></h1>
     <%- innerHTML %>
   </body>
 </html>

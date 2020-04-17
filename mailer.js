@@ -16,7 +16,7 @@ export default class Mailer {
    * Deliver a given message using the provided args.
    */
   static async deliver(message, ...args) {
-    const mailer = new this(App.config.smtp)
+    const mailer = new this(App.config.mail)
     const action = mailer[message].bind(mailer)
 
     await action(...args)
@@ -26,6 +26,9 @@ export default class Mailer {
     this.config = config
     this.smtp = new SmtpClient()
   }
+
+  get request() {
+    return
 
   /**
    * Compile the given view's template using an instance as context,
@@ -40,7 +43,7 @@ export default class Mailer {
       message.content = result.toString()
     }
 
-    await this.smtp.connect(this.config)
+    await this.smtp.connect(this.config.smtp)
     await this.smtp.send(message)
     await this.smtp.close()
 

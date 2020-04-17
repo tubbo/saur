@@ -30,11 +30,15 @@ export default class Routes {
     return this.router.routes()
   }
 
+  helpers(request) {
+    return new Helpers(this.set, request)
+  }
+
   /**
    * Find the first matching route given the controller, action, and
    * parameters.
    */
-  resolve(controller, action, params={}) {
+  resolve(controller, action, params={}, host=null) {
     const keys = Object.keys(params)
     const route = this.set.routes.find(route => (
       route.controller === controller &&
@@ -46,6 +50,16 @@ export default class Routes {
       throw new MissingRouteError(controller, action, params)
     }
 
-    return keys.reduce((k, p) => p.replace(`:${k}`, params[k]), route.path)
+    const path = keys.reduce((k, p) => p.replace(`:${k}`, params[k]), route.path)
+
+    if (host) {
+      return `${host}/${path}`
+    }
+
+    return path
+  }
+
+  forEach(iterator) {
+    return this.set.routes.forEach(iterator)
   }
 }

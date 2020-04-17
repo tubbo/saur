@@ -1,6 +1,16 @@
 import { connect } from "https://denopkg.com/keroxp/deno-redis/mod.ts";
 
-export class Adapter {
+export const ADAPTERS = {
+  redis: Redis,
+  memory: Memory,
+};
+
+export default class Cache {
+  static adapt(adapter) {
+    return ADAPTERS[adapter] ||
+            throw new Error(`Cache adapter "${adapter}" not found`)
+  }
+
   constructor(config = {}) {
     this.config = config;
     this.keys = [];
@@ -62,7 +72,7 @@ export class Adapter {
   write(...args) {}
 }
 
-export class Redis extends Adapter {
+export class RedisCache extends Cache {
   async initialize() {
     const { hostname, port } = this.config;
     this.client = await connect({ hostname, port });
@@ -83,7 +93,7 @@ export class Redis extends Adapter {
   }
 }
 
-export class Memory extends Adapter {
+export class MemoryCache extends Cache {
   initialize() {
     this.data = {};
   }
@@ -98,10 +108,3 @@ export class Memory extends Adapter {
     return value;
   }
 }
-
-export const ADAPTERS = {
-  redis: Redis,
-  memory: Memory,
-};
-
-export default { ADAPTERS };
