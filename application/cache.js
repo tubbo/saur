@@ -1,16 +1,7 @@
+import Adapter from "./adapter.js";
 import { connect } from "https://denopkg.com/keroxp/deno-redis/mod.ts";
 
-export const ADAPTERS = {
-  redis: Redis,
-  memory: Memory,
-};
-
-export default class Cache {
-  static adapt(adapter) {
-    return ADAPTERS[adapter] ||
-            throw new Error(`Cache adapter "${adapter}" not found`)
-  }
-
+export default class Cache extends Adapter {
   constructor(config = {}) {
     this.config = config;
     this.keys = [];

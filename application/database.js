@@ -1,17 +1,8 @@
+import Adapter from "./adapter.js";
 import * as PostgreSQL from "https://deno.land/x/postgres/mod.ts";
 import * as MySQL from "https://deno.land/x/mysql/mod.ts";
 
-export const ADAPTERS = {
-  postgres: PostgresAdapter,
-  mysql: MysqlAdapter,
-};
-
-export default class Database {
-  static adapt(adapter) {
-    return ADAPTERS[adapter] ||
-           throw new Error(`Database adapter "${adapter}" not found`)
-  }
-
+export default class Database extends Adapter {
   constructor(config = {}) {
     this.config = config;
     this.initialize();
