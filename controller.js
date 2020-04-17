@@ -11,6 +11,8 @@ export default class Controller {
       const params = context.request.params
 
       try {
+        const name = `${this}`.split(" ")[1]
+        App.log.info(`Performing ${name}#${action}`)
         await handler(params)
       } catch(e) {
         App.log.error(e)
@@ -54,8 +56,6 @@ export default class Controller {
    * Render the given view's template using an instance as context.
    */
   async render(View) {
-    App.log.info("Rendering template", View.template)
-
     const view = new View(this)
     const result = await view.template.render(view)
     const html = result.toString()
@@ -63,6 +63,8 @@ export default class Controller {
     this.response.body = html
     this.response.headers.set("Content-Type", "text/html")
 
+    App.log.info(`Rendering template ${view.template.path}`)
+    App.log.info(`Using layout ${view.template.layout}`)
     this.prepare()
   }
 

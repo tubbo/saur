@@ -1,2 +1,5 @@
 all:
-	@cd example; deno install --allow-net --allow-read --allow-write index.js
+	@cd example; deno --allow-net --allow-read --allow-write index.js
+
+app:
+	@deno --allow-run --allow-write cli.js

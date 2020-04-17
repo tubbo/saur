@@ -47,18 +47,11 @@ export default class Application {
     this.log = log.getLogger()
     this.initialize(app => app.config.forceSSL && app.use(SSLRedirect))
     this.initializers.forEach(initializer => initializer(this))
-    this.use(RequestTimer)
     this.use(RequestLogger)
+    this.use(RequestTimer)
     this.use(this.routes.all)
     this.use(this.routes.methods)
-    this.use(async (context, next) => {
-      if (!context.response.body) {
-        context.response.body = `No route matches ${context.request.url}`
-        context.response.status = 404
-      }
-      App.log.warning(`No route matches ${context.request.url}`)
-      await next()
-    })
+    this.use(MissingRoute)
 
     this.log.info(`Starting server on port ${this.config.server.port}`)
 

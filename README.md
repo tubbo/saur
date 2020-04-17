@@ -13,7 +13,7 @@ A rapid development web framework for [deno][].
 
 Install the CLI with `deno install`:
 
-    deno install --allow-net --allow-read --allow-write create-saur-app https://deno.land/x/saur/cli.js
+    deno install --allow-all create-saur-app https://deno.land/x/saur/cli.js
 
 Then create your app using the new command:
 
@@ -95,7 +95,7 @@ abbreviated. To accomplish this, first create a new `ShowView` class:
 
 ```javascript
 import View from "https://deno.land/x/saur/view.js"
-import titelize
+import titleCase from "https://deno.land/x/case/titleCase.ts";
 
 const titleize = input => (
   input.toLowerCase().replace(/(?:^|\s|-)\S/g, x => x.toUpperCase())
@@ -105,7 +105,7 @@ export default class ShowView extends View {
   static template = "./templates/user.ejs" // relative to App.root
 
   get title() {
-    return titleize(this.controller.user.name)
+    return titleCase(this.controller.user.name)
   }
 }
 ```
