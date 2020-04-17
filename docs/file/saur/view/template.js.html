@@ -76,57 +76,56 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">saur/view/template.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { cwd } = Deno;
-import { renderFile } from &quot;https://deno.land/x/dejs/mod.ts&quot;
-import { extname } from &quot;https://deno.land/std@v0.12.0/fs/path/mod.ts&quot;
-import ReactDOMServer from &quot;https://dev.jspm.io/react-dom/server.js&quot;
+import { renderFile } from &quot;https://deno.land/x/dejs/mod.ts&quot;;
+import { extname } from &quot;https://deno.land/std@v0.12.0/fs/path/mod.ts&quot;;
+import ReactDOMServer from &quot;https://dev.jspm.io/react-dom/server.js&quot;;
 
 export default class Template {
   constructor(path, layout) {
-    this.path = `${cwd()}/templates/${path}`
-    this.layout = `${cwd()}/templates/layouts/${layout}`
+    this.path = `${cwd()}/templates/${path}`;
+    this.layout = `${cwd()}/templates/layouts/${layout}`;
     this.handlers = {
-      ejs: renderFile
-    }
+      ejs: renderFile,
+    };
   }
 
   /**
    * Template handler type, such as &quot;ejs&quot;
    */
   get type() {
-    return extname(this.path).replace(&apos;.&apos;, &apos;&apos;)
+    return extname(this.path).replace(&quot;.&quot;, &quot;&quot;);
   }
 
   /**
    * Template handler specified by its extension.
    */
   get handler() {
-    return this.handlers[this.type]
+    return this.handlers[this.type];
   }
 
   /**
    * Compile this template using the template handler.
    */
   async compile(path, context) {
-    return await this.handler(path, context)
+    return await this.handler(path, context);
   }
-
 
   /**
    * Render this template without its outer layout.
    */
   async partial(view) {
-    return await this.compile(this.path, view)
+    return await this.compile(this.path, view);
   }
 
   /**
    * Render this template and wrap it in a layout.
    */
   async render(view) {
-    const innerHTML = await this.partial(view)
-    const context = { innerHTML, ...view }
-    const outerHTML = await this.compile(this.layout, context)
+    const innerHTML = await this.partial(view);
+    const context = { innerHTML, ...view };
+    const outerHTML = await this.compile(this.layout, context);
 
-    return outerHTML
+    return outerHTML;
   }
 }
 </code></pre>

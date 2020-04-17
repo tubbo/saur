@@ -75,11 +75,11 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">saur/cli/new.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { titleCase } from &quot;https://deno.land/x/case/mod.ts&quot;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { titleCase } from &quot;https://deno.land/x/case/mod.ts&quot;;
 
 export default async function New() {
-  const [name] = argv[0]
-  const title = titleCase(name)
+  const [name] = argv[0];
+  const title = titleCase(name);
   const app = `import Application from &quot;https://deno.land/x/saur/application.js&quot;
 
   const App = new Application()
@@ -89,7 +89,7 @@ export default async function New() {
   })
 
   App.start()
-  `
+  `;
   const layout = `&lt;!DOCTYPE html&gt;
   &lt;html&gt;
     &lt;head&gt;
@@ -99,21 +99,32 @@ export default async function New() {
       &lt;%- innerHTML %&gt;
     &lt;/body&gt;
   &lt;/html&gt;
-  `
+  `;
 
-  console.log(&quot;Creating new application&quot;, name)
-  await Deno.mkdir(name)
-  await Deno.mkdir(`${name}/bin`)
-  await Deno.mkdir(`${name}/controllers`)
-  await Deno.mkdir(`${name}/models`)
-  await Deno.mkdir(`${name}/mailers`)
-  await Deno.mkdir(`${name}/templates`)
-  await Deno.mkdir(`${name}/views`)
-  Deno.writeFileSync(`${name}/index.js`, encoder.encode(app))
-  Deno.writeFileSync(`${name}/templates/layout.ejs`, encoder.encode(layout))
-  console.log(&quot;Creating bin/server&quot;)
-  Deno.run({ cmd: [&apos;deno&apos;, &apos;install&apos;, &apos;--allow-read&apos;, &apos;--allow-write&apos;, &apos;--allow-net&apos;, `${name}/bin/server`, `${name}/index.js` ] })
-
+  console.log(&quot;Creating new application&quot;, name);
+  await Deno.mkdir(name);
+  await Deno.mkdir(`${name}/bin`);
+  await Deno.mkdir(`${name}/controllers`);
+  await Deno.mkdir(`${name}/models`);
+  await Deno.mkdir(`${name}/mailers`);
+  await Deno.mkdir(`${name}/templates`);
+  await Deno.mkdir(`${name}/views`);
+  Deno.writeFileSync(`${name}/index.js`, encoder.encode(app));
+  Deno.writeFileSync(`${name}/templates/layout.ejs`, encoder.encode(layout));
+  console.log(&quot;Creating bin/server&quot;);
+  Deno.run(
+    {
+      cmd: [
+        &quot;deno&quot;,
+        &quot;install&quot;,
+        &quot;--allow-read&quot;,
+        &quot;--allow-write&quot;,
+        &quot;--allow-net&quot;,
+        `${name}/bin/server`,
+        `${name}/index.js`,
+      ],
+    },
+  );
 }
 </code></pre>
 

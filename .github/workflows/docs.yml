@@ -10,6 +10,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node_version: 13.x
+      - run: yarn global add esdoc esdoc-ecmascript-proposal-plugin esdoc-standard-plugin
       - run: make docs
       - uses: mikeal/publish-to-github-action@master
         env:

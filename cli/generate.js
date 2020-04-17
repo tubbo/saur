@@ -3,6 +3,10 @@ import GenerateController from "./generate/controller.js";
 import GenerateView from "./generate/view.js";
 import GenerateTemplate from "./generate/template.js";
 
+/**
+ * The `saur generate` command is used to generate boilerplate code for
+ * you to edit later.
+ */
 export default function Generate(type, name) {
   const className = pascalCase(name);
   const USAGE =

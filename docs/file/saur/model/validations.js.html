@@ -77,8 +77,8 @@
 <div class="content" data-ice="content"><h1 data-ice="title">saur/model/validations.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export class Validation {
   constructor({ property, ...options }) {
-    this.property = property
-    this.options = options
+    this.property = property;
+    this.options = options;
   }
 
   valid(model) {}
@@ -86,28 +86,28 @@
 
 export class Presence extends Validation {
   valid(model) {
-    const { property } = this.options
-    const message = this.options.message || &quot;must be present&quot;
+    const { property } = this.options;
+    const message = this.options.message || &quot;must be present&quot;;
 
     if (typeof model[property] === &quot;undefined&quot;) {
-      model.errors.add(property, message)
+      model.errors.add(property, message);
     }
   }
 }
 
 export class GenericValidation extends Validation {
   valid(model) {
-    const { method } = this.options
-    const validation = model[method].bind(model)
+    const { method } = this.options;
+    const validation = model[method].bind(model);
 
-    validation()
+    validation();
   }
 }
 
 // Validations that can be used as part of the `validates` method.
 export default {
-  presence: Presence
-}
+  presence: Presence,
+};
 </code></pre>
 
 </div>

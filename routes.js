@@ -2,6 +2,11 @@ import { Router } from "https://deno.land/x/oak/mod.ts"
 import RouteSet from "./routes/route-set.js"
 import MissingRouteError from "./errors/missing-route.js"
 
+/**
+ * Routes are used to collect all routes defined in `RouteSet`s and
+ * connect them to the `Oak.Router` that actually does the work of
+ * routing requests to their handlers.
+ */
 export default class Routes {
   constructor(app) {
     this.app = app

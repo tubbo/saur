@@ -266,7 +266,15 @@ in the <code>cache</code> helper is <code>App.cache.fetch</code>, and is notable
 first checks if a key is available and uses the cache if so, otherwise
 it will call the provided &quot;fresh&quot; method and save that value as the
 cache.</p>
-</div>
+<h2 id="development">Development</h2><p>To build documentation, you&apos;ll need [ESDoc][] and plugins installed:</p>
+<pre><code><code class="source-code prettyprint">yarn global add esdoc esdoc-ecmascript-proposal-plugin esdoc-standard-plugin</code>
+</code></pre><p>Then, run:</p>
+<pre><code><code class="source-code prettyprint">make</code>
+</code></pre><p>This will also generate a <code>bin/saur</code> binstub so you can run CLI
+commands.</p>
+<p>Before submitting your code, make sure it&apos;s formatted:</p>
+<pre><code><code class="source-code prettyprint">make fmt</code>
+</code></pre></div>
 </div>
 
 <footer class="footer">

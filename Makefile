@@ -15,7 +15,7 @@ dist:
 tags:
 	@ctags -R .
 
-docs: node_modules
+docs:
 	@esdoc
 
 node_modules:
@@ -28,7 +28,7 @@ clean: distclean mostlyclean
 .PHONY: clean
 
 mostlyclean:
-	@rm -rf bin docs
+	@rm -rf bin docs node_modules
 .PHONY: mostlyclean
 
 maintainer-clean: clean
@@ -36,7 +36,8 @@ maintainer-clean: clean
 .PHONY: maintainer-clean
 
 check:
-	@cd tests; deno test
+	@deno fmt **/*.js --check
+	@deno test
 .PHONY: check
 
 fmt:

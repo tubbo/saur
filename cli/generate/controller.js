@@ -1,3 +1,8 @@
+/**
+ * `saur generate controller NAME`
+ *
+ * This generates a controller class and its test.
+ */
 export default function GenerateController(name, className) {
   const controller = `import Controller from "https://deno.land/x/saur/controller.js"
 

@@ -75,36 +75,41 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">saur/cli/generate.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import GenerateModel from &quot;./generate/model.js&quot;
-import GenerateController from &quot;./generate/controller.js&quot;
-import GenerateView from &quot;./generate/view.js&quot;
-import GenerateTemplate from &quot;./generate/template.js&quot;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import GenerateModel from &quot;./generate/model.js&quot;;
+import GenerateController from &quot;./generate/controller.js&quot;;
+import GenerateView from &quot;./generate/view.js&quot;;
+import GenerateTemplate from &quot;./generate/template.js&quot;;
 
+/**
+ * The `saur generate` command is used to generate boilerplate code for
+ * you to edit later.
+ */
 export default function Generate(type, name) {
-  const className = pascalCase(name)
-  const USAGE = &quot;Usage: saur generate [model|view|controller|template|help] NAME [OPTIONS]&quot;
+  const className = pascalCase(name);
+  const USAGE =
+    &quot;Usage: saur generate [model|view|controller|template|help] NAME [OPTIONS]&quot;;
 
-  switch(type) {
+  switch (type) {
     case &quot;model&quot;:
-      GenerateModel(name, className)
-      break
+      GenerateModel(name, className);
+      break;
     case &quot;controller&quot;:
-      GenerateController(name, className)
-      break
+      GenerateController(name, className);
+      break;
     case &quot;view&quot;:
-      GenerateView(name, className)
-      GenerateTemplate(name, className)
-      break
+      GenerateView(name, className);
+      GenerateTemplate(name, className);
+      break;
     case &quot;template&quot;:
-      GenerateTemplate(name, className)
-      break
+      GenerateTemplate(name, className);
+      break;
     case &quot;resource&quot;:
-      GenerateModel(name, className)
-      GenerateController(name, className)
+      GenerateModel(name, className);
+      GenerateController(name, className);
     default:
-      console.log(&quot;Invalid generator&quot;, type)
-      console.log(USAGE)
-      Deno.exit(1)
+      console.log(&quot;Invalid generator&quot;, type);
+      console.log(USAGE);
+      Deno.exit(1);
   }
 }
 </code></pre>

@@ -1,7 +1,7 @@
 {
-  "coverage": "31.44%",
+  "coverage": "31.95%",
   "expectCount": 194,
-  "actualCount": 61,
+  "actualCount": 62,
   "files": {
     "saur/application/cache.js": {
       "expectCount": 17,
@@ -12,18 +12,18 @@
         5,
         9,
         17,
-        18,
-        21,
-        22,
-        24,
-        27,
+        20,
+        25,
+        26,
+        28,
         31,
-        42,
-        43,
-        44,
+        35,
+        46,
         47,
+        48,
         51,
-        58
+        55,
+        62
       ]
     },
     "saur/application/database.js": {
@@ -124,10 +124,8 @@
     },
     "saur/cli/generate.js": {
       "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        6
-      ]
+      "actualCount": 1,
+      "undocumentLines": []
     },
     "saur/cli/new.js": {
       "expectCount": 1,

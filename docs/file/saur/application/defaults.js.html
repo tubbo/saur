@@ -93,7 +93,7 @@
   log: {
     level: &quot;DEBUG&quot;,
     filename: &quot;saur.log&quot;,
-    formatter: &quot;{datetime} [{levelName}] {msg}&quot;
+    formatter: &quot;{datetime} [{levelName}] {msg}&quot;,
   },
 
   // Database configuration passed to the client, except the `adapter`
@@ -103,7 +103,7 @@
     host: &quot;localhost&quot;,
     port: 5432,
     username: &quot;postgres&quot;,
-    password: null
+    password: null,
   },
 
   // Cache configuration passed to the client, except the `enabled` and
@@ -112,9 +112,9 @@
   cache: {
     enabled: false,
     adapter: &quot;memory&quot;,
-    url: &quot;redis://localhost:6379&quot;
-  }
-}
+    url: &quot;redis://localhost:6379&quot;,
+  },
+};
 </code></pre>
 
 </div>

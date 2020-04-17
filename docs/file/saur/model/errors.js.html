@@ -77,16 +77,16 @@
 <div class="content" data-ice="content"><h1 data-ice="title">saur/model/errors.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export default class Errors {
   constructor() {
-    this.all = {}
+    this.all = {};
   }
 
   add(property, message) {
-    this.all[property] = this.all[property] || []
-    this.all[property].push(message)
+    this.all[property] = this.all[property] || [];
+    this.all[property].push(message);
   }
 
   get any() {
-    return Object.keys(this.all).length
+    return Object.keys(this.all).length;
   }
 }
 </code></pre>

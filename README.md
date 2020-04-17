@@ -266,6 +266,23 @@ first checks if a key is available and uses the cache if so, otherwise
 it will call the provided "fresh" method and save that value as the
 cache.
 
+## Development
+
+To build documentation, you'll need [ESDoc][] and plugins installed:
+
+    yarn global add esdoc esdoc-ecmascript-proposal-plugin esdoc-standard-plugin
+
+Then, run:
+
+    make
+
+This will also generate a `bin/saur` binstub so you can run CLI
+commands.
+
+Before submitting your code, make sure it's formatted:
+
+    make fmt
+
 [deno]: https://deno.land
 [SQL Builder]: https://github.com/manyuanrong/sql-builder
 [Django]: https://djangoproject.com
