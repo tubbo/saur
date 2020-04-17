@@ -7,6 +7,7 @@ import Cache from "./application/cache.js"
 import DEFAULTS from "./application/defaults.js"
 import RequestLogger from "./application/middleware/logger.js"
 import RequestTimer from "./application/middleware/timing.js"
+import StaticFiles from "./application/middleware/static-files.js"
 import ForceSSL from "./application/initializers/force-ssl.js"
 import EnvironmentConfig from "./application/initializers/environment-config.js"
 
@@ -53,6 +54,9 @@ export default class Application {
     this.use(RequestTimer)
     this.use(this.routes.all)
     this.use(this.routes.methods)
+    if (this.config.serveStaticFiles) {
+      this.use(StaticFiles)
+    }
     this.use(MissingRoute)
 
     this.log.info(`Starting server on port ${this.config.server.port}`)

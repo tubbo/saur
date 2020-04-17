@@ -13,6 +13,9 @@ export default {
     port: 3000,
   },
 
+  // Serve static files
+  serveStaticFiles: true,
+
   log: {
     level: "INFO",
     formatter: "{datetime} [{levelName}] {msg}",
