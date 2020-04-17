@@ -12,12 +12,6 @@ export default class View {
     this.url_for = App.routes.resolve.bind(App)
   }
 
-  render(partial, context={}) {
-    const template = new Template(partial)
-
-    return template.compile(context)
-  }
-
   cache(key, options={}, fresh) {
     return App.cache.fetch(key, fresh)
   }

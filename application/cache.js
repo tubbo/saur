@@ -56,8 +56,8 @@ export class Memory extends Adapter {
 }
 
 export const ADAPTERS = {
-  redis: RedisAdapter,
-  memory: MemoryAdapter
+  redis: Redis,
+  memory: Memory
 }
 
 export default { ADAPTERS }

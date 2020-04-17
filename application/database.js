@@ -1,4 +1,4 @@
-import Postgres from "https://deno.land/x/postgres/mod.ts";
+import { Client as Postgres } from "https://deno.land/x/postgres/mod.ts";
 
 export default class Database {
   constructor(config={}) {
@@ -12,7 +12,7 @@ export default class Database {
 
 export class PostgresAdapter extends Database {
   initialize() {
-    this.client = new Postgres.Client(this.config)
+    this.client = new Postgres(this.config)
   }
 
   async exec(sql) {

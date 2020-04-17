@@ -1,49 +1,70 @@
-import each from "https://deno.land/x/lodash/each.js"
 import reduce from "https://deno.land/x/lodash/reduce.js"
-import Validations from "./model/validations.js"
+import Validations, { GenericValidation } from "./model/validations.js"
 import Errors from "./model/errors.js"
 import Relation from "./model/query.js"
 
-export function validates(property, validations={}) {
-  return target => {
-    each(validations, (name, options) => {
-      const Validation = Validations[name]
-      options = options === true ? {} : options
+/**
+ * A macro for creating a new `Validation` object in the list of
+ * validations a model may run through.
+ */
+export function validates(name, validations={}) {
+  return map(validations, (name, options) => {
+    const Validation = Validations[name]
+    options = options === true ? {} : options
 
-      target.validations.push(new Validation(property, options))
-    })
-  }
+    return new Validation(options)
+  })
+}
+
+/**
+ * A macro for creating a new `GenericValidation` object, allowing the
+ * validation to consist of just running a method which may or may not
+ * add errors.
+ */
+export function validate(method, options={}) {
+  return new GenericValidation({ method, ...options })
 }
 
 export default class Model {
   static validations = []
   static table = null
 
+  /**
+   * Create a new model record and save it to the database.
+   */
   static create(attributes = {}) {
     const model = new this(attributes)
     model.save()
     return model
   }
 
-  static find(id) {
-    return this.where({ id }).first
+  /**
+   * Return a relation representing all records in the database.
+   */
+  static get all() {
+    return new Relation(this)
   }
 
+  /**
+   * Perform a query for matching models in the database.
+   */
   static where(query) {
-    if (typeof query === "string") {
-      return this.all.where(query.split("\n"))
-    }
-    const append = (val, key, q) => q.where(key, "=", val)
-
-    return reduce(query, append, this.all)
+    return this.all.where(query)
   }
 
+  /**
+   * Find an existing model record in the database by the given
+   * parameters.
+   */
   static findBy(query) {
     return this.where(query).first
   }
 
-  static get all() {
-    return new Relation(this)
+  /**
+   * Find an existing model record in the database by its ID.
+   */
+  static find(id) {
+    return this.findBy({ id })
   }
 
   constructor(attributes = {}) {
@@ -51,6 +72,9 @@ export default class Model {
     this.errors = new Errors()
   }
 
+  /**
+   * All non-function properties of this object.
+   */
   get attributes() {
     return reduce(this, (attrs, value, prop) => {
       if (typeof value !== "function") {
@@ -61,16 +85,33 @@ export default class Model {
     }, {})
   }
 
+  /**
+   * Set attributes on this object by assigning properties directly to
+   * it.
+   */
   set attributes(attrs={}) {
-    each(attrs, (key, value) => this[key] = value)
+    Object.assign(this, attrs)
   }
 
+  /**
+   * Flatten validators from their method calls.
+   */
+  get validations() {
+    return flatten(this.constructor.validations)
+  }
+
+  /**
+   * Run all configured validators.
+   */
   get valid() {
-    this.constructor.validations.forEach(validation => validation.valid(this))
+    this.validations.forEach(validation => validation.valid(this))
 
     return this.errors.any
   }
 
+  /**
+   * Persist the current information in this model to the database.
+   */
   save() {
     if (!this.valid) {
       return false
@@ -89,12 +130,18 @@ export default class Model {
     return true
   }
 
+  /**
+   * Set the given attributes on this model and persist.
+   */
   update(attributes = {}) {
     this.attributes = attributes
 
     return this.save()
   }
 
+  /**
+   * Remove this model from the database.
+   */
   destroy() {
     const query = new Relation(this)
 
@@ -102,5 +149,16 @@ export default class Model {
     query.run()
 
     return true
+  }
+
+  /**
+   * Reload this model's information from the database.
+   */
+  reload() {
+    const model = this.constructor.find(this.id)
+
+    Object.assign(this, model.attributes)
+
+    return this
   }
 }

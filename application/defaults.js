@@ -13,6 +13,12 @@ export default {
     port: 3000,
   },
 
+  log: {
+    level: "DEBUG",
+    filename: "saur.log",
+    formatter: "{datetime} [{levelName}] {msg}"
+  },
+
   // Database configuration passed to the client, except the `adapter`
   // which is used to find the database adapter to instantiate.
   db: {

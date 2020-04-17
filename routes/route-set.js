@@ -1,3 +1,4 @@
+import { renderFile } from "https://deno.land/x/dejs/mod.ts"
 /**
  * RouteSet defines the routing DSL used by the top-level application
  * router. It uses `Oak.Router` under the hood, but pre-fills
@@ -7,10 +8,10 @@
  * `namespace()`.
  */
 export default class RouteSet {
-  constructor(router, { controller=null, base=null }) {
+  constructor(router, options={}) {
     this.router = router
-    this.controller = controller
-    this.base = base
+    this.controller = options.controller
+    this.base = options.base
     this.routes = []
     this.namespaces = []
   }
@@ -26,12 +27,12 @@ export default class RouteSet {
     const post = this.post.bind(this)
     const put = this.put.bind(this)
     const patch = this.patch.bind(this)
-    const delete = this.delete.bind(this)
+    const del = this.delete.bind(this)
     const resources = this.resources.bind(this)
     const namespace = this.namespace.bind(this)
     const root = this.root.bind(this)
 
-    routing({ get, post, put, patch, delete, resources, namespace })
+    routing({ get, post, put, patch, delete: del, resources, namespace, root })
   }
 
   /**
@@ -40,9 +41,9 @@ export default class RouteSet {
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-  get(path, { controller=null, action=null }) {
-    action = action || path
-    controller = controller || this.controller
+  get(path, options={}) {
+    const action = options.action || path
+    const controller = options.controller || this.controller
 
     this.routes.push({ path, controller, action })
     this.router.get(path, controller.perform(action))
@@ -55,9 +56,9 @@ export default class RouteSet {
    * name of the path, respectively.
    */
 
-  post(path, { controller=null, action=null }) {
-    action = action || path
-    controller = controller || this.controller
+  post(path, options={}) {
+    const action = options.action || path
+    const controller = options.controller || this.controller
 
     this.routes.push({ path, controller, action })
     this.router.post(path, controller.perform(action))
@@ -69,9 +70,9 @@ export default class RouteSet {
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-  put(path, { controller=null, action=null }) {
-    action = action || path
-    controller = controller || this.controller
+  put(path, options={}) {
+    const action = options.action || path
+    const controller = options.controller || this.controller
 
     this.routes.push({ path, controller, action })
     this.router.put(path, controller.perform(action))
@@ -83,23 +84,23 @@ export default class RouteSet {
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-  patch(path, { controller=null, action=null }) {
-    action = action || path
-    controller = controller || this.controller
+  patch(path, options={}) {
+    const action = options.action || path
+    const controller = options.controller || this.controller
 
     this.routes.push({ path, controller, action })
     this.router.patch(path, controller.perform(action))
   }
 
   /**
-   * Route a DELETE request to the given path. You can also specify a
+   * Route a del request to the given path. You can also specify a
    * `controller` and `action`, but these options will default to the
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-  delete(path, { controller=null, action=null }) {
-    action = action || path
-    controller = controller || this.controller
+  delete(path, options={}) {
+    const action = options.action || path
+    const controller = options.controller || this.controller
 
     this.routes.push({ path, controller, action })
     this.router.delete(path, controller.perform(action))
@@ -112,8 +113,8 @@ export default class RouteSet {
     const controller = this.controller
     const base = `${this.base}/${path}`
     const set = new RouteSet(this.router, { controller, base })
-    namespaces.push({ path, controller, base })
 
+    this.namespaces.push({ path, controller, base })
     set.draw(routes)
   }
 
@@ -132,14 +133,14 @@ export default class RouteSet {
    * sets of nested resources for the "collection" and "member" routes.
    */
   resources(path, controller, nested) {
-    this.get(path, controller, "index")
-    this.post(path, controller, "create")
-    this.get(`${path}/new`, controller, "new")
-    this.get(`${path}/:id`, controller, "show")
-    this.get(`${path}/:id/edit`, controller, "edit")
-    this.put(`${path}/:id`, controller, "update")
-    this.patch(`${path}/:id`, controller, "update")
-    this.delete(`${path}/:id`, controller, "destroy")
+    this.get(path, { controller, action: "index" })
+    this.post(path, { controller, action: "create" })
+    this.get(`${path}/new`, { controller, action: "new" })
+    this.get(`${path}/:id`, { controller, action: "show" })
+    this.get(`${path}/:id/edit`, { controller, action: "edit" })
+    this.put(`${path}/:id`, { controller, action: "update" })
+    this.patch(`${path}/:id`, { controller, action: "update" })
+    this.delete(`${path}/:id`, { controller, action: "destroy" })
 
     if (nested) {
       const cs = new RouteSet(this.router, { controller, base: path })
