@@ -1,4 +1,5 @@
 import reduce from "https://deno.land/x/lodash/reduce.js"
+import merge from "https://deno.land/x/lodash/merge.js"
 import Validations, { GenericValidation } from "./model/validations.js"
 import Errors from "./model/errors.js"
 import Relation from "./model/query.js"
@@ -90,7 +91,7 @@ export default class Model {
    * it.
    */
   set attributes(attrs={}) {
-    Object.assign(this, attrs)
+    merge(this, attrs)
   }
 
   /**
@@ -157,7 +158,7 @@ export default class Model {
   reload() {
     const model = this.constructor.find(this.id)
 
-    Object.assign(this, model.attributes)
+    merge(this, model.attributes)
 
     return this
   }

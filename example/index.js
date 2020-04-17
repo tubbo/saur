@@ -4,6 +4,9 @@ import HomeController from "./controllers/home.js"
 
 window.App = new Application({
   layout: "layout.ejs",
+  db: {
+    name: "example"
+  }
 })
 
 App.routes.draw(({ resources, namespace, root }) => {

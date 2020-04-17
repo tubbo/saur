@@ -30,8 +30,6 @@ export default class Routes {
    * parameters.
    */
   resolve(controller, action, params={}) {
-    let url
-    this.set.forEach
     const keys = Object.keys(params)
     const route = this.set.routes.find(route => (
       route.controller === controller &&
