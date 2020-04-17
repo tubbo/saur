@@ -1,6 +1,6 @@
 import { titleCase } from "https://deno.land/x/case/mod.ts"
 
-export default function New() {
+export default async function New() {
   const [name] = argv[0]
   const title = titleCase(name)
   const app = `import Application from "https://deno.land/x/saur/application.js"

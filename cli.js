@@ -4,10 +4,10 @@ import { titleCase, pascalCase } from "https://deno.land/x/case/mod.ts"
 
 import New from "./cli/new.js"
 import Generate from "./cli/generate.js"
+import USAGE from "./cli/usage.js"
 
 const encoder = new TextEncoder()
 const { _: [command, ...argv], help } = parse(args)
-const USAGE = "Usage: saur generate [model|view|controller|help] NAME [OPTIONS]"
 let name
 
 if (help) {
@@ -29,7 +29,9 @@ switch (command) {
     console.log(USAGE)
     break
   default:
-    console.log("Invalid command", command)
+    if (command) {
+      console.log("Invalid command", command)
+    }
     console.log(USAGE)
     Deno.exit(1)
     break

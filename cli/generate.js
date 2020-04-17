@@ -1,5 +1,6 @@
 export default function Generate(type, name) {
   const className = pascalCase(name)
+  const USAGE = "Usage: saur generate [model|view|controller|help] NAME [OPTIONS]"
 
   switch(type) {
     case "model":
