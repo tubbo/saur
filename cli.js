@@ -30,13 +30,15 @@ switch (command) {
     console.log(USAGE)
     break
   default:
-    try {
-      const task = Task.find(command)
-      task.perform(...argv)
-    } catch(e) {
-      console.error(e.message)
-      Deno.exit(1)
-      break
+    if (command) {
+      try {
+        const task = Task.find(command)
+        task.perform(...argv)
+      } catch(e) {
+        console.error(e.message)
+        Deno.exit(1)
+        break
+      }
     }
 
     console.log(USAGE)

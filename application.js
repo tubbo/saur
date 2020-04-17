@@ -5,9 +5,10 @@ import Routes from "./routes.js"
 import Database from "./application/database.js"
 import Cache from "./application/cache.js"
 import DEFAULTS from "./application/defaults.js"
-import SSLRedirect from "./application/middleware/ssl.js"
 import RequestLogger from "./application/middleware/logger.js"
 import RequestTimer from "./application/middleware/timing.js"
+import ForceSSL from "./application/initializers/force-ssl.js"
+import EnvironmentConfig from "./application/initializers/environment-config.js"
 
 export default class Application {
   constructor(config={}) {
@@ -45,7 +46,8 @@ export default class Application {
     })
 
     this.log = log.getLogger()
-    this.initialize(app => app.config.forceSSL && app.use(SSLRedirect))
+    this.initialize(EnvironmentConfig)
+    this.initialize(ForceSSL)
     this.initializers.forEach(initializer => initializer(this))
     this.use(RequestLogger)
     this.use(RequestTimer)

@@ -3,23 +3,63 @@ import { connect } from "https://denopkg.com/keroxp/deno-redis/mod.ts";
 export class Adapter {
   constructor(config = {}) {
     this.config = config;
+    this.keys = [];
     this.initialize();
+    this.contains = this.keys.contains.bind(this.keys)
   }
 
+  get httpEnabled() {
+    return this.config.enabled && this.config.http.enabled
+  }
+
+  /**
+   * Fragment caching
+   */
   fetch(key, options = {}, fresh) {
-    if (this.exists(key, options = {})) {
-      return this.read(key, options = {});
+    if (this.contains(key)) {
+      return this.readFromCache(key, options = {});
     } else {
-      return this.write(key, options, fresh());
+      return this.writeToCache(key, options, fresh());
     }
   }
 
-  read(key) {
-    return true;
+  /**
+   * HTTP caching
+   */
+  http(url, freshen, context, send) {
+    const { http: { expires } } = this.config
+    const etag = context.response.headers.get("ETag")
+    const json = this.fetch(`${url}|${etag}`, { expires }, () => {
+      freshen()
+
+      const status = context.response.status
+      const body = context.response.body
+      let headers = {}
+
+      context.response.headers.forEach((v, h) => headers[h] = v)
+
+      return JSON.stringify({ status, headers, body })
+    })
+
+    send(JSON.parse(json))
   }
-  write(key, value, options = {}) {
-    return value;
+
+  readFromCache(key, options = {}) {
+    return this.read(key, value, options = {});
   }
+
+  // Define this in the adapter
+  read(...args) {}
+
+  writeToCache(key, value, options = {}) {
+    if (!this.contains(key)) {
+      this.keys.push(key)
+    }
+    return this.write(key, value, options = {});
+  }
+
+  // Define this in the adapter
+  write(...args) {}
 }
 
 export class Redis extends Adapter {

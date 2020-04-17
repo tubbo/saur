@@ -14,8 +14,7 @@ export default {
   },
 
   log: {
-    level: "DEBUG",
-    filename: "saur.log",
+    level: "INFO",
     formatter: "{datetime} [{levelName}] {msg}",
   },
 
@@ -36,5 +35,12 @@ export default {
     enabled: false,
     adapter: "memory",
     url: "redis://localhost:6379",
+    http: {
+      expires: 900,
+      enabled: false
+    }
   },
+
+  // Default environment to "development"
+  environment: "development"
 };

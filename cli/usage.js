@@ -9,9 +9,9 @@ Description:
   The \`saur\` command is used to manage and create Saur applications
   on your development workstation.
 
-Run the following command to view more information:
+  Run the following command to view more information:
 
-    saur help COMMAND
+      saur help COMMAND
 
 Tasks:
   new - Create a new application
