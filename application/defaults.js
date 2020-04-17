@@ -31,6 +31,11 @@ export default {
     password: null,
   },
 
+  hosts: [],
+
+  contentSecurityPolicy: {},
+  cors: {},
+
   // Cache configuration passed to the client, except the `enabled` and
   // `adapter` options which are used to bypass or instantiate the
   // cache, respectively.

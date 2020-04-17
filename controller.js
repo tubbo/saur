@@ -31,7 +31,10 @@ export default class Controller {
     this.headers = {
       "Content-Type": "text/html; charset=utf-8"
     }
+    this.initialize()
   }
+
+  initialize() {}
 
   get actions() {
     return Object.keys(this).filter(key => (
@@ -44,7 +47,7 @@ export default class Controller {
    * headers based on the information in the controller.
    */
   prepare() {
-    this.response.status = this.status
+    this.response.status = this.status;
     const bytes = encodeURIComponent(this.response.body).match(/%[89ABab]/g);
     const length = this.response.body.length + (bytes ? bytes.length : 0)
     this.response.headers.set("Content-Length", length)
@@ -55,17 +58,17 @@ export default class Controller {
   /**
    * Render the given view's template using an instance as context.
    */
-  async render(View) {
-    const view = new View(this)
-    const result = await view.template.render(view)
-    const html = result.toString()
+  async render(View, context={}) {
+    const view = new View(this, context={});
+    const result = await view.template.render(view);
+    const html = result.toString();
 
-    this.response.body = html
-    this.response.headers.set("Content-Type", "text/html")
+    this.response.body = html;
+    this.response.headers.set("Content-Type", "text/html");
 
-    App.log.info(`Rendering template ${view.template.path}`)
-    App.log.info(`Using layout ${view.template.layout}`)
-    this.prepare()
+    App.log.info(`Rendering template ${view.template.path}`);
+    App.log.info(`Using layout ${view.template.layout}`);
+    this.prepare();
   }
 
   /**

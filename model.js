@@ -71,7 +71,10 @@ export default class Model {
   constructor(attributes = {}) {
     this.attributes = attributes
     this.errors = new Errors()
+    this.initialize()
   }
+
+  initialize() {}
 
   /**
    * All non-function properties of this object.

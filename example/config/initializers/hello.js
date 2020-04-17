@@ -1,1 +1,1 @@
-App.initialize(() => console.log("initializing"))
+App.initializer(() => console.log("initializing"))

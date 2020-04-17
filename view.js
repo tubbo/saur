@@ -3,7 +3,8 @@ import Template from "./view/template.js"
 export default class View {
   static template = null
 
-  constructor(controller) {
+  constructor(controller, context={}) {
+    this.context = context
     this.controller = controller
     this.template = new Template(
       this.constructor.template,
@@ -22,7 +23,11 @@ export default class View {
         this.urlFor(controller, action, params, host)
       );
     })
+
+    this.initialize()
   }
+
+  initialize() {}
 
   cache(key, options={}, fresh) {
     return App.cache.fetch(key, fresh)

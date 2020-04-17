@@ -9,6 +9,8 @@ import RequestLogger from "./application/middleware/logger.js"
 import RequestTimer from "./application/middleware/timing.js"
 import StaticFiles from "./application/middleware/static-files.js"
 import MethodOverride from "./application/middleware/method-override.js"
+import CSP from "./application/middleware/content-security-policy.js"
+import CORS from "./application/middleware/cors.js"
 import AuthenticityToken from "./application/middleware/authenticity-token.js"
 import ForceSSL from "./application/initializers/force-ssl.js"
 import EnvironmentConfig from "./application/initializers/environment-config.js"
@@ -26,8 +28,12 @@ export default class Application {
   /**
    * Run the code given in the callback when the app initializes.
    */
-  initialize(initializer) {
-    this.initializers.push(initializer)
+  initializer(init) {
+    this.initializers.push(init)
+  }
+
+  initialize() {
+    this.initializers.forEach(initializer => initializer(this))
   }
 
   /**
@@ -49,13 +55,15 @@ export default class Application {
     })
 
     this.log = log.getLogger()
-    this.initialize(ForceSSL)
-    this.initialize(EnvironmentConfig)
+    this.initializer(ForceSSL)
+    this.initializer(EnvironmentConfig)
     this.use(RequestLogger)
     this.use(RequestTimer)
     this.use(MethodOverride)
     this.use(AuthenticityToken)
-    this.initializers.forEach(initializer => initializer(this))
+    this.use(CSP)
+    this.use(CORS)
+    this.initialize()
     this.use(this.routes.all)
     this.use(this.routes.methods)
     if (this.config.serveStaticFiles) {
