@@ -108,10 +108,6 @@ abbreviated. To accomplish this, first create a new `ShowView` class:
 import View from "https://deno.land/x/saur/view.js"
 import titleCase from "https://deno.land/x/case/titleCase.ts";
 
-const titleize = input => (
-  input.toLowerCase().replace(/(?:^|\s|-)\S/g, x => x.toUpperCase())
-)
-
 export default class ShowView extends View {
   static template = "./templates/user.ejs" // relative to App.root
 
