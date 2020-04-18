@@ -33,6 +33,7 @@ export default async function New(name) {
   await Deno.mkdir(`${name}/mailers`);
   await Deno.mkdir(`${name}/templates`);
   await Deno.mkdir(`${name}/views`);
+  await Deno.mkdir(`${name}/src`);
   Deno.writeFileSync(`${name}/index.js`, encoder.encode(app));
   Deno.writeFileSync(`${name}/templates/layout.ejs`, encoder.encode(layout));
   console.log("Creating bin/server");
@@ -47,4 +48,6 @@ export default async function New(name) {
       `${name}/index.js`,
     ],
   });
+  Deno.run({ cmd: ["yarn", "init", "-yp"] });
+  Deno.run({ cmd: ["yarn", "add", "webpack", "prettier", "-D"] });
 }

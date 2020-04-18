@@ -1,9 +1,7 @@
-export default {
-  // Default layout that will be passed into all controllers. This can
-  // be changed on a controller-by-controller basis by setting the
-  // static property `layout`.
-  layout: "layout.ejs",
+import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+const { readFile } = Deno;
 
+export default {
   // Whether to force SSL connectivity. This just installs another
   // middleware into your stack at init time.
   forceSSL: false,
@@ -63,5 +61,21 @@ export default {
       scheme: "http",
       host: "example.com",
     },
+  },
+
+  template: {
+    // Default layout that will be passed into all controllers. This can
+    // be changed on a controller-by-controller basis by setting the
+    // static property `layout`.
+    layout: "default",
+    handlers: {
+      txt: readFile,
+      ejs: renderFile,
+    },
+  },
+
+  assets: {
+    enabled: true,
+    matcher: /\.(js|css)$/,
   },
 };

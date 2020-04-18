@@ -1,6 +1,6 @@
-import { Router } from "https://deno.land/x/oak/mod.ts"
-import RouteSet from "./routes/route-set.js"
-import MissingRouteError from "./errors/missing-route.js"
+import { Router } from "https://deno.land/x/oak/mod.ts";
+import RouteSet from "./routes/route-set.js";
+import MissingRouteError from "./errors/missing-route.js";
 
 /**
  * Routes are used to collect all routes defined in `RouteSet`s and
@@ -9,57 +9,61 @@ import MissingRouteError from "./errors/missing-route.js"
  */
 export default class Routes {
   constructor(app) {
-    this.app = app
-    this.router = new Router()
-    this.set = new RouteSet(this.router)
-    this.draw = this.set.draw.bind(this.set)
+    this.app = app;
+    this.router = new Router();
+    this.set = new RouteSet(this.router);
+    this.draw = this.set.draw.bind(this.set);
   }
 
-  /**
+  /*
    * Create the AllowedMethods middleware to insert a header based on
    * the given routes.
    */
   get methods() {
-    return this.router.allowedMethods()
+    return this.router.allowedMethods();
   }
 
   /**
    * Compile all routes into Oak middleware.
    */
   get all() {
-    return this.router.routes()
-  }
-
-  helpers(request) {
-    return new Helpers(this.set, request)
+    return this.router.routes();
   }
 
   /**
    * Find the first matching route given the controller, action, and
    * parameters.
    */
-  resolve(controller, action, params={}, host=null) {
-    const keys = Object.keys(params)
-    const route = this.set.routes.find(route => (
-      route.controller === controller &&
+  resolve(controller, action, params = {}, host = null) {
+    if (typeof controller === "string") {
+      return controller;
+    }
+
+    const keys = Object.keys(params);
+    const route = this.set.routes.find(
+      (route) =>
+        route.controller === controller &&
         route.action === action &&
-        keys.filter(key => path.match(`:${key}`)).length
-    ))
+        keys.filter((key) => path.match(`:${key}`)).length
+    );
 
     if (!route) {
-      throw new MissingRouteError(controller, action, params)
+      throw new MissingRouteError(controller, action, params);
     }
 
-    const path = keys.reduce((k, p) => p.replace(`:${k}`, params[k]), route.path)
+    const path = keys.reduce(
+      (k, p) => p.replace(`:${k}`, params[k]),
+      route.path
+    );
 
     if (host) {
-      return `${host}/${path}`
+      return `${host}/${path}`;
     }
 
-    return path
+    return path;
   }
 
   forEach(iterator) {
-    return this.set.routes.forEach(iterator)
+    return this.set.routes.forEach(iterator);
   }
 }

@@ -1,4 +1,4 @@
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+import Route from "./route.js";
 /**
  * RouteSet defines the routing DSL used by the top-level application
  * router. It uses `Oak.Router` under the hood, but pre-fills
@@ -34,14 +34,33 @@ export default class RouteSet {
     const use = this.use.bind(this);
 
     if (this.base) {
-      routing(
-        { use, get, post, put, patch, delete: del, resources, namespace },
-      );
+      routing({
+        use,
+        get,
+        post,
+        put,
+        patch,
+        delete: del,
+        resources,
+        namespace,
+      });
     } else {
-      routing(
-        { use, get, post, put, patch, delete: del, resources, namespace, root },
-      );
+      routing({
+        use,
+        get,
+        post,
+        put,
+        patch,
+        delete: del,
+        resources,
+        namespace,
+        root,
+      });
     }
+  }
+
+  add({ as, path, controller, action }) {
+    this.routes.push(new Route({ as, path, controller, action }));
   }
 
   /**
@@ -56,7 +75,7 @@ export default class RouteSet {
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path;
 
-    this.routes.push({ as, path, controller, action });
+    this.add({ as, path, controller, action });
     this.router.get(path, controller.perform(action));
   }
 
@@ -77,7 +96,7 @@ export default class RouteSet {
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path;
 
-    this.routes.push({ as, path, controller, action });
+    this.add({ as, path, controller, action });
     this.router.post(path, controller.perform(action));
   }
 
@@ -93,7 +112,7 @@ export default class RouteSet {
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path;
 
-    this.routes.push({ as, path, controller, action });
+    this.add({ as, path, controller, action });
     this.router.put(path, controller.perform(action));
   }
 
@@ -109,7 +128,7 @@ export default class RouteSet {
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path;
 
-    this.routes.push({ as, path, controller, action });
+    this.add({ as, path, controller, action });
     this.router.patch(path, controller.perform(action));
   }
 
@@ -125,7 +144,7 @@ export default class RouteSet {
     const controller = options.controller || this.controller;
     path = this.base ? `${this.base}/${path}` : path;
 
-    this.routes.push({ as, path, controller, action });
+    this.add({ as, path, controller, action });
     this.router.delete(path, controller.perform(action));
   }
 
@@ -147,7 +166,7 @@ export default class RouteSet {
    * request.
    */
   root(action, controller) {
-    this.routes.push({ path: "/", as: "root", controller, action });
+    this.add({ path: "/", as: "root", controller, action });
     this.get("/", { controller, action });
   }
 

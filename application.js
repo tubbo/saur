@@ -5,16 +5,20 @@ import Routes from "./routes.js";
 import Database from "./application/database.js";
 import Cache from "./application/cache.js";
 import DEFAULTS from "./application/defaults.js";
+
 import RequestLogger from "./application/middleware/logger.js";
 import RequestTimer from "./application/middleware/timing.js";
+
 import ServeStaticFiles from "./application/initializers/serve-static-files.js";
+import ForceSSL from "./application/initializers/force-ssl.js";
+import Routing from "./application/initializers/routing.js";
+import EnvironmentConfig from "./application/initializers/environment-config.js";
+import Assets from "./application/initializers/assets.js";
+
 import MethodOverride from "./application/middleware/method-override.js";
 import CSP from "./application/middleware/content-security-policy.js";
 import CORS from "./application/middleware/cors.js";
 import AuthenticityToken from "./application/middleware/authenticity-token.js";
-import ForceSSL from "./application/initializers/force-ssl.js";
-import EnvironmentConfig from "./application/initializers/environment-config.js";
-import Routing from "./application/initializers/routing.js";
 
 export default class Application {
   constructor(config = {}) {
@@ -28,6 +32,7 @@ export default class Application {
       EnvironmentConfig,
       ServeStaticFiles,
       Routing,
+      Assets,
     ];
 
     this.use(RequestLogger);
@@ -36,6 +41,7 @@ export default class Application {
     this.use(AuthenticityToken);
     this.use(CSP);
     this.use(CORS);
+    this.use(Assets);
   }
 
   /**

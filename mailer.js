@@ -1,4 +1,4 @@
-import { SmtpClient } from "https://deno.land/x/smtp/mod.ts"
+import { SmtpClient } from "https://deno.land/x/smtp/mod.ts";
 
 /**
  * Mailers send HTML-rendered emails to users based on predefined
@@ -10,43 +10,46 @@ import { SmtpClient } from "https://deno.land/x/smtp/mod.ts"
  * like controllers can.
  */
 export default class Mailer {
-  static layout = "mailer.ejs"
+  static layout = "mailer.ejs";
 
   /**
    * Deliver a given message using the provided args.
    */
   static async deliver(message, ...args) {
-    const mailer = new this(App.config.mail)
-    const action = mailer[message].bind(mailer)
+    const mailer = new this(App.config.mail);
+    const action = mailer[message].bind(mailer);
 
-    await action(...args)
+    await action(...args);
   }
 
-  constructor(config={}) {
-    this.config = config
-    this.smtp = new SmtpClient()
+  constructor(config = {}) {
+    this.config = config;
+    this.smtp = new SmtpClient();
   }
 
   get request() {
-    return
+    const { hostname, protocol } = this.config;
+
+    return { hostname, protocol };
+  }
 
   /**
    * Compile the given view's template using an instance as context,
    * then email the rendered HTML given the configuration.
    */
-  async mail(message={}, View=null) {
-    const to = message.to || message.bcc
+  async mail(message = {}, View = null, context = {}) {
+    const to = message.to || message.bcc;
 
     if (View) {
-      const view = new View(this)
-      const result = await view.template.render(view)
-      message.content = result.toString()
+      const view = new View(this, context);
+      const result = await view.template.render(view);
+      message.content = result.toString();
     }
 
-    await this.smtp.connect(this.config.smtp)
-    await this.smtp.send(message)
-    await this.smtp.close()
+    await this.smtp.connect(this.config.smtp);
+    await this.smtp.send(message);
+    await this.smtp.close();
 
-    App.log.info(`Sent mail to "${to}"`)
+    App.log.info(`Sent mail to "${to}"`);
   }
 }
