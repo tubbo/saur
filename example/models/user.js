@@ -1,6 +1,5 @@
-import Model, { validates } from "https://deno.land/x/saur/model.js";
+import Model from "https://deno.land/x/saur/model.js"
 
-@validates("name", { presence: true })
-export default class User extends Model {
-  static table = "users";
-}
+  export default class User extends Model {
+  }
+  

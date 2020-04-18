@@ -1,3 +1,3 @@
 export default {
-  environment: "test",
-};
+    // put your environment-specific configuration here
+  }

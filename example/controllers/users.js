@@ -1,18 +1,5 @@
-import Controller from "../../controller.js";
+import Controller from "https://deno.land/x/saur/controller.js"
 
-export default class UsersController extends Controller {
-  index() {
-    this.users = User.all;
+  export default class UsersController extends Controller {
   }
-
-  create(params) {
-    const user = User.create(params.user);
-
-    UserMailer.deliver("confirmation", user);
-
-    this.redirect(UsersController, "show", { id: user.id });
-  }
-
-  active() {}
-  setup() {}
-}
+  
