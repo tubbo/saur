@@ -5,19 +5,13 @@ import Database from "./application/database.js";
 import Cache from "./application/cache.js";
 import DEFAULTS from "./application/defaults.js";
 
-import RequestLogger from "./application/middleware/logger.js";
-import RequestTimer from "./application/middleware/timing.js";
-
 import ServeStaticFiles from "./application/initializers/serve-static-files.js";
 import ForceSSL from "./application/initializers/force-ssl.js";
 import EnvironmentConfig from "./application/initializers/environment-config.js";
 import Assets from "./application/initializers/assets.js";
 import Logging from "./application/initializers/logging.js";
+import DefaultMiddleware from "./application/initializers/default-middleware.js";
 
-import MethodOverride from "./application/middleware/method-override.js";
-import CSP from "./application/middleware/content-security-policy.js";
-import CORS from "./application/middleware/cors.js";
-import AuthenticityToken from "./application/middleware/authenticity-token.js";
 import MissingRoute from "./application/middleware/missing-route.js";
 
 export default class Application {
@@ -28,43 +22,52 @@ export default class Application {
     this.use = this.oak.use.bind(this.oak);
     this.root = path.resolve(this.config.root || Deno.cwd());
     this.initializers = [];
-
-    this.initialize(Logging);
-    this.initialize(EnvironmentConfig);
-    this.initialize(ServeStaticFiles);
-    this.initialize(Assets);
-    this.iniitalize(ForceSSL);
-
-    this.use(RequestLogger);
-    this.use(RequestTimer);
-    this.use(MethodOverride);
-    this.use(AuthenticityToken);
-    this.use(CSP);
-    this.use(CORS);
-    this.use(Assets);
+    this.plugins = [];
+    this.setup();
   }
 
   /**
    * Run the code given in the callback when the app initializes.
    */
-  initializer(init) {
-    this.initializers.push(init);
+  initializer(Init) {
+    this.initializers.push(Initializer);
+  }
+
+  /**
+   * Add routes, initializers, and configuration from a plugin.
+   */
+  include(plugin) {
+    this.plugins.push(plugin);
+  }
+
+  /**
+   * Run immediately after instantiation, this is responsible for
+   * setting up the list of default initializers prior to any other
+   * initializers getting loaded.
+   */
+  setup() {
+    this.initializer(Logging);
+    this.initializer(EnvironmentConfig);
+    this.initializer(ServeStaticFiles);
+    this.initializer(Assets);
+    this.initializer(ForceSSL);
+    this.initializer(DefaultMiddleware);
   }
 
   /**
    * Run all initializers for the application.
    */
   initialize() {
-    this.initializers.forEach(async (init) => {
-      await init(this);
-    });
+    this.log.info("Initializing Saur application")
+    this.plugins.forEach(plugin => plugin.initialize(this));
+    this.initializers.forEach(init => init(this));
   }
 
   /**
    * Apply routing and start the application server.
    */
   async start() {
-    this.log.info(`Starting server on port ${this.config.server.port}`);
+    this.log.info(`Starting application server on port ${this.config.server.port}`);
 
     this.use(this.routes.all);
     this.use(this.routes.methods);

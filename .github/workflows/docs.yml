@@ -6,8 +6,7 @@ jobs:
   reference:
     name: Reference
     steps:
-      - name: Start Deployment
-        uses: bobheadxi/deployments@master
+      - uses: bobheadxi/deployments@master
         id: deployment
         with:
           step: start
@@ -18,8 +17,7 @@ jobs:
         with:
           node_version: 13.x
       - run: yarn install --check-files
-      - name: Build Documentation
-        run: make
+      - run: make
       - uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
@@ -28,9 +26,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.aws_key }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret }}
           SOURCE_DIR: docs/api
-      - name: Update Deployment Status
+      - uses: bobheadxi/deployments@master
         if: always()
-        uses: bobheadxi/deployments@master
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}

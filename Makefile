@@ -2,7 +2,7 @@
 # Makefile for the `saur` command
 #
 
-all: bin/saur tags docs
+all: bin/saur tags docs/api
 
 bin/saur:
 	@mkdir -p bin
@@ -15,9 +15,9 @@ dist:
 tags:
 	@ctags -R .
 
-docs:
+docs/api:
 	@esdoc
-.PHONY: docs
+.PHONY: docs/api
 
 node_modules:
 	@yarn install --check-files

@@ -1,5 +1,15 @@
 import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+import ReactDOMServer from "https://dev.jspm.io/react-dom/server";
+
 const { readFile } = Deno;
+const renderJSX = async path => {
+  const file = await Deno.readFile(path)
+  const decoder = new TextDecoder()
+  const source = decoder.decode(file)
+  const jsx = eval(source)
+
+  return ReactDOMServer.renderToString(jsx)
+}
 
 export default {
   // Whether to force SSL connectivity. This just installs another
@@ -29,7 +39,7 @@ export default {
     password: null,
   },
 
-  hosts: [],
+  hosts: ["localhost"],
 
   contentSecurityPolicy: {},
   cors: {},
@@ -58,8 +68,8 @@ export default {
       port: 25,
     },
     request: {
-      scheme: "http",
-      host: "example.com",
+      protocol: "http",
+      hostname: "localhost:3000"
     },
   },
 
@@ -71,6 +81,7 @@ export default {
     handlers: {
       txt: readFile,
       ejs: renderFile,
+      jsx: renderJSX,
     },
   },
 
