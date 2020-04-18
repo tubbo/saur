@@ -30,4 +30,4 @@ App.routes.draw(({ resources, namespace, root }) => {
   root("index", HomeController);
 });
 
-await App.start();
+await App.start(window.APP_RUN);

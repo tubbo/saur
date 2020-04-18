@@ -36,7 +36,6 @@ export default class Application {
     this.use(AuthenticityToken);
     this.use(CSP);
     this.use(CORS);
-    this.setupLogging();
   }
 
   /**
@@ -73,10 +72,14 @@ export default class Application {
   /**
    * Run all initialization code and start the app server.
    */
-  async start() {
+  async start(disableServer) {
+    await this.setupLogging();
     this.initialize();
-    this.log.info(`Starting server on port ${this.config.server.port}`);
-    await this.oak.listen(this.config.server);
+
+    if (!disableServer) {
+      this.log.info(`Starting server on port ${this.config.server.port}`);
+      await this.oak.listen(this.config.server);
+    }
   }
 
   /**

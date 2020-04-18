@@ -3,7 +3,7 @@
  */
 export default async function Run(code) {
   window.APP_ROOT = `${Deno.cwd()}/example`;
-  window.APP_SERVER = false;
+  window.APP_RUN = true;
 
   await import(`${window.APP_ROOT}/index.js`);
   eval(code);
