@@ -4,31 +4,15 @@ const encoder = new TextEncoder();
 
 export default async function New(name) {
   const title = titleCase(name);
-  const app = `import Application from "https://deno.land/x/saur/application.js"
-
-  const App = new Application()
-
-  App.routes.draw(({ root }) => {
-    // root("index", HomeController)
-  })
-
-  App.start()
-  `;
-  const layout = `<!DOCTYPE html>
-  <html>
-    <head>
-      <title>${title}</title>
-    </head>
-    <body>
-      <%- innerHTML %>
-    </body>
-  </html>
-  `;
-  const env = `export default {
-    // put your environment-specific configuration here
-  }`;
+  const app = await Deno.readFile("./generate/templates/application.js");
+  const server = await Deno.readFile("./generate/templates/server.js");
+  const layout = await Deno.readFile("./generate/templates/layout.ejs", {
+    title,
+  });
+  const env = await Deno.readFile("./generate/templates/env-config.js");
 
   console.log("Creating new application", name);
+
   await Deno.mkdir(name);
   await Deno.mkdir(`${name}/bin`);
   await Deno.mkdir(`${name}/controllers`);
@@ -44,17 +28,18 @@ export default async function New(name) {
   await Deno.mkdir(`${name}/tests/views`);
   await Deno.mkdir(`${name}/views`);
   await Deno.mkdir(`${name}/src`);
-  Deno.writeFileSync(`${name}/index.js`, encoder.encode(app));
-  Deno.writeFileSync(`${name}/templates/layout.ejs`, encoder.encode(layout));
-  Deno.writeFileSync(
+  await Deno.writeFile(`${name}/index.js`, encoder.encode(app));
+  await Deno.writeFile(`${name}/config/server.js`, encoder.encode(server));
+  await Deno.writeFile(`${name}/templates/layout.ejs`, encoder.encode(layout));
+  await Deno.writeFile(
     `${name}/config/environments/development.js`,
     encoder.encode(env)
   );
-  Deno.writeFileSync(
+  await Deno.writeFile(
     `${name}/config/environments/test.js`,
     encoder.encode(env)
   );
-  Deno.writeFileSync(
+  await Deno.writeFile(
     `${name}/config/environments/production.js`,
     encoder.encode(env)
   );

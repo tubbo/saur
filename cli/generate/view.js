@@ -1,10 +1,9 @@
-export default function View(name, className, encoder) {
-  const view = `import View from "https://deno.land/x/saur/view.js"
+import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 
-  export default class ${className}View extends View {
-  }
-  `;
+export default async function GenerateView(name, klass, encoder) {
+  const className = `${klass}View`;
+  const view = await renderFile("./templates/view.ejs", { className });
 
-  Deno.writeFileSync(`views/${name}.js`, encoder.encode(view));
+  await Deno.writeFile(`views/${name}.js`, encoder.encode(view));
   console.log(`Created ${className} in views/${name}.js`);
 }

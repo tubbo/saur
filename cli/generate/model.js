@@ -1,18 +1,10 @@
 import GenerateMigration from "./migration.js";
+import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 
-export default function GenerateModel(name, className, encoder, ...fields) {
-  const model = `import Model from "https://deno.land/x/saur/model.js"
-
-  export default class ${className} extends Model {
-  }
-  `;
-  const test = `import { assert } from "https://deno.land/std/testing/asserts.ts"
-  import ${className} from "../../models/${name}.js"
-
-  Deno.test("${className}", () => {
-    assert(true)
-  })
-  `;
+export default async function (name, className, encoder, ...fields) {
+  const context = { name, className };
+  const model = await renderFile("./templates/model.ejs", context);
+  const test = await renderFile("./templates/test.ejs", context);
 
   Deno.writeFileSync(`models/${name}.js`, encoder.encode(model));
   Deno.writeFileSync(`tests/models/${name}_test.js`, encoder.encode(test));

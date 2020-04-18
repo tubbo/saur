@@ -3,8 +3,6 @@ export class Validation {
     this.property = property;
     this.options = options;
   }
-
-  valid(model) {}
 }
 
 export class Presence extends Validation {

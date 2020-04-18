@@ -54,131 +54,45 @@ represents a different role that's played:
   populated with a `View` object as context when they are rendered from
   file.
 
-### Quick Example: Hello World
+### Quick Start: Hello World
 
-Create a new appliction in any JS file. For this example, it will be
-called **index.js**:
+Create a new application:
+
+    saur new hello
+    cd hello
+
+Generate the controller and action:
+
+    saur generate application index
+
+Edit **templates/application/hello.html.ejs**:
+
+```html
+<h1>hello world</h1>
+```
+
+Open **index.js** and add your route:
 
 ```javascript
 import Application from "https://deno.land/x/saur/application.js"
 import ApplicationController from "./controllers/application"
 
-window.App = new Application({
+const App = new Application({
   // enter your config settings here
 })
 
 App.routes.draw(({ root }) => {
   root("index", ApplicationController)
 })
+
+export default App
 ```
 
-Next, add the `ApplicationController` in **controllers/application.js**:
+Start the server, and browse to <http://localhost:3000>
 
-```javascript
-import Controller from "https://deno.land/x/saur/application.js"
-import HelloWorld from "../views/hello.js"
+    saur server
 
-export default class ApplicationController extends Controller {
-  index() {
-    this.response.body = "Hello World"
-  }
-}
-```
-
-You can now start the server:
-
-```
-deno index.js
-```
-
-Browse to <https://localhost:3000> to see your new app!
-
-### Full Example: Views and Templates
-
-Unlike Rails, views and templates are not the same thing in Saur. The
-separation of concerns here allows the developer to write methods
-particular to each view without having to share that context with other
-views.
-
-For example, say a developer wants to make it so a user's name appears
-titleized in the `show` view, but on the `index` view it should be
-abbreviated. To accomplish this, first create a new `ShowView` class:
-
-```javascript
-import View from "https://deno.land/x/saur/view.js"
-import titleCase from "https://deno.land/x/case/titleCase.ts";
-
-export default class ShowView extends View {
-  static template = "./templates/user.ejs" // relative to App.root
-
-  get title() {
-    return titleCase(this.controller.user.name)
-  }
-}
-```
-
-Now, create a `SummaryView` class that only displays the user name as
-the title:
-
-```javascript
-import View from "https://deno.land/x/saur/view.js"
-
-export default class SummaryView extends View {
-  static template = "./templates/user.ejs" // relative to App.root
-
-  get title() {
-    return this.controller.user.name
-  }
-}
-```
-
-You'll notice both of these views use the same template. That's not a
-typo! It's possible to render common templates with differing contexts
-using view objects. Here's the EJS template we'll be rendering in
-**templates/user.ejs**:
-
-```html
-<h1><%= title %></h1>
-```
-
-Connect it to the router by rendering these views from a
-`UsersController`:
-
-```javascript
-import Controller from "https://deno.land/x/saur/controller.js"
-import SummaryView from "../views/users/summary.js"
-import ShowView from "../views/users/show.js"
-import User from "../models/user.js"
-
-export default class UsersController extends Controller {
-  summary({ id }) {
-    const user = User.find(id)
-
-    this.render(IndexView)
-  }
-
-  show({ id }) {
-    const user = User.find(id)
-
-    this.render(ShowView)
-  }
-}
-```
-
-And finally, route the controller actions in your application code:
-
-```javascript
-import UsersController from "./controllers/users.js"
-
-App.routes.draw(({ resources }) => {
-  resources("users", UsersController, ({ member } => {
-    member(({ get }) => get("summary"))
-  })
-})
-```
-
-Now, when you visit `/users/:id`, you'll get the titleized name, but
-visiting `/users/:id/summary` will only render the abbreviated name.
+You should see a big ol' "Hello World!"
 
 ### Models
 
@@ -236,6 +150,120 @@ const names = users.map(user => user.name) // => ["bar"]
 This doesn't apply for `find` or `findBy`, since those need to return a
 full model object, and thus the query will run when called in order to
 give you immediate feedback.
+
+### Controllers
+
+The controller layer is used for parsing requests and rendering
+responses. It's the abstraction between the router/server and your
+application code. Controllers are primarily used to query the database
+and render Views to display that data in a certain way, depending on the
+requested format.
+
+Here's what a controller for the `User` model might look like:
+
+```javascript
+import Controller from "https://deno.land/x/saur/controlller.js";
+import UserView from "../views/user.js";
+
+export default UsersController extends Controller {
+  show({ id }) {
+    const user = User.find(id);
+
+    this.render(UserView, { user });
+  }
+}
+```
+
+### Views and Templates
+
+View objects are used to encapsulate template rendering and data
+presentation. Separating the concerns of the "presentation" and "data"
+layers, Views take the form of a "presenter" from other applications,
+but are coupled to a particular template that it is responsible for
+rendering. As such, a view will need to be made alongside a
+corresponding template for each response you wish to create. Here's an
+example of what the `UserView` might look like from before:
+
+```javascript
+import View from "https://deno.land/x/saur/view.js";
+
+export default UserView extends View {
+  static template = "user.ejs";
+
+  get title() {
+    const { user: { name } } = this.context
+
+    return `@${name}'s Profile`
+  }
+}
+```
+
+And your `user.ejs` template:
+
+```html
+<article class="user">
+  <header>
+    <h1><%= title %></h1>
+  </header>
+</article>
+```
+
+Although views need a template in order to render, templates can be
+reused between views given the right kind of context. The markup in
+`user.ejs`, for example, can be reused by another template like
+`users.ejs` when it comes time to render a partial:
+
+```html
+<ul class="users">
+<% users.forEach(user => { %>
+  <li><%= include("user.ejs", { user, title: user.name }) %></li>
+<% }) %>
+</ul>
+```
+
+The partial is rendered without the `UserView` context. To supply a
+different view context, you can also render the partial from the view
+class itself:
+
+```javascript
+import View from "https://deno.land/x/saur/view.js";
+
+export default UsersView extends View {
+  static template = "users.ejs";
+
+  get users() {
+    return this.context.users.map(user => this.render(UserView, { user })
+  }
+
+  get title() {
+    const { user: { name } } = this.context
+
+    return `@${name}'s Profile`
+  }
+}
+```
+
+The template can be cleaned up like so:
+
+```html
+<ul class="users">
+  <%= users %>
+</ul>
+```
+
+Additionally, views are not coupled to controllers. They can be used in
+mailers as well:
+
+```javascript
+import Mailer from "https://deno.land/x/saur/mailer.js"
+
+export default class UserMailer extends Mailer {
+  confirmation(user) {
+    const title = "Click here to confirm your account"
+    this.render(UserView, { user })
+  }
+}
+```
 
 ### Caching
 

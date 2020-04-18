@@ -9,3 +9,5 @@ Generators:
   - view NAME: Generate a new view class and corresponding EJS template
   - controller NAME: Generate a new controller class
   - test NAME: Generate a new test case
+  - template NAME: Generate a new EJS template
+  - mailer NAME: Generate a new mailer class

@@ -1,29 +1,23 @@
 import GenerateTemplate from "./template.js";
+import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 
 /**
  * `saur generate controller NAME`
  *
  * This generates a controller class and its test.
  */
-export default function GenerateController(name, klass, encoder, ...actions) {
+export default async function (name, klass, encoder, ...actions) {
   const className = `${klass}Controller`;
   const methods = actions.map((action) => `  ${action}() {}`).join("\n");
-  const controller = `import Controller from "https://deno.land/x/saur/controller.js"
+  const context = { name, className, methods };
+  const controller = await renderFile("./templates/controller.ejs", context);
+  const test = await renderFile("./templates/test.ejs", context);
 
-  export default class ${className} extends Controller {
-    ${methods}
-  }
-  `;
-  const test = `import { assert } from "https://deno.land/std/testing/asserts.ts"
-  import ${className} from "../../controllers/${name}.js"
-
-  Deno.test("${className}", () => {
-    assert(true)
-  })
-  `;
-
-  Deno.writeFileSync(`controllers/${name}.js`, encoder.encode(controller));
-  Deno.writeFileSync(`tests/controllers/${name}_test.js`, encoder.encode(test));
+  await Deno.writeFile(`controllers/${name}.js`, encoder.encode(controller));
+  await Deno.writeFile(
+    `tests/controllers/${name}_test.js`,
+    encoder.encode(test)
+  );
   console.log(`Created ${className} in controllers/${name}.js`);
 
   actions.forEach((action) => GenerateTemplate(`${name}/${action}`));

@@ -51,7 +51,7 @@ export default class Controller {
     this.response.status = this.status;
     const bytes = encodeURIComponent(this.response.body).match(/%[89ABab]/g);
     const length = this.response.body.length + (bytes ? bytes.length : 0);
-    this.response.headers.set("Content-Length", length);
+    this.headers["Content-Length"] = length;
 
     each(this.headers, (value, header) =>
       this.response.headers.set(header, value)
@@ -67,7 +67,7 @@ export default class Controller {
     const html = result.toString();
 
     this.response.body = html;
-    this.response.headers.set("Content-Type", "text/html");
+    this.headers["Content-Type"] = `text/${view.template.format}`;
 
     App.log.info(`Rendering template ${view.template.path}`);
     App.log.info(`Using layout ${view.template.layout}`);
