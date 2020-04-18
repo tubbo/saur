@@ -10,7 +10,7 @@ export default class View {
     this.request = controller.request;
     this.template = new Template(
       this.constructor.template,
-      this.controller.layout
+      this.controller.layout,
     );
     this.urlFor = App.routes.resolve.bind(App.routes);
 
@@ -55,7 +55,7 @@ export default class View {
 
         return `${memo} ${option}="${value}"`;
       },
-      ""
+      "",
     );
   }
 

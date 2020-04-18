@@ -1,5 +1,6 @@
 export default function Test(name, className, encoder) {
-  const test = `import { assert } from "https://deno.land/std/testing/asserts.ts"
+  const test =
+    `import { assert } from "https://deno.land/std/testing/asserts.ts"
 
   Deno.test("${className}", () => {
     assert(true)

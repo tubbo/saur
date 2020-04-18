@@ -44,7 +44,7 @@ export default class Routes {
       (route) =>
         route.controller === controller &&
         route.action === action &&
-        keys.filter((key) => path.match(`:${key}`)).length
+        keys.filter((key) => path.match(`:${key}`)).length,
     );
 
     if (!route) {
@@ -53,7 +53,7 @@ export default class Routes {
 
     const path = keys.reduce(
       (k, p) => p.replace(`:${k}`, params[k]),
-      route.path
+      route.path,
     );
 
     if (host) {

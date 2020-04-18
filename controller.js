@@ -39,7 +39,7 @@ export default class Controller {
   get actions() {
     return Object.keys(this).filter(
       (key) =>
-        typeof this[key] === "function" && typeof super[key] === "undefined"
+        typeof this[key] === "function" && typeof super[key] === "undefined",
     );
   }
 
@@ -53,8 +53,9 @@ export default class Controller {
     const length = this.response.body.length + (bytes ? bytes.length : 0);
     this.headers["Content-Length"] = length;
 
-    each(this.headers, (value, header) =>
-      this.response.headers.set(header, value)
+    each(
+      this.headers,
+      (value, header) => this.response.headers.set(header, value),
     );
   }
 

@@ -5,8 +5,7 @@ import each from "https://deno.land/x/lodash/each.js";
  * response to the cache.
  */
 export default function OakCache(ctx, next) {
-  const shouldHTTPCache =
-    App.cache.httpEnabled &&
+  const shouldHTTPCache = App.cache.httpEnabled &&
     ctx.response.method === "GET" &&
     ctx.response.headers.has("Cache-Control") &&
     ctx.response.headers.has("ETag");

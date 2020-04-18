@@ -144,7 +144,7 @@ export default class Model {
 
         return attrs;
       },
-      {}
+      {},
     );
   }
 

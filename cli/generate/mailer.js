@@ -10,7 +10,7 @@ export default async function (name, className, encoder, ...actions) {
   const context = { name, className, methods };
   const controller = await renderFile(
     "./cli/generate/templates/mailer.ejs",
-    context
+    context,
   );
   const test = await renderFile("./cli/generate/templates/test.ejs", context);
 

@@ -13,7 +13,8 @@ export default class Template {
     this.format = format;
     this.language = language;
     this.path = `${App.root}/templates/${name}.${format}.${language}`;
-    this.layout = `${App.root}/templates/layouts/${layout}.${format}.${language}`;
+    this.layout =
+      `${App.root}/templates/layouts/${layout}.${format}.${language}`;
     this.handlers = App.config.template.handlers;
   }
 

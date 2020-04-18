@@ -36,27 +36,27 @@ export default async function New(name) {
     await Deno.mkdir(`${name}/src`);
     await Deno.writeFile(
       `${name}/index.js`,
-      encoder.encode(decoder.decode(app))
+      encoder.encode(decoder.decode(app)),
     );
     await Deno.writeFile(
       `${name}/config/server.js`,
-      encoder.encode(decoder.decode(server))
+      encoder.encode(decoder.decode(server)),
     );
     await Deno.writeFile(
       `${name}/templates/layout.ejs`,
-      encoder.encode(decoder.decode(layout))
+      encoder.encode(decoder.decode(layout)),
     );
     await Deno.writeFile(
       `${name}/config/environments/development.js`,
-      encoder.encode(decoder.decode(env))
+      encoder.encode(decoder.decode(env)),
     );
     await Deno.writeFile(
       `${name}/config/environments/test.js`,
-      encoder.encode(decoder.decode(env))
+      encoder.encode(decoder.decode(env)),
     );
     await Deno.writeFile(
       `${name}/config/environments/production.js`,
-      encoder.encode(decoder.decode(env))
+      encoder.encode(decoder.decode(env)),
     );
     console.log("Creating bin/server...");
 

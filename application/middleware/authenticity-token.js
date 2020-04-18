@@ -17,8 +17,7 @@ export default function AuthenticityToken(context, next) {
 
   next();
 
-  const token =
-    context.params.authenticity_token ||
+  const token = context.params.authenticity_token ||
     context.request.headers.get("X-Authenticity-Token");
 
   if (token !== App.authenticityToken) {

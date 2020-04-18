@@ -32,7 +32,7 @@ export default class Migration {
         .table("schema_migrations")
         .select("version")
         .order("version", "asc")
-        .limit(1)
+        .limit(1),
     );
     const current = parseInt(rows[0].version);
 
@@ -56,7 +56,7 @@ export default class Migration {
     const query = new Query();
 
     this.execute(
-      query.table("schema_migrations").insert("version", this.version).build()
+      query.table("schema_migrations").insert("version", this.version).build(),
     );
 
     return value;
