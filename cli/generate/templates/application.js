@@ -1,4 +1,4 @@
-import Application from "https://deno.land/x/saur/application.js";
+import Application from "../application.js";
 
 // `import` your code here:
 

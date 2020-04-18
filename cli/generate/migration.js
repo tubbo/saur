@@ -23,7 +23,7 @@ export default async function (name, className, encoder, ...fields) {
   const action = ACTIONS.contains(splitName[0]) ? splitName[0] : "update";
   const tableName = splitName[splitName.length];
   const context = { className, statements, tableName };
-  const template = `./templates/migration/${action}.ejs`;
+  const template = `./cli/generate/templates/migration/${action}.ejs`;
   const source = await renderFile(template, context);
 
   await Deno.writeFile(path, encoder.encode(source));

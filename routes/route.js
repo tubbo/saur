@@ -1,5 +1,7 @@
 import camelCase from "https://deno.land/x/case/camelCase.ts";
-import partial from "https://deno.land/x/lodash/partial.js";
+// import { partial } from "https://deno.land/x/lodash/lodash.js";
+
+const partial = () => "wtf lodash";
 
 export default class Route {
   constructor({ as, path, controller, action }) {
