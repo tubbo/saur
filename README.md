@@ -39,5 +39,5 @@ conduct. In order for your contributions to be accepted, all tests must
 pass. Thanks for contributing to open-source!
 
 [deno]: https://deno.land
-[main site]: https://denosaur.org
+[main site]: https://tubbo.github.io/saur
 [reference docs]: https://api.denosaur.org
