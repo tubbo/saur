@@ -1,4 +1,4 @@
-export default function GenerateModel(name, className) {
+export default function GenerateModel(name, className, encoder) {
   const model = `import Model from "https://deno.land/x/saur/model.js"
 
   export default class ${className} extends Model {

@@ -1,4 +1,4 @@
-export default function View(name, className) {
+export default function View(name, className, encoder) {
   const view = `import View from "https://deno.land/x/saur/view.js"
 
   export default class ${className}View extends View {

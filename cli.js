@@ -1,6 +1,5 @@
 const { args } = Deno;
 import { parse } from "https://deno.land/std/flags/mod.ts";
-import { exists } from "https://deno.land/std/fs/exists.ts";
 
 import New from "./cli/new.js";
 import Generate from "./cli/generate.js";
@@ -22,11 +21,12 @@ switch (command) {
     New(...argv);
     break;
   case "server":
-    if (!exists("bin/server")) {
-      throw new Error("Server script not found. Are you in a Saur app?");
+    try {
+      Deno.run({ cmd: ["bin/server"] });
+    } catch (e) {
+      console.error("Server script not found. Are you in a Saur app?");
+      Deno.exit(1);
     }
-
-    Deno.run({ cmd: ["bin/server"] });
     break;
   case "generate":
     Generate(...argv);
