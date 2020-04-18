@@ -63,6 +63,10 @@ export default class Application {
     this.initializers.forEach(init => init(this));
   }
 
+  template(name) {
+    return new Template(path, this.root, config.template);
+  }
+
   /**
    * Apply routing and start the application server.
    */
@@ -82,7 +86,7 @@ export default class Application {
   get db() {
     const Adapter = Database.adapt(this.config.db.adapter);
 
-    return new Adapter(this.config.db);
+    return new Adapter(this.config.db, this.log);
   }
 
   /**
@@ -91,6 +95,6 @@ export default class Application {
   get cache() {
     const Adapter = Cache.adapt(this.config.cache.adapter);
 
-    return new Adapter(this.config.cache);
+    return new Adapter(this.config.cache, this.log);
   }
 }

@@ -1,5 +1,5 @@
-export default function CORS(context, next) {
-  const { cors } = App.config;
+export default function CORS(context, next, app) {
+  const { cors } = app.config;
 
   if (!cors.length) {
     next();

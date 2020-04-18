@@ -7,22 +7,14 @@
  * `users/show.xml.ejs` template.
  */
 export default class Template {
-  constructor(path, layout = App.config.template.layout) {
+  constructor(path, root, { layout, handlers }) {
     const [name, format, language] = path.split(".");
     this.name = name;
     this.format = format;
     this.language = language;
-    this.path = `${App.root}/templates/${name}.${format}.${language}`;
-    this.layout =
-      `${App.root}/templates/layouts/${layout}.${format}.${language}`;
-    this.handlers = App.config.template.handlers;
-  }
-
-  /**
-   * Template handler specified by its extension.
-   */
-  get handler() {
-    return this.handlers[this.language] || this.handlers.txt;
+    this.path = `${root}/templates/${name}.${format}.${language}`;
+    this.layout = `${root}/templates/layouts/${layout}.${format}.${language}`;
+    this.handler = handlers[this.language] || handlers.txt;
   }
 
   /**
@@ -43,9 +35,10 @@ export default class Template {
    * Render this template and wrap it in a layout.
    */
   async render(view) {
+    const layout = view.layout || this.layout
     const innerHTML = await this.partial(view);
     const context = { innerHTML, ...view };
-    const outerHTML = await this.compile(this.layout, context);
+    const outerHTML = await this.compile(layout, context);
 
     return outerHTML;
   }

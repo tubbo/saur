@@ -4,7 +4,7 @@ import each from "https://deno.land/x/lodash/each.js";
  * Read the response from the cache if it exists, otherwise write the
  * response to the cache.
  */
-export default function OakCache(ctx, next) {
+export default function OakCache(ctx, next, app) {
   const shouldHTTPCache = App.cache.httpEnabled &&
     ctx.response.method === "GET" &&
     ctx.response.headers.has("Cache-Control") &&
@@ -16,6 +16,6 @@ export default function OakCache(ctx, next) {
   };
 
   if (shouldHTTPCache) {
-    App.cache.http(ctx.request.url, next, ctx, hit);
+    app.cache.http(ctx.request.url, next, ctx, hit);
   }
 }

@@ -129,7 +129,7 @@ export default class RouteSet {
     path = this.base ? `${this.base}/${path}` : path;
 
     this.add({ as, path, controller, action });
-    this.router.patch(path, controller.perform(action));
+    this.router.patch(path, controller.perform(action, this.router));
   }
 
   /**

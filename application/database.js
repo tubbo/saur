@@ -3,8 +3,9 @@ import * as PostgreSQL from "https://deno.land/x/postgres/mod.ts";
 import * as MySQL from "https://deno.land/x/mysql/mod.ts";
 
 export default class Database extends Adapter {
-  constructor(config = {}) {
+  constructor(config = {}, logger) {
     this.config = config;
+    this.logger = logger;
     this.initialize();
   }
 
@@ -18,7 +19,7 @@ export class PostgresAdapter extends Database {
   }
 
   async exec(sql) {
-    App.log.debug(`Running Query "${sql}"`);
+    this.logger.debug(`Running Query "${sql}"`);
 
     await client.connect();
 
@@ -36,7 +37,7 @@ export class MysqlAdapter extends Database {
   }
 
   async exec(sql) {
-    App.log.debug(`Running Query "${sql}"`);
+    this.logger.debug(`Running Query "${sql}"`);
 
     await client.connect();
 

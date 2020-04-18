@@ -4,18 +4,18 @@ export default class Controller {
   /**
    * Perform a request using an action method on this controller.
    */
-  static perform(action) {
+  static perform(action, logger, routes) {
     return async (context) => {
-      const controller = new this(context);
+      const controller = new this(context, logger, routes);
       const handler = controller[action].bind(controller);
       const params = context.request.params;
 
       try {
         const name = `${this}`.split(" ")[1];
-        App.log.info(`Performing ${name}#${action}`);
+        logger.info(`Performing ${name}#${action}`);
         await handler(params);
       } catch (e) {
-        App.log.error(e);
+        logger.error(e);
         context.response.body = e.message;
         context.response.status = 500;
         context.response.headers.set("Content-Type", "text/html");
@@ -23,10 +23,11 @@ export default class Controller {
     };
   }
 
-  constructor(context) {
+  constructor(context, logger, routes) {
     this.request = context.request;
     this.response = context.response;
-    this.layout = this.constructor.layout || App.config.template.layout;
+    this.logger = logger
+    this.routes = routes
     this.status = 200;
     this.headers = {
       "Content-Type": "text/html; charset=utf-8",
@@ -70,8 +71,8 @@ export default class Controller {
     this.response.body = html;
     this.headers["Content-Type"] = `text/${view.template.format}`;
 
-    App.log.info(`Rendering template ${view.template.path}`);
-    App.log.info(`Using layout ${view.template.layout}`);
+    logger.info(`Rendering template ${view.template.path}`);
+    logger.info(`Using layout ${view.template.layout}`);
     this.prepare();
   }
 
@@ -81,7 +82,7 @@ export default class Controller {
   redirect(action, options) {
     const controller = options.controller || this;
     const params = options.params || {};
-    const url = App.routes.resolve(controller, action, params);
+    const url = routes.resolve(controller, action, params);
     this.status = 302;
     this.headers["Location"] = url;
     this.response.body = `You are being <a href="${url}">redirected</a>`;

@@ -1,5 +1,5 @@
-export default function ContentSecurityPolicy(context, next) {
-  const { hosts, contentSecurityPolicy } = App.config;
+export default function ContentSecurityPolicy(context, next, app) {
+  const { hosts, contentSecurityPolicy } = app.config;
   const domains = hosts.length ? hosts.join(" ") : "";
   const policy = reduce(contentSecurityPolicy, (value, key, policy) => {
     `${policy}; ${key} ${value}`;

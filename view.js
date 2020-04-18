@@ -3,6 +3,7 @@ import reduce from "https://deno.land/x/lodash/reduce.js";
 
 export default class View {
   static template = null;
+  static app = null;
 
   constructor(controller, context = {}) {
     this.context = context;
@@ -12,6 +13,8 @@ export default class View {
       this.constructor.template,
       this.controller.layout,
     );
+    const App = this.constructor.app
+    window.App = App
     this.urlFor = App.routes.resolve.bind(App.routes);
 
     App.routes.forEach((route) => route.hydrate(this));
