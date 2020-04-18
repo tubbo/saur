@@ -1,49 +1,121 @@
 {
-  "coverage": "32.01%",
-  "expectCount": 203,
-  "actualCount": 65,
+  "coverage": "35.9%",
+  "expectCount": 259,
+  "actualCount": 93,
   "files": {
-    "saur/application/cache.js": {
-      "expectCount": 17,
-      "actualCount": 0,
+    "saur/application/adapter.js": {
+      "expectCount": 5,
+      "actualCount": 1,
       "undocumentLines": [
-        3,
+        5,
+        6,
+        14,
+        15
+      ]
+    },
+    "saur/application/cache.js": {
+      "expectCount": 22,
+      "actualCount": 2,
+      "undocumentLines": [
+        69,
+        70,
+        72,
+        75,
+        81,
+        92,
+        93,
+        94,
+        97,
+        101,
         4,
         5,
-        9,
-        17,
-        20,
-        25,
-        26,
-        28,
-        31,
-        35,
-        46,
-        47,
-        48,
+        7,
+        8,
+        10,
+        13,
         51,
-        55,
-        62
+        56,
+        58,
+        66
       ]
     },
     "saur/application/database.js": {
-      "expectCount": 14,
+      "expectCount": 13,
       "actualCount": 0,
       "undocumentLines": [
-        4,
         5,
         6,
-        10,
+        7,
         11,
-        14,
+        12,
         15,
         16,
-        19,
-        32,
+        17,
+        20,
         33,
         34,
-        37,
-        50
+        35,
+        38
+      ]
+    },
+    "saur/application/defaults.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        2
+      ]
+    },
+    "saur/application/initializers/assets.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/application/initializers/environment-config.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/application/initializers/force-ssl.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "saur/application/initializers/logging.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/application/initializers/serve-static-files.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "saur/application/middleware/authenticity-token.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/application/middleware/compile-assets.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/application/middleware/content-security-policy.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "saur/application/middleware/cors.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
       ]
     },
     "saur/application/middleware/logger.js": {
@@ -53,6 +125,13 @@
         3
       ]
     },
+    "saur/application/middleware/method-override.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
     "saur/application/middleware/missing-route.js": {
       "expectCount": 1,
       "actualCount": 0,
@@ -60,7 +139,17 @@
         1
       ]
     },
-    "saur/application/middleware/ssl.js": {
+    "saur/application/middleware/oak-cache.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/application/middleware/ssl-redirect.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/application/middleware/static-files.js": {
       "expectCount": 1,
       "actualCount": 1,
       "undocumentLines": []
@@ -74,17 +163,16 @@
     },
     "saur/application.js": {
       "expectCount": 13,
-      "actualCount": 4,
+      "actualCount": 5,
       "undocumentLines": [
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        47
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
       ]
     },
     "saur/cli/generate/controller.js": {
@@ -92,11 +180,25 @@
       "actualCount": 1,
       "undocumentLines": []
     },
+    "saur/cli/generate/mailer.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/cli/generate/migration.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        16,
+        18
+      ]
+    },
     "saur/cli/generate/model.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        1
+        4
       ]
     },
     "saur/cli/generate/template.js": {
@@ -117,7 +219,7 @@
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        1
+        3
       ]
     },
     "saur/cli/generate.js": {
@@ -125,31 +227,37 @@
       "actualCount": 1,
       "undocumentLines": []
     },
+    "saur/cli/migrate.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
     "saur/cli/new.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "saur/cli/usage.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "saur/cli.js": {
       "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
+        4,
+        5,
+        7
+      ]
+    },
+    "saur/cli/run.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "saur/cli.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
         1,
-        10,
-        11
+        9
       ]
     },
     "saur/controller.js": {
-      "expectCount": 13,
+      "expectCount": 14,
       "actualCount": 4,
       "undocumentLines": [
         3,
@@ -159,8 +267,9 @@
         29,
         30,
         31,
-        36,
-        83
+        37,
+        39,
+        89
       ]
     },
     "saur/errors/missing-route.js": {
@@ -171,67 +280,15 @@
         2
       ]
     },
-    "saur/example/controllers/home.js": {
-      "expectCount": 3,
-      "actualCount": 0,
-      "undocumentLines": [
-        5,
-        6,
-        10
-      ]
-    },
-    "saur/example/controllers/users.js": {
-      "expectCount": 6,
-      "actualCount": 0,
-      "undocumentLines": [
-        3,
-        4,
-        5,
-        8,
-        16,
-        17
-      ]
-    },
-    "saur/example/mailers/user.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        4,
-        5
-      ]
-    },
-    "saur/example/models/user.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        4,
-        5
-      ]
-    },
-    "saur/example/views/home-page.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        3,
-        4
-      ]
-    },
-    "saur/example/views/user-confirmation.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        3,
-        4
-      ]
-    },
     "saur/mailer.js": {
-      "expectCount": 7,
+      "expectCount": 8,
       "actualCount": 3,
       "undocumentLines": [
         13,
         25,
         26,
-        27
+        27,
+        30
       ]
     },
     "saur/model/errors.js": {
@@ -245,6 +302,17 @@
         11
       ]
     },
+    "saur/model/migration.js": {
+      "expectCount": 9,
+      "actualCount": 4,
+      "undocumentLines": [
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
     "saur/model/relation.js": {
       "expectCount": 18,
       "actualCount": 15,
@@ -255,7 +323,31 @@
       ]
     },
     "saur/model/validations.js": {
-      "expectCount": 9,
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        4,
+        8,
+        9,
+        19,
+        20
+      ]
+    },
+    "saur/model.js": {
+      "expectCount": 23,
+      "actualCount": 19,
+      "undocumentLines": [
+        49,
+        126,
+        128,
+        132
+      ]
+    },
+    "saur/routes/helpers.js": {
+      "expectCount": 6,
       "actualCount": 0,
       "undocumentLines": [
         1,
@@ -263,44 +355,49 @@
         3,
         4,
         7,
-        10,
-        11,
-        21,
-        22
-      ]
-    },
-    "saur/model.js": {
-      "expectCount": 20,
-      "actualCount": 15,
-      "undocumentLines": [
-        29,
-        30,
-        31,
-        71,
-        73
+        11
       ]
     },
     "saur/routes/route-set.js": {
-      "expectCount": 16,
-      "actualCount": 10,
+      "expectCount": 19,
+      "actualCount": 11,
       "undocumentLines": [
         11,
         12,
         13,
         14,
         15,
-        16
+        16,
+        62,
+        82
+      ]
+    },
+    "saur/routes/route.js": {
+      "expectCount": 12,
+      "actualCount": 3,
+      "undocumentLines": [
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14,
+        18
       ]
     },
     "saur/routes.js": {
-      "expectCount": 9,
-      "actualCount": 4,
+      "expectCount": 10,
+      "actualCount": 3,
       "undocumentLines": [
         11,
         12,
         13,
         14,
-        15
+        15,
+        22,
+        66
       ]
     },
     "saur/task.js": {
@@ -316,30 +413,41 @@
         36
       ]
     },
+    "saur/testing.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
     "saur/view/template.js": {
-      "expectCount": 11,
+      "expectCount": 12,
       "actualCount": 5,
       "undocumentLines": [
-        1,
-        6,
-        7,
-        8,
-        9,
-        10
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
       ]
     },
     "saur/view.js": {
-      "expectCount": 9,
-      "actualCount": 1,
+      "expectCount": 17,
+      "actualCount": 4,
       "undocumentLines": [
-        3,
         4,
-        6,
+        5,
         7,
         8,
-        12,
+        9,
+        10,
+        11,
         15,
-        19
+        21,
+        23,
+        80,
+        98,
+        104
       ]
     }
   }
