@@ -6,33 +6,33 @@
  */
 export class Task {
   static get all() {
-    const paths = []
+    const paths = [];
 
     // TODO bug in walkSync?
     // for (const fi of walkSync("./tasks")) {
     //   paths.push(fi.filename)
     // }
 
-    return paths.map(async path => await import(path))
+    return paths.map(async (path) => await import(path));
   }
 
   static find(command) {
-    const task = this.all.find(task => task.name === command)
+    const task = this.all.find((task) => task.name === command);
 
     if (!task) {
-      throw new Error(`Invalid command "${command}"`)
+      throw new Error(`Invalid command "${command}"`);
     }
 
-    return task
+    return task;
   }
 
   constructor({ name, description, perform }) {
-    this.name = name
-    this.description = description
-    this.perform = perform
+    this.name = name;
+    this.description = description;
+    this.perform = perform;
   }
 }
 
 export default function task(name, description, perform) {
-  return new Task({ name, description, perform })
+  return new Task({ name, description, perform });
 }

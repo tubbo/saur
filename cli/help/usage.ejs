@@ -1,10 +1,4 @@
-import { Task } from "../task.js";
-
-const tasks = Task.all.map((task) => `${task.name} - ${task.description}`).join(
-  "\n",
-);
-
-export default `Usage:
+Usage:
   saur COMMAND [ARGUMENTS] [options]
 
 Description:
@@ -20,5 +14,5 @@ Tasks:
   generate - Generate code for your application
   server - Run the application server
   help - Show this help
-  ${tasks}
-`;
+  <%= tasks %>
+

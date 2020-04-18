@@ -1,0 +1,11 @@
+Usage:
+  saur generate NAME ARGUMENTS [OPTIONS]
+
+Description:
+  Generate code in the current application.
+
+Generators:
+  - model NAME [FIELDS]: Generate a new model class and database schema
+  - view NAME: Generate a new view class and corresponding EJS template
+  - controller NAME: Generate a new controller class
+  - test NAME: Generate a new test case

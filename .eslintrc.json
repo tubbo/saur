@@ -11,6 +11,9 @@
     "Deno": true,
     "window": true,
     "globalThis": true,
-    "App": true
+    "App": true,
+    "console": true,
+    "TextEncoder": true,
+    "TextDecoder": true
   }
 }

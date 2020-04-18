@@ -1,47 +1,43 @@
-const { args } = Deno
-import { parse } from "https://deno.land/std/flags/mod.ts"
-import { titleCase, pascalCase } from "https://deno.land/x/case/mod.ts"
+const { args } = Deno;
+import { parse } from "https://deno.land/std/flags/mod.ts";
+import { exists } from "https://deno.land/std/fs/exists.ts";
 
-import New from "./cli/new.js"
-import Generate from "./cli/generate.js"
-import USAGE from "./cli/usage.js"
-import { Task } from "./task.js"
+import New from "./cli/new.js";
+import Generate from "./cli/generate.js";
+import Help from "./cli/help.js";
+import Run from "./cli/run.js";
 
-const encoder = new TextEncoder()
-const { _: [command, ...argv], help } = parse(args)
-let name
+const {
+  _: [command, ...argv],
+  help,
+} = parse(args);
 
 if (help) {
-  console.log(USAGE)
-  Deno.exit(0)
+  Help(command);
+  Deno.exit(0);
 }
 
 switch (command) {
   case "new":
-    New(...argv)
-    break
+    New(...argv);
+    break;
   case "server":
-    Deno.run({ cmd: ['bin/server'] })
-    break
-  case "generate":
-    Generate(...argv)
-    break
-  case "help":
-    console.log(USAGE)
-    break
-  default:
-    if (command) {
-      try {
-        const task = Task.find(command)
-        task.perform(...argv)
-      } catch(e) {
-        console.error(e.message)
-        Deno.exit(1)
-        break
-      }
+    if (!exists("bin/server")) {
+      throw new Error("Server script not found. Are you in a Saur app?");
     }
 
-    console.log(USAGE)
-    Deno.exit(1)
-    break
+    Deno.run({ cmd: ["bin/server"] });
+    break;
+  case "generate":
+    Generate(...argv);
+    break;
+  case "run":
+    Run(...argv);
+    break;
+  case "help":
+    Help(...argv);
+    break;
+  default:
+    Help();
+    break;
 }

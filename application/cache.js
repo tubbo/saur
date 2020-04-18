@@ -1,8 +1,9 @@
 import Adapter from "./adapter.js";
 import { connect } from "https://denopkg.com/keroxp/deno-redis/mod.ts";
 
-export default class Cache extends Adapter {
+class Cache extends Adapter {
   constructor(config = {}) {
+    super(config);
     this.config = config;
     this.keys = [];
     this.initialize();
@@ -18,7 +19,7 @@ export default class Cache extends Adapter {
    */
   fetch(key, options = {}, fresh) {
     if (this.contains(key)) {
-      return this.readFromCache(key, options = {});
+      return this.readFromCache(key, (options = {}));
     } else {
       return this.writeToCache(key, options, fresh());
     }
@@ -28,7 +29,9 @@ export default class Cache extends Adapter {
    * HTTP caching
    */
   http(url, freshen, context, send) {
-    const { http: { expires } } = this.config;
+    const {
+      http: { expires },
+    } = this.config;
     const etag = context.response.headers.get("ETag");
     const json = this.fetch(`${url}|${etag}`, { expires }, () => {
       freshen();
@@ -37,7 +40,7 @@ export default class Cache extends Adapter {
       const body = context.response.body;
       let headers = {};
 
-      context.response.headers.forEach((v, h) => headers[h] = v);
+      context.response.headers.forEach((v, h) => (headers[h] = v));
 
       return JSON.stringify({ status, headers, body });
     });
@@ -46,21 +49,21 @@ export default class Cache extends Adapter {
   }
 
   readFromCache(key, options = {}) {
-    return this.read(key, value, options = {});
+    return this.read(key, options);
   }
 
   // Define this in the adapter
-  read(...args) {}
+  read() {}
 
   writeToCache(key, value, options = {}) {
     if (!this.contains(key)) {
       this.keys.push(key);
     }
-    return this.write(key, value, options = {});
+    return this.write(key, value, options);
   }
 
   // Define this in the adapter
-  write(...args) {}
+  write() {}
 }
 
 export class RedisCache extends Cache {
@@ -70,7 +73,9 @@ export class RedisCache extends Cache {
   }
 
   async read(key) {
-    return await this.client.get(key);
+    const value = await this.client.get(key);
+
+    return value;
   }
 
   async write(key, value, { expire = null }) {
@@ -99,3 +104,10 @@ export class MemoryCache extends Cache {
     return value;
   }
 }
+
+Cache.adapters = {
+  redis: RedisCache,
+  memory: MemoryCache,
+};
+
+export default Cache;

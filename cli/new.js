@@ -36,17 +36,15 @@ export default async function New(name) {
   Deno.writeFileSync(`${name}/index.js`, encoder.encode(app));
   Deno.writeFileSync(`${name}/templates/layout.ejs`, encoder.encode(layout));
   console.log("Creating bin/server");
-  Deno.run(
-    {
-      cmd: [
-        "deno",
-        "install",
-        "--allow-read",
-        "--allow-write",
-        "--allow-net",
-        `${name}/bin/server`,
-        `${name}/index.js`,
-      ],
-    },
-  );
+  Deno.run({
+    cmd: [
+      "deno",
+      "install",
+      "--allow-read",
+      "--allow-write",
+      "--allow-net",
+      `${name}/bin/server`,
+      `${name}/index.js`,
+    ],
+  });
 }

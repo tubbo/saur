@@ -1,0 +1,6 @@
+Usage:
+  saur server
+
+Description:
+  Start a new server in the current directory. A `bin/server` script
+  must be present in order for this command to succeed.

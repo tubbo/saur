@@ -2,13 +2,16 @@
  * Base class for database and caching adapters.
  */
 export default class Adapter {
-  static adapters = {
-    postgres: PostgresAdapter,
-    mysql: MysqlAdapter,
+  static adapters = {};
+  static adapt(adapter) {
+    if (!this.adapters[adapter]) {
+      throw new Error(`Database adapter "${adapter}" not found`);
+    }
+
+    return this.adapters[adapter];
   }
 
-  static adapt(adapter) {
-    return this.adapters[adapter] ||
-           throw new Error(`Database adapter "${adapter}" not found`)
+  constructor(config = {}) {
+    this.config = config;
   }
 }

@@ -1,0 +1,16 @@
+Usage:
+  saur new NAME [OPTIONS]
+
+Description:
+  Create a new Deno Saur application with a minimal set of pre-defined
+  files. This generates a new folder for your application and copies in
+  some boilerplate code to get you started.
+
+  Your application will start out with the following files:
+
+  - bin/server
+  - config/environments/development.js
+  - config/environments/test.js
+  - config/environments/production.js
+  - index.js
+  - README.md

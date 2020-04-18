@@ -3,6 +3,7 @@ import UsersController from "./controllers/users.js";
 import HomeController from "./controllers/home.js";
 
 window.App = new Application({
+  root: window.APP_ROOT,
   layout: "layout.ejs",
   db: {
     name: "example",
