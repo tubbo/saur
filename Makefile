@@ -17,6 +17,7 @@ tags:
 
 docs:
 	@esdoc
+.PHONY: docs
 
 node_modules:
 	@yarn install --check-files

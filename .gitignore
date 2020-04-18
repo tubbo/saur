@@ -3,3 +3,4 @@ bin
 node_modules
 example/node_modules
 .vimrc
+docs/api
