@@ -1,5 +1,10 @@
-import GenerateTemplate from "./template.js";
+import GenerateView from "./view.js";
 import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+import { __ } from "https://deno.land/x/dirname/mod.ts";
+import pascalCase from "https://deno.land/x/case/pascalCase.ts";
+
+const { __dirname } = __(import.meta);
+const { cwd } = Deno;
 
 /**
  * `saur generate controller NAME`
@@ -11,17 +16,24 @@ export default async function (name, klass, encoder, ...actions) {
   const methods = actions.map((action) => `  ${action}() {}`).join("\n");
   const context = { name, className, methods };
   const controller = await renderFile(
-    "./cli/generate/templates/controller.ejs",
+    `${__dirname}/templates/controller.ejs`,
     context,
   );
-  const test = await renderFile("./cli/generate/templates/test.ejs", context);
+  const test = await renderFile(`${__dirname}/templates/test.ejs`, context);
 
-  await Deno.writeFile(`controllers/${name}.js`, encoder.encode(controller));
   await Deno.writeFile(
-    `tests/controllers/${name}_test.js`,
-    encoder.encode(test),
+    `${cwd()}/controllers/${name}.js`,
+    encoder.encode(controller.toString()),
+  );
+  await Deno.writeFile(
+    `${cwd()}/tests/controllers/${name}_test.js`,
+    encoder.encode(test.toString()),
   );
   console.log(`Created ${className} in controllers/${name}.js`);
 
-  actions.forEach((action) => GenerateTemplate(`${name}/${action}`));
+  actions.forEach((action) => {
+    const path = `${name}/${action}`;
+
+    GenerateView(path, pascalCase(path), encoder);
+  });
 }
