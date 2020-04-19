@@ -11,13 +11,14 @@ export default function AuthenticityToken(context, next, app) {
 
   const hash = new Hash("sha1");
   const timestamp = new Date().getTime();
-  const source = `${encode(timestamp)}|${App.secret}`;
+  const source = `${encode(timestamp)}|${app.secret}`;
   const digest = hash.digest(source);
   app.authenticityToken = digest.hex();
 
   next();
 
-  const token = context.params.authenticity_token ||
+  const token =
+    context.params.authenticity_token ||
     context.request.headers.get("X-Authenticity-Token");
 
   if (token !== app.authenticityToken) {

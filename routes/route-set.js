@@ -98,7 +98,7 @@ export default class RouteSet {
     path = this.base ? `${this.base}/${path}` : path;
 
     this.add({ as, path, controller, action });
-    this.router.post(path, controller.perform(action));
+    this.router.post(path, controller.perform(action, this.app));
   }
 
   /**
@@ -114,7 +114,7 @@ export default class RouteSet {
     path = this.base ? `${this.base}/${path}` : path;
 
     this.add({ as, path, controller, action });
-    this.router.put(path, controller.perform(action));
+    this.router.put(path, controller.perform(action, this.app));
   }
 
   /**
@@ -130,7 +130,7 @@ export default class RouteSet {
     path = this.base ? `${this.base}/${path}` : path;
 
     this.add({ as, path, controller, action });
-    this.router.patch(path, controller.perform(action));
+    this.router.patch(path, controller.perform(action, this.app));
   }
 
   /**
@@ -146,7 +146,7 @@ export default class RouteSet {
     path = this.base ? `${this.base}/${path}` : path;
 
     this.add({ as, path, controller, action });
-    this.router.delete(path, controller.perform(action));
+    this.router.delete(path, controller.perform(action, this.app));
   }
 
   /**
@@ -188,16 +188,14 @@ export default class RouteSet {
     this.delete(`${path}/:id`, { controller, action: "destroy" });
 
     if (nested) {
-      const cs = new RouteSet(
-        this.router,
-        this.app,
-        { controller, base: path },
-      );
-      const ms = new RouteSet(
-        this.router,
-        this.app,
-        { controller, base: `${path}/:id` },
-      );
+      const cs = new RouteSet(this.router, this.app, {
+        controller,
+        base: path,
+      });
+      const ms = new RouteSet(this.router, this.app, {
+        controller,
+        base: `${path}/:id`,
+      });
       const collection = cs.draw.bind(cs);
       const member = ms.draw.bind(ms);
 

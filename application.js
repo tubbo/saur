@@ -5,12 +5,9 @@ import Routes from "./routes.js";
 import Database from "./application/database.js";
 import Cache from "./application/cache.js";
 import DEFAULTS from "./application/defaults.js";
-import Template from "./view/template.js";
 
 import ServeStaticFiles from "./application/initializers/serve-static-files.js";
-import ForceSSL from "./application/initializers/force-ssl.js";
 import EnvironmentConfig from "./application/initializers/environment-config.js";
-import Assets from "./application/initializers/assets.js";
 import DefaultMiddleware from "./application/initializers/default-middleware.js";
 
 import MissingRoute from "./application/middleware/missing-route.js";
@@ -19,8 +16,8 @@ export default class {
   constructor(config = {}) {
     this.config = { ...DEFAULTS, ...config };
     this.oak = new Application();
-    this.routes = new Routes();
-    this.use = this.oak.use.bind(this.oak);
+    this.routes = new Routes(this);
+    // this.use = this.oak.use.bind(this.oak);
     this.root = path.resolve(this.config.root || Deno.cwd());
     this.initializers = [];
     this.plugins = [];
@@ -41,6 +38,12 @@ export default class {
     this.plugins.push(plugin);
   }
 
+  use(middleware) {
+    const appified = (context, next) => middleware(context, next, this);
+
+    this.oak.use(appified);
+  }
+
   /**
    * Run immediately after instantiation, this is responsible for
    * setting up the list of default initializers prior to any other
@@ -48,9 +51,7 @@ export default class {
    */
   setup() {
     this.initializer(EnvironmentConfig);
-    this.initializer(ServeStaticFiles);
-    this.initializer(Assets);
-    this.initializer(ForceSSL);
+    // this.initializer(ServeStaticFiles);
     this.initializer(DefaultMiddleware);
   }
 
@@ -78,11 +79,9 @@ export default class {
 
     this.log.info("Initializing Saur application");
     this.plugins.forEach((plugin) => plugin.initialize(this));
-    this.initializers.forEach((init) => init(this));
-  }
-
-  template(file) {
-    return new Template(file, this.root, this.config.template);
+    this.initializers.forEach(async (init) => {
+      await init(this);
+    });
   }
 
   deliver(Mailer, action, ...options) {
@@ -93,14 +92,13 @@ export default class {
    * Apply routing and start the application server.
    */
   async start() {
+    this.oak.use(this.routes.all);
+    this.oak.use(this.routes.methods);
+    this.use(MissingRoute);
+
     this.log.info(
       `Starting application server on port ${this.config.server.port}`,
     );
-
-    this.use(this.routes.all);
-    this.use(this.routes.methods);
-    this.use(MissingRoute);
-
     await this.oak.listen(this.config.server);
   }
 

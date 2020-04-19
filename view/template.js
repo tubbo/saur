@@ -7,21 +7,38 @@
  * `users/show.xml.ejs` template.
  */
 export default class Template {
-  constructor(path, root, { layout, handlers }) {
-    const [name, format, language] = path.split(".");
-    this.name = name;
+  constructor(path, format, view) {
+    this.view = view;
+    this.app = view.app;
+    this.name = path;
     this.format = format;
-    this.language = language;
-    this.path = `${root}/templates/${name}.${format}.${language}`;
-    this.layout = `${root}/templates/layouts/${layout}.${format}.${language}`;
-    this.handler = handlers[this.language] || handlers.txt;
+    this.language = "ejs";
+    this.ext = `${this.format}.${this.language}`;
+    this.path = `${view.app.root}/templates/${this.name}.${this.ext}`;
+    this.handler =
+      view.app.config.template.handlers[this.language] ||
+      view.app.config.template.handlers.txt;
+  }
+
+  get layout() {
+    const layout = this.view.layout
+      ? this.view.layout
+      : this.app.config.template.layout;
+
+    return `${this.app.root}/templates/layouts/${layout}.${this.ext}`;
   }
 
   /**
    * Compile this template using the template handler.
    */
-  compile(path, context) {
-    return this.handler(path, context);
+  async compile(path, context) {
+    try {
+      const source = await this.handler(path, context);
+
+      return source;
+    } catch (e) {
+      throw new Error(`Template "${path}" not compiled: ${e.message}`);
+    }
   }
 
   /**
@@ -35,11 +52,22 @@ export default class Template {
    * Render this template and wrap it in a layout.
    */
   async render(view) {
-    const layout = view.layout || this.layout;
-    const innerHTML = await this.partial(view);
-    const context = { innerHTML, ...view };
-    const outerHTML = await this.compile(layout, context);
+    try {
+      const relpath = this.path.replace(this.app.root + "/", "");
+      const relayout = this.layout.replace(this.app.root + "/", "");
+      const innerHTML = await this.partial(view);
+      const context = { innerHTML, ...view };
+      const outerHTML = await this.compile(this.layout, context);
 
-    return outerHTML;
+      this.app.log.info(
+        `Rendering template "${relpath}" with layout "${relayout}".`,
+      );
+
+      return outerHTML;
+    } catch (e) {
+      this.app.log.error(e.message);
+
+      return e.message;
+    }
   }
 }

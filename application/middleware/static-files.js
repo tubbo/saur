@@ -3,8 +3,8 @@
 /**
  * Serve static files from the ./public directory.
  */
-export default async function StaticFiles(context) {
-  const root = `${Deno.cwd()}/public`;
+export default async function StaticFiles(context, next) {
+  // const root = `${Deno.cwd()}/public`;
 
-  //await send(context, context.request.path, { root, index: "index.html" });
+  next();
 }

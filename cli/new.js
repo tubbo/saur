@@ -27,6 +27,7 @@ export default async function New(name) {
     await Deno.mkdir(`${name}/models`);
     await Deno.mkdir(`${name}/mailers`);
     await Deno.mkdir(`${name}/templates`);
+    await Deno.mkdir(`${name}/templates/layouts`);
     await Deno.mkdir(`${name}/tests`);
     await Deno.mkdir(`${name}/tests/controllers`);
     await Deno.mkdir(`${name}/tests/models`);
@@ -43,8 +44,8 @@ export default async function New(name) {
       encoder.encode(decoder.decode(server)),
     );
     await Deno.writeFile(
-      `${name}/templates/layout.ejs`,
-      encoder.encode(decoder.decode(layout)),
+      `${name}/templates/layouts/default.html.ejs`,
+      encoder.encode(layout.toString()),
     );
     await Deno.writeFile(
       `${name}/config/environments/development.js`,

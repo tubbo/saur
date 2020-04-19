@@ -1,4 +1,5 @@
 import reduce from "https://deno.land/x/lodash/reduce.js";
+import Template from "./view/template.js";
 
 /**
  * View encapsulates the presentation code and template rendering for a
@@ -12,7 +13,11 @@ export default class View {
     this.controller = controller;
     this.app = controller.app;
     this.request = controller.request;
-    this.template = this.constructor.template;
+    this.template = new Template(
+      this.constructor.template,
+      controller.format,
+      this,
+    );
     this.urlFor = this.app.routes.resolve.bind(this.app.routes);
 
     this.app.routes.forEach((route) => route.hydrate(this));

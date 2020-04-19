@@ -14,6 +14,7 @@ export default class Controller {
         const name = `${this}`.split(" ")[1];
         app.log.info(`Performing ${name}#${action}`);
         await handler(params);
+        app.log.info("not waiting?");
       } catch (e) {
         app.log.error(e);
         context.response.body = e.message;
@@ -52,6 +53,10 @@ export default class Controller {
     );
   }
 
+  get format() {
+    return this.request.accepts()[0].replace("text/", "");
+  }
+
   /**
    * Prepare the response for rendering by setting its status and
    * headers based on the information in the controller.
@@ -72,14 +77,12 @@ export default class Controller {
    */
   async render(View, context = {}) {
     const view = new View(this, context);
-    const { path, layout, format } = view.template;
     const result = await view.template.render(view);
     const html = result.toString();
 
     this.response.body = html;
-    this.headers["Content-Type"] = `text/${format}`;
+    this.headers["Content-Type"] = this.request.accepts()[0];
 
-    this.app.log.info(`Rendering template ${path} with layout ${layout}`);
     this.prepare();
   }
 
