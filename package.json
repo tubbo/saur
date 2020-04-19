@@ -23,7 +23,9 @@
       "Deno": true,
       "window": true,
       "globalThis": true,
-      "console": true
+      "console": true,
+      "TextEncoder": true,
+      "TextDecoder": true
     }
   },
   "prettier": {

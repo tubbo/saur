@@ -1,13 +1,15 @@
 Usage:
-  saur generate NAME ARGUMENTS [OPTIONS]
+  saur generate GENERATOR NAME [OPTIONS]
 
 Description:
   Generate code in the current application.
 
+  Run `saur help generate GENERATOR` for more info on each generator.
+
 Generators:
-  - model NAME [FIELDS]: Generate a new model class and database schema
-  - view NAME: Generate a new view class and corresponding EJS template
-  - controller NAME: Generate a new controller class
-  - test NAME: Generate a new test case
-  - template NAME: Generate a new EJS template
-  - mailer NAME: Generate a new mailer class
+  - model
+  - view
+  - controller
+  - test
+  - template
+  - mailer

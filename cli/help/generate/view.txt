@@ -1,0 +1,5 @@
+Usage:
+  saur generate view NAME
+
+Description:
+  Generate a view class and corresponding template.

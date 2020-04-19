@@ -1,6 +1,7 @@
 {
   "source": ".",
   "destination": "./docs/api",
+  "excludes": ["node_modules"],
   "plugins": [
     {
       "name": "esdoc-standard-plugin"

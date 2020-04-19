@@ -1,0 +1,7 @@
+Usage:
+  saur generate model NAME [FIELD:TYPE FIELD:TYPE...]
+
+Description:
+  Generate a new model class in ./models as well as a migration for
+  creating the table schema in ./migrations. Types are limited to those
+  supported by your database.

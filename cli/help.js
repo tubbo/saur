@@ -8,14 +8,17 @@ const decoder = new TextDecoder("utf-8");
 
 export default async function Help(cmd, ...argv) {
   const command = !cmd || cmd === "help" ? "usage" : [cmd, ...argv].join("/");
-  const path = `${__dirname}/help/${command}.txt`;
-  const usage = `${__dirname}/help/usage.ejs`;
+  const path =
+    command === "usage"
+      ? `${__dirname}/help/usage.ejs`
+      : `${__dirname}/help/${command}.txt`;
   let txt;
 
   try {
     if (command === "usage") {
-      const tasks = Task.all;
-      const src = await renderFile(usage, { tasks });
+      const Tasks = await Task.all();
+      const tasks = Tasks.map((t) => `${t.name} - ${t.description}`);
+      const src = await renderFile(path, { tasks });
       txt = src.toString();
     } else {
       const src = await readFile(path);

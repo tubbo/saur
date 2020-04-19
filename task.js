@@ -1,19 +1,23 @@
-// import { walkSync } from "https://deno.land/std/fs/mod.ts"
+import { walkSync } from "https://deno.land/std/fs/mod.ts";
 
 /**
  * Tasks are user-defined subcommands of the `saur` CLI that are active
  * when the user is at the top level of an application directory.
  */
 export class Task {
-  static get all() {
-    const paths = [];
-
-    // TODO bug in walkSync?
-    // for (const fi of walkSync("./tasks")) {
-    //   paths.push(fi.filename)
-    // }
-
-    return paths.map(async (path) => await import(path));
+  static async all() {
+    const tasks = [];
+    try {
+      for (const { filename } of walkSync(`${Deno.cwd()}/tasks`)) {
+        if (filename.match(/\.js$/)) {
+          const exports = await import(filename);
+          tasks.push(exports.default);
+        }
+      }
+      return tasks;
+    } catch (e) {
+      return tasks;
+    }
   }
 
   static find(command) {
