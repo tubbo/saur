@@ -8,10 +8,9 @@ const decoder = new TextDecoder("utf-8");
 
 export default async function Help(options, cmd, ...argv) {
   const command = !cmd || cmd === "help" ? "usage" : [cmd, ...argv].join("/");
-  const path =
-    command === "usage"
-      ? `${__dirname}/help/usage.ejs`
-      : `${__dirname}/help/${command}.txt`;
+  const path = command === "usage"
+    ? `${__dirname}/help/usage.ejs`
+    : `${__dirname}/help/${command}.txt`;
   let txt;
 
   try {

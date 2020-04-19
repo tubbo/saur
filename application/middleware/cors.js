@@ -10,7 +10,7 @@ export default async function CORS(context, next, app) {
     (resource) => resource.path === "*",
   );
   const matchingResource = cors.resources.find((resource) =>
-    context.request.url.match(resource.path),
+    context.request.url.match(resource.path)
   );
   const resource = matchingResource || defaultResource;
 

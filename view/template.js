@@ -15,8 +15,7 @@ export default class Template {
     this.language = "ejs";
     this.ext = `${this.format}.${this.language}`;
     this.path = `${view.app.root}/templates/${this.name}.${this.ext}`;
-    this.handler =
-      view.app.config.template.handlers[this.language] ||
+    this.handler = view.app.config.template.handlers[this.language] ||
       view.app.config.template.handlers.txt;
   }
 

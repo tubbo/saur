@@ -1,7 +1,9 @@
 {
   "name": "saur",
   "version": "0.0.1",
+  "license": "MIT",
   "devDependencies": {
+    "@babel/plugin-syntax-top-level-await": "^7.8.3",
     "babel-eslint": "^10.1.0",
     "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
@@ -11,9 +13,18 @@
     "prettier": "^2.0.4",
     "webpack": "^4.42.1"
   },
+  "babel": {
+    "plugins": ["@babel/plugin-syntax-top-level-await"]
+  },
   "eslintConfig": {
     "extends": "eslint:recommended",
     "parser": "babel-eslint",
+    "parserOptions": {
+      "babelOptions": {
+        "plugins": ["@babel/plugin-syntax-top-level-await"],
+        "allowAwaitOutsideFunction": true
+      }
+    },
     "plugins": [
       "prettier"
     ],

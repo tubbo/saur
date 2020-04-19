@@ -2,6 +2,8 @@
 # Makefile for the `saur` command
 #
 
+SHELL=/usr/local/bin/zsh
+
 all: bin/saur tags docs/api
 
 bin/saur:
@@ -42,7 +44,7 @@ check:
 .PHONY: check
 
 fmt:
-	@deno fmt **/*.js
+	@setopt extendedglob; deno fmt ^(node_modules)/**/*.js
 .PHONY: fmt
 
 distclean:

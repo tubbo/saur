@@ -17,7 +17,7 @@ export default class {
     this.config = { ...DEFAULTS, ...config };
     this.oak = new Application();
     this.routes = new Routes(this);
-    this.root = path.resolve(this.config.root || Deno.cwd());
+    this.root = path.dirname(this.config.root || Deno.cwd());
     this.initializers = [];
     this.plugins = [];
     this.setup();
