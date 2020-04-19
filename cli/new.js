@@ -4,7 +4,7 @@
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
-export default async function New(name) {
+export default async function New(options, name) {
   let errors;
   let command;
 

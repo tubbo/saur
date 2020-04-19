@@ -10,6 +10,7 @@ import Server from "./cli/server.js";
 const {
   _: [command, ...argv],
   help,
+  ...options
 } = parse(args);
 
 if (help) {
@@ -19,21 +20,21 @@ if (help) {
 
 switch (command) {
   case "new":
-    New(...argv);
+    New(options, ...argv);
     break;
   case "server":
-    Server();
+    Server(options);
     break;
   case "generate":
-    Generate(...argv);
+    Generate(options, ...argv);
     break;
   case "run":
-    Run(...argv);
+    Run(options, ...argv);
     break;
   case "help":
-    Help(...argv);
+    Help(options, ...argv);
     break;
   default:
-    Help();
+    Help(options);
     break;
 }

@@ -1,6 +1,6 @@
 import { walkSync } from "https://deno.land/std/path/fs.ts";
 
-export default async function Migrate(direction = "up") {
+export default async function Migrate(options, direction = "up") {
   const { default: App } = await import("./index.js");
 
   for (const { filename } of walkSync(`${Deno.cwd()}/migrations`)) {

@@ -11,7 +11,7 @@ const { cwd } = Deno;
  *
  * This generates a controller class and its test.
  */
-export default async function (name, klass, encoder, ...actions) {
+export default async function (name, klass, encoder, options, ...actions) {
   const className = `${klass}Controller`;
   const methods = actions.map((action) => `  ${action}() {}`).join("\n");
   const context = { name, className, methods };

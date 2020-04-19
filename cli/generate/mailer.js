@@ -5,7 +5,7 @@ import { renderFile } from "https://deno.land/x/dejs/mod.ts";
  *
  * This generates a controller class and its test.
  */
-export default async function (name, className, encoder, ...actions) {
+export default async function (name, className, encoder, options, ...actions) {
   const methods = actions.map((action) => `  ${action}() {}`).join("\n");
   const context = { name, className, methods };
   const controller = await renderFile(

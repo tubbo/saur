@@ -2,7 +2,7 @@ import GenerateMigration from "./migration.js";
 import GenerateTest from "./test.js";
 import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 
-export default async function (name, className, encoder, ...fields) {
+export default async function (name, className, encoder, options, ...fields) {
   const context = { name, className };
   const model = await renderFile("./cli/generate/templates/model.ejs", context);
 

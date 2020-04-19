@@ -8,7 +8,7 @@ import pascalCase from "https://deno.land/x/case/pascalCase.ts";
  * The `saur generate` command is used to generate boilerplate code for
  * you to edit later.
  */
-export default function Generate(type, name, ...args) {
+export default function Generate(options, type, name, ...args) {
   const className = pascalCase(name);
   const USAGE =
     "Usage: saur generate [model|view|controller|template|help] NAME [OPTIONS]";
@@ -16,21 +16,21 @@ export default function Generate(type, name, ...args) {
 
   switch (type) {
     case "model":
-      GenerateModel(name, className, encoder, ...args);
+      GenerateModel(name, className, encoder, options, ...args);
       break;
     case "controller":
-      GenerateController(name, className, encoder, ...args);
+      GenerateController(name, className, encoder, options, ...args);
       break;
     case "view":
-      GenerateView(name, className, encoder, ...args);
-      GenerateTemplate(name, className, encoder, ...args);
+      GenerateView(name, className, encoder, options, ...args);
+      GenerateTemplate(name, className, encoder, options, ...args);
       break;
     case "template":
-      GenerateTemplate(name, className, encoder, ...args);
+      GenerateTemplate(name, className, encoder, options, ...args);
       break;
     case "resource":
-      GenerateModel(name, className, encoder, ...args);
-      GenerateController(name, className, encoder, ...args);
+      GenerateModel(name, className, encoder, options, ...args);
+      GenerateController(name, className, encoder, options, ...args);
       break;
     default:
       console.log("Invalid generator", type);

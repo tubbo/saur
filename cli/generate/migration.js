@@ -15,7 +15,7 @@ function statementize(field) {
 
 const ACTIONS = ["create", "drop"];
 
-export default async function (name, className, encoder, ...fields) {
+export default async function (name, className, encoder, options, ...fields) {
   const version = new Date().getTime();
   const path = `migrations/${version}_${name}.js`;
   const statements = fields.map(statementize);

@@ -1,9 +1,8 @@
 import { dirname, basename } from "https://deno.land/std/path/mod.ts";
 import { existsSync } from "https://deno.land/std/fs/exists.ts";
-import { parse } from "https://deno.land/std/flags/mod.ts";
 
-export default async function GenerateTemplate(name, cn, encoder, ...argv) {
-  const { format = "html" } = parse(argv);
+export default async function GenerateTemplate(name, cn, encoder, options) {
+  const format = options.f || "html";
   const language = "ejs";
   const template = `<h1>hello world</h1>`;
   const root = `${Deno.cwd()}/templates`;
