@@ -20,12 +20,14 @@ export default class Template {
       view.app.config.template.handlers.txt;
   }
 
-  get layout() {
-    const layout = this.view.layout
+  get layoutName() {
+    return this.view.layout
       ? this.view.layout
       : this.app.config.template.layout;
+  }
 
-    return `${this.app.root}/templates/layouts/${layout}.${this.ext}`;
+  get layout() {
+    return `${this.app.root}/templates/layouts/${this.layoutName}.${this.ext}`;
   }
 
   /**
@@ -44,8 +46,10 @@ export default class Template {
   /**
    * Render this template without its outer layout.
    */
-  partial(view) {
-    return this.compile(this.path, view);
+  async partial(view) {
+    const source = await this.compile(this.path, { view });
+
+    return source;
   }
 
   /**
@@ -53,14 +57,11 @@ export default class Template {
    */
   async render(view) {
     try {
-      const relpath = this.path.replace(this.app.root + "/", "");
-      const relayout = this.layout.replace(this.app.root + "/", "");
       const innerHTML = await this.partial(view);
-      const context = { innerHTML, ...view };
-      const outerHTML = await this.compile(this.layout, context);
+      const outerHTML = await this.compile(this.layout, { innerHTML, view });
 
       this.app.log.info(
-        `Rendering template "${relpath}" with layout "${relayout}".`,
+        `Compiled template "${this.name}" with layout "${this.layoutName}".`,
       );
 
       return outerHTML;

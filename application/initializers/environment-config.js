@@ -3,7 +3,7 @@
  */
 export default async function EnvironmentConfig(app) {
   const { environment } = app.config;
-  const envConfigFile = `${app.root}/config/environments/${environment}.js`;
-  const envConfig = await Deno.readFile(envConfigFile);
-  app.config = { ...app.config, ...envConfig };
+  const file = `${app.root}/config/environments/${environment}.js`;
+  const env = await import(file);
+  app.config = { ...app.config, ...env.default };
 }

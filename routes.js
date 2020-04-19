@@ -41,10 +41,7 @@ export default class Routes {
 
     const keys = Object.keys(params);
     const route = this.set.routes.find(
-      (route) =>
-        route.controller === controller &&
-        route.action === action &&
-        keys.filter((key) => path.match(`:${key}`)).length,
+      (route) => route.controller === controller && route.action === action,
     );
 
     if (!route) {

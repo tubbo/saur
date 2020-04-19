@@ -89,4 +89,10 @@ export default {
     enabled: true,
     matcher: /\.(js|css)$/,
   },
+
+  authenticity: {
+    token: "something-secret",
+    ignore: [],
+    hash: "sha1",
+  },
 };

@@ -48,6 +48,13 @@ export function validate(method) {
 
 export default class Model {
   /**
+   * Name of the class, used in logging.
+   */
+  static get name() {
+    return `${this}`.split(" ")[1];
+  }
+
+  /**
    * All validations on this model.
    */
   static validations = [];

@@ -1,7 +1,12 @@
-import { Hash, encode } from "https://deno.land/x/checksum/mod.ts";
+import Token from "../token.js";
 
 /**
- * Generate and verify the authenticity token for each request.
+ * Verify the authenticity token for each request, disallowing requests
+ * that don't include the correct token in either a param or the
+ * header. This prevents cross-site request forgery by ensuring any
+ * request which can potentially change data is coming from the current
+ * host. It can be disabled on a per-request basis by setting the
+ * `app.config.authenticity.ignore` array.
  */
 export default async function AuthenticityToken(context, next, app) {
   if (context.request.method === "GET") {
@@ -9,19 +14,16 @@ export default async function AuthenticityToken(context, next, app) {
     return;
   }
 
-  const hash = new Hash("sha1");
-  const timestamp = new Date().getTime();
-  const source = `${encode(timestamp)}|${app.secret}`;
-  const digest = hash.digest(source);
-  app.authenticityToken = digest.hex();
+  const date = new Date(context.request.headers.get("Date"));
+  const token = new Token(date, app.config.secret);
+  const param = context.request.searchParams.authenticity_token;
+  const header = context.request.headers.get("X-Authenticity-Token");
+  const input = param || header;
+
+  if (token != input) {
+    app.log.error(`Invalid authenticity token: "${token}"`);
+    return;
+  }
 
   await next();
-
-  const token =
-    context.request.searchParams.authenticity_token ||
-    context.request.headers.get("X-Authenticity-Token");
-
-  if (token !== app.authenticityToken) {
-    throw new Error(`Invalid authenticity token: "${token}"`);
-  }
 }

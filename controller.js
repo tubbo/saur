@@ -1,6 +1,10 @@
 import each from "https://deno.land/x/lodash/each.js";
 
 export default class Controller {
+  static get name() {
+    return `${this}`.split(" ")[1];
+  }
+
   /**
    * Perform a request using an action method on this controller.
    */
@@ -11,8 +15,7 @@ export default class Controller {
       const params = context.request.params;
 
       try {
-        const name = `${this}`.split(" ")[1];
-        app.log.info(`Performing ${name}#${action}`);
+        app.log.info(`Performing ${this.name}#${action}`);
         await handler(params);
       } catch (e) {
         app.log.error(e);

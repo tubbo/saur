@@ -14,7 +14,7 @@ export default class Route {
   }
 
   get pathHelperName() {
-    return `${this.name}URL`;
+    return `${this.name}Path`;
   }
 
   /**
@@ -41,8 +41,7 @@ export default class Route {
    * to access from within templates.
    */
   hydrate(instance) {
-    const { protocol, hostname } = instance.request;
-    const host = `${protocol}://${hostname}`;
+    const host = "//" + instance.request.headers.get("Host");
 
     instance[this.pathHelperName] = (params) => this.pathHelper(params);
     instance[this.urlHelperName] = (params) => this.urlHelper(params, host);

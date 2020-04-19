@@ -5,6 +5,7 @@ import Routes from "./routes.js";
 import Database from "./application/database.js";
 import Cache from "./application/cache.js";
 import DEFAULTS from "./application/defaults.js";
+import Token from "./application/token.js";
 
 import EnvironmentConfig from "./application/initializers/environment-config.js";
 import DefaultMiddleware from "./application/initializers/default-middleware.js";
@@ -86,6 +87,13 @@ export default class {
       `Starting application server on port ${this.config.server.port}`,
     );
     await this.oak.listen(this.config.server);
+  }
+
+  /**
+   * Authenticity token for the current time and secret key base.
+   */
+  get authenticityToken() {
+    return new Token(new Date(), this.config.authenticity);
   }
 
   /**

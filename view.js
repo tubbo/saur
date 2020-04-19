@@ -8,6 +8,10 @@ import Template from "./view/template.js";
 export default class View {
   static template = null;
 
+  static get name() {
+    return `${this}`.split(" ")[1];
+  }
+
   constructor(controller, context = {}) {
     this.context = context;
     this.controller = controller;
@@ -22,8 +26,14 @@ export default class View {
 
     this.app.routes.forEach((route) => route.hydrate(this));
     this.initialize();
+    this.app.log.info(`Rendering ${this.constructor.name}`);
   }
 
+  /**
+   * Called when the `View` is instantiated, this method can be
+   * overridden in your class to provide additional setup functionality
+   * for the view. Views are instantiated when they are rendered.
+   */
   initialize() {}
 
   cache(key, options = {}, fresh) {
