@@ -14,7 +14,6 @@ export default class Controller {
         const name = `${this}`.split(" ")[1];
         app.log.info(`Performing ${name}#${action}`);
         await handler(params);
-        app.log.info("not waiting?");
       } catch (e) {
         app.log.error(e);
         context.response.body = e.message;

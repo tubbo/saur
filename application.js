@@ -6,7 +6,6 @@ import Database from "./application/database.js";
 import Cache from "./application/cache.js";
 import DEFAULTS from "./application/defaults.js";
 
-import ServeStaticFiles from "./application/initializers/serve-static-files.js";
 import EnvironmentConfig from "./application/initializers/environment-config.js";
 import DefaultMiddleware from "./application/initializers/default-middleware.js";
 

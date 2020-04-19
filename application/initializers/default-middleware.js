@@ -2,6 +2,7 @@ import RequestLogger from "../middleware/logger.js";
 import RequestTimer from "../middleware/timing.js";
 import SSLRedirect from "../middleware/ssl-redirect.js";
 import CompileAssets from "../middleware/compile-assets.js";
+import StaticFiles from "../middleware/static-files.js";
 
 // import MethodOverride from "../middleware/method-override.js";
 // import CSP from "../middleware/content-security-policy.js";
@@ -18,6 +19,10 @@ export default function DefaultMiddleware(app) {
 
   if (app.config.assets.enabled) {
     app.use(CompileAssets);
+  }
+
+  if (app.config.serveStaticFiles) {
+    app.use(StaticFiles);
   }
 
   // app.use(MethodOverride);
