@@ -61,7 +61,9 @@ export default class RouteSet {
   }
 
   add({ as, path, controller, action }) {
-    this.routes.push(new Route({ as, path, controller, action }));
+    const { app } = this;
+
+    this.routes.push(new Route({ as, path, controller, action, app }));
   }
 
   /**

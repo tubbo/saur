@@ -1,10 +1,8 @@
 import camelCase from "https://deno.land/x/case/camelCase.ts";
-// import { partial } from "https://deno.land/x/lodash/lodash.js";
-
-const partial = () => "wtf lodash";
 
 export default class Route {
-  constructor({ as, path, controller, action }) {
+  constructor({ as, path, controller, action, app }) {
+    this.app = app;
     this.name = camelCase(as);
     this.path = path;
     this.controller = controller;
@@ -25,7 +23,7 @@ export default class Route {
    * resource.
    */
   pathHelper(params = {}) {
-    return App.routes.resolve(this.controller, this.action, params);
+    return this.app.routes.resolve(this.controller, this.action, params);
   }
 
   /**
@@ -35,7 +33,7 @@ export default class Route {
    */
 
   urlHelper(params = {}, host) {
-    return App.routes.resolve(this.controller, this.action, params, host);
+    return this.app.routes.resolve(this.controller, this.action, params, host);
   }
 
   /**
@@ -46,7 +44,7 @@ export default class Route {
     const { protocol, hostname } = instance.request;
     const host = `${protocol}://${hostname}`;
 
-    instance[this.pathHelperName] = this.pathHelper.bind(this);
-    instance[this.urlHelperName] = partial(this.urlHelper.bind(this), host);
+    instance[this.pathHelperName] = (params) => this.pathHelper(params);
+    instance[this.urlHelperName] = (params) => this.urlHelper(params, host);
   }
 }
