@@ -1,4 +1,3 @@
-import Template from "./view/template.js";
 import reduce from "https://deno.land/x/lodash/reduce.js";
 
 /**

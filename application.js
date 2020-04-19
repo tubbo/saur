@@ -4,6 +4,7 @@ import Routes from "./routes.js";
 import Database from "./application/database.js";
 import Cache from "./application/cache.js";
 import DEFAULTS from "./application/defaults.js";
+import Template from "./template.js";
 
 import ServeStaticFiles from "./application/initializers/serve-static-files.js";
 import ForceSSL from "./application/initializers/force-ssl.js";
@@ -29,7 +30,7 @@ export default class Application {
   /**
    * Run the code given in the callback when the app initializes.
    */
-  initializer(Init) {
+  initializer(Initializer) {
     this.initializers.push(Initializer);
   }
 
@@ -63,8 +64,12 @@ export default class Application {
     this.initializers.forEach((init) => init(this));
   }
 
-  template(name) {
-    return new Template(path, this.root, config.template);
+  template(file) {
+    return new Template(file, this.root, this.config.template);
+  }
+
+  deliver(Mailer, action, ...options) {
+    return Mailer.deliver(this, action, ...options);
   }
 
   /**

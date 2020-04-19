@@ -26,12 +26,12 @@ export default class Controller {
   constructor(context, app) {
     this.request = context.request;
     this.response = context.response;
-    this.routes = routes;
     this.status = 200;
     this.headers = {
       "Content-Type": "text/html; charset=utf-8",
     };
     this.app = app;
+    this.routes = app.routes;
     this.initialize();
   }
 
@@ -62,9 +62,8 @@ export default class Controller {
     const length = this.response.body.length + (bytes ? bytes.length : 0);
     this.headers["Content-Length"] = length;
 
-    each(
-      this.headers,
-      (value, header) => this.response.headers.set(header, value),
+    each(this.headers, (value, header) =>
+      this.response.headers.set(header, value),
     );
   }
 

@@ -15,15 +15,16 @@ export default class Mailer {
   /**
    * Deliver a given message using the provided args.
    */
-  static async deliver(message, ...args) {
-    const mailer = new this(App.config.mail);
+  static async deliver(app, message, ...args) {
+    const mailer = new this(app);
     const action = mailer[message].bind(mailer);
 
     await action(...args);
   }
 
-  constructor(config = {}) {
-    this.config = config;
+  constructor(app) {
+    this.app = app;
+    this.config = app.config.mail;
     this.smtp = new SmtpClient();
   }
 
@@ -50,6 +51,6 @@ export default class Mailer {
     await this.smtp.send(message);
     await this.smtp.close();
 
-    App.log.info(`Sent mail to "${to}"`);
+    this.app.log.info(`Sent mail to "${to}"`);
   }
 }

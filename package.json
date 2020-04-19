@@ -18,6 +18,12 @@
     ],
     "rules": {
       "prettier/prettier": "error"
+    },
+    "globals": {
+      "Deno": true,
+      "window": true,
+      "globalThis": true,
+      "console": true
     }
   },
   "prettier": {
