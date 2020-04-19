@@ -3,9 +3,9 @@ import { Hash, encode } from "https://deno.land/x/checksum/mod.ts";
 /**
  * Generate and verify the authenticity token for each request.
  */
-export default function AuthenticityToken(context, next, app) {
+export default async function AuthenticityToken(context, next, app) {
   if (context.request.method === "GET") {
-    next();
+    await next();
     return;
   }
 
@@ -15,10 +15,10 @@ export default function AuthenticityToken(context, next, app) {
   const digest = hash.digest(source);
   app.authenticityToken = digest.hex();
 
-  next();
+  await next();
 
   const token =
-    context.params.authenticity_token ||
+    context.request.searchParams.authenticity_token ||
     context.request.headers.get("X-Authenticity-Token");
 
   if (token !== app.authenticityToken) {

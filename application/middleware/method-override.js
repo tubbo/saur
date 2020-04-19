@@ -1,7 +1,8 @@
-export default function MethodOverride(context, next) {
-  /*if (context.request.params._method) {
-    context.request.method = context.request.params._method;
-  }*/
+export default async function MethodOverride(context, next) {
+  if (context.request.searchParams._method) {
+    context.request._serverRequest.method =
+      context.request.searchParams._method;
+  }
 
-  next();
+  await next();
 }

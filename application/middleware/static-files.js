@@ -11,8 +11,6 @@ export default async function StaticFiles(context, next, app) {
   const dir = path.match(/\/$/);
   const exists = existsSync(`${root}/${context.request.path}`);
 
-  console.log(`${root}/${context.request.path}`);
-
   if (dir || !exists) {
     await next();
     return;

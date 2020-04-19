@@ -1,21 +1,21 @@
-export default function CORS(context, next, app) {
+export default async function CORS(context, next, app) {
   const { cors } = app.config;
 
   if (!cors.length) {
-    next();
+    await next();
     return;
   }
 
-  const defaultResource = cors.resources.find((resource) =>
-    resource.path === "*"
+  const defaultResource = cors.resources.find(
+    (resource) => resource.path === "*",
   );
-  const matchingResource = cors.resources.find((resource) => (
-    context.request.url.match(resource.path)
-  ));
+  const matchingResource = cors.resources.find((resource) =>
+    context.request.url.match(resource.path),
+  );
   const resource = matchingResource || defaultResource;
 
   if (!resource) {
-    next();
+    await next();
     return;
   }
 
@@ -33,5 +33,5 @@ export default function CORS(context, next, app) {
     context.response.headers.set("Access-Control-Allow-Methods", methods);
   }
 
-  next();
+  await next();
 }

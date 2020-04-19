@@ -4,10 +4,10 @@ import SSLRedirect from "../middleware/ssl-redirect.js";
 import CompileAssets from "../middleware/compile-assets.js";
 import StaticFiles from "../middleware/static-files.js";
 
-// import MethodOverride from "../middleware/method-override.js";
-// import CSP from "../middleware/content-security-policy.js";
-// import CORS from "../middleware/cors.js";
-// import AuthenticityToken from "../middleware/authenticity-token.js";
+import MethodOverride from "../middleware/method-override.js";
+import CSP from "../middleware/content-security-policy.js";
+import CORS from "../middleware/cors.js";
+import AuthenticityToken from "../middleware/authenticity-token.js";
 
 export default function DefaultMiddleware(app) {
   app.use(RequestLogger);
@@ -25,8 +25,8 @@ export default function DefaultMiddleware(app) {
     app.use(StaticFiles);
   }
 
-  // app.use(MethodOverride);
-  // app.use(AuthenticityToken);
-  // app.use(CSP);
-  // app.use(CORS);
+  app.use(MethodOverride);
+  app.use(AuthenticityToken);
+  app.use(CSP);
+  app.use(CORS);
 }
