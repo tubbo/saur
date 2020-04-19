@@ -34,6 +34,6 @@ export default async function (name, klass, encoder, options, ...actions) {
   actions.forEach((action) => {
     const path = `${name}/${action}`;
 
-    GenerateView(path, pascalCase(path), encoder);
+    GenerateView(path, pascalCase(path), options, encoder);
   });
 }

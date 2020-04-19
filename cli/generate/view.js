@@ -6,7 +6,7 @@ import { __ } from "https://deno.land/x/dirname/mod.ts";
 
 const { __dirname } = __(import.meta);
 
-export default async function GenerateView(name, klass, encoder) {
+export default async function GenerateView(name, klass, encoder, options) {
   const className = `${klass}View`;
   const view = await renderFile(`${__dirname}/templates/view.ejs`, {
     name,
@@ -22,5 +22,5 @@ export default async function GenerateView(name, klass, encoder) {
   await Deno.writeFile(file, encoder.encode(view.toString()));
   console.log(`Created ${className} in views/${name}.js`);
 
-  GenerateTemplate(name, null, encoder);
+  GenerateTemplate(name, null, encoder, options);
 }

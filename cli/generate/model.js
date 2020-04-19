@@ -11,6 +11,6 @@ export default async function (name, className, encoder, options, ...fields) {
   GenerateTest(`models/${name}`, className, encoder);
 
   if (fields.length) {
-    GenerateMigration(`create_${name}s`, `Create${name}s`, ...fields);
+    GenerateMigration(`create_${name}s`, `Create${name}s`, options, ...fields);
   }
 }
