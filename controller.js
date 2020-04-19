@@ -4,18 +4,18 @@ export default class Controller {
   /**
    * Perform a request using an action method on this controller.
    */
-  static perform(action, logger, routes) {
+  static perform(action, app) {
     return async (context) => {
-      const controller = new this(context, logger, routes);
+      const controller = new this(context, app);
       const handler = controller[action].bind(controller);
       const params = context.request.params;
 
       try {
         const name = `${this}`.split(" ")[1];
-        logger.info(`Performing ${name}#${action}`);
+        app.log.info(`Performing ${name}#${action}`);
         await handler(params);
       } catch (e) {
-        logger.error(e);
+        app.log.error(e);
         context.response.body = e.message;
         context.response.status = 500;
         context.response.headers.set("Content-Type", "text/html");
@@ -23,20 +23,28 @@ export default class Controller {
     };
   }
 
-  constructor(context, logger, routes) {
+  constructor(context, app) {
     this.request = context.request;
     this.response = context.response;
-    this.logger = logger
-    this.routes = routes
+    this.routes = routes;
     this.status = 200;
     this.headers = {
       "Content-Type": "text/html; charset=utf-8",
     };
+    this.app = app;
     this.initialize();
   }
 
+  /**
+   * Executed when the controller is instantiated, prior to the request
+   * being fulfilled.
+   */
   initialize() {}
 
+  /**
+   * All methods on this controller that aren't defined on the
+   * superclass are considered actions.
+   */
   get actions() {
     return Object.keys(this).filter(
       (key) =>
@@ -65,14 +73,14 @@ export default class Controller {
    */
   async render(View, context = {}) {
     const view = new View(this, context);
+    const { path, layout, format } = view.template;
     const result = await view.template.render(view);
     const html = result.toString();
 
     this.response.body = html;
-    this.headers["Content-Type"] = `text/${view.template.format}`;
+    this.headers["Content-Type"] = `text/${format}`;
 
-    logger.info(`Rendering template ${view.template.path}`);
-    logger.info(`Using layout ${view.template.layout}`);
+    this.app.log.info(`Rendering template ${path} with layout ${layout}`);
     this.prepare();
   }
 
@@ -82,12 +90,20 @@ export default class Controller {
   redirect(action, options) {
     const controller = options.controller || this;
     const params = options.params || {};
-    const url = routes.resolve(controller, action, params);
-    this.status = 302;
+    const url = this.app.routes.resolve(controller, action, params);
+    this.status = 301;
     this.headers["Location"] = url;
     this.response.body = `You are being <a href="${url}">redirected</a>`;
+
+    this.app.log.info(`Redirecting to ${url} as ${this.status}`);
+    this.prepare();
   }
 
+  /**
+   * Return an empty response with a status code.
+   *
+   * @param number status - HTTP status code
+   */
   head(status) {
     this.status = status;
     this.prepare();

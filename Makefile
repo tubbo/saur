@@ -42,7 +42,7 @@ check:
 .PHONY: check
 
 fmt:
-	@deno fmt ^(node_modules|docs)/**/*.js
+	@deno fmt **/*.js
 .PHONY: fmt
 
 distclean:

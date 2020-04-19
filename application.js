@@ -58,9 +58,9 @@ export default class Application {
    * Run all initializers for the application.
    */
   initialize() {
-    this.log.info("Initializing Saur application")
-    this.plugins.forEach(plugin => plugin.initialize(this));
-    this.initializers.forEach(init => init(this));
+    this.log.info("Initializing Saur application");
+    this.plugins.forEach((plugin) => plugin.initialize(this));
+    this.initializers.forEach((init) => init(this));
   }
 
   template(name) {
@@ -71,7 +71,9 @@ export default class Application {
    * Apply routing and start the application server.
    */
   async start() {
-    this.log.info(`Starting application server on port ${this.config.server.port}`);
+    this.log.info(
+      `Starting application server on port ${this.config.server.port}`,
+    );
 
     this.use(this.routes.all);
     this.use(this.routes.methods);

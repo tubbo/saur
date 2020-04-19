@@ -1,30 +1,29 @@
 import Template from "./view/template.js";
 import reduce from "https://deno.land/x/lodash/reduce.js";
 
+/**
+ * View encapsulates the presentation code and template rendering for a
+ * given UI.
+ */
 export default class View {
   static template = null;
-  static app = null;
 
   constructor(controller, context = {}) {
     this.context = context;
     this.controller = controller;
+    this.app = controller.app;
     this.request = controller.request;
-    this.template = new Template(
-      this.constructor.template,
-      this.controller.layout,
-    );
-    const App = this.constructor.app
-    window.App = App
-    this.urlFor = App.routes.resolve.bind(App.routes);
+    this.template = this.constructor.template;
+    this.urlFor = this.app.routes.resolve.bind(this.app.routes);
 
-    App.routes.forEach((route) => route.hydrate(this));
+    this.app.routes.forEach((route) => route.hydrate(this));
     this.initialize();
   }
 
   initialize() {}
 
   cache(key, options = {}, fresh) {
-    return App.cache.fetch(key, options, fresh);
+    return this.app.cache.fetch(key, options, fresh);
   }
 
   /**
@@ -36,7 +35,7 @@ export default class View {
     const view = new View(this, { ...this.context, ...context });
     const result = await view.template.partial(view);
 
-    App.log.info(`Rendering partial ${view.template.path}`);
+    this.app.log.info(`Rendering partial ${view.template.path}`);
 
     return result.toString();
   }
@@ -68,7 +67,7 @@ export default class View {
    */
   formTag({ action, method, ...options }) {
     const attributes = this.htmlAttributes(options);
-    const token = App.authenticityToken;
+    const token = this.app.authenticityToken;
 
     if (method === "GET" && method === "POST") {
       return `<form action="${action}" method="${method}" ${attributes}>`;
@@ -99,7 +98,7 @@ export default class View {
   }
 
   get csrfMetaTag() {
-    const token = App.authenticityToken;
+    const token = this.app.authenticityToken;
 
     return `<meta name="authenticity_token" content="${token}" />`;
   }

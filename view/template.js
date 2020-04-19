@@ -35,7 +35,7 @@ export default class Template {
    * Render this template and wrap it in a layout.
    */
   async render(view) {
-    const layout = view.layout || this.layout
+    const layout = view.layout || this.layout;
     const innerHTML = await this.partial(view);
     const context = { innerHTML, ...view };
     const outerHTML = await this.compile(layout, context);

@@ -8,8 +8,9 @@ import Route from "./route.js";
  * `namespace()`.
  */
 export default class RouteSet {
-  constructor(router, options = {}) {
+  constructor(router, app, options = {}) {
     this.router = router;
+    this.app = app;
     this.controller = options.controller;
     this.base = options.base;
     this.routes = [];
@@ -76,7 +77,7 @@ export default class RouteSet {
     path = this.base ? `${this.base}/${path}` : path;
 
     this.add({ as, path, controller, action });
-    this.router.get(path, controller.perform(action));
+    this.router.get(path, controller.perform(action, this.app));
   }
 
   use(middleware) {
@@ -129,7 +130,7 @@ export default class RouteSet {
     path = this.base ? `${this.base}/${path}` : path;
 
     this.add({ as, path, controller, action });
-    this.router.patch(path, controller.perform(action, this.router));
+    this.router.patch(path, controller.perform(action));
   }
 
   /**
@@ -154,7 +155,7 @@ export default class RouteSet {
   namespace(path, routes) {
     const controller = this.controller;
     const base = `${this.base}/${path}`;
-    const set = new RouteSet(this.router, { controller, base });
+    const set = new RouteSet(this.router, this.app, { controller, base });
     path = this.base ? `${this.base}/${path}` : path;
 
     this.namespaces.push({ path, controller, base });
@@ -187,8 +188,16 @@ export default class RouteSet {
     this.delete(`${path}/:id`, { controller, action: "destroy" });
 
     if (nested) {
-      const cs = new RouteSet(this.router, { controller, base: path });
-      const ms = new RouteSet(this.router, { controller, base: `${path}/:id` });
+      const cs = new RouteSet(
+        this.router,
+        this.app,
+        { controller, base: path },
+      );
+      const ms = new RouteSet(
+        this.router,
+        this.app,
+        { controller, base: `${path}/:id` },
+      );
       const collection = cs.draw.bind(cs);
       const member = ms.draw.bind(ms);
 

@@ -11,10 +11,10 @@ import Application from "./application.js";
  * the routing DSL.
  */
 export default class Plugin extends Application {
-  static setup = () => {}
+  static setup = () => {};
 
   constructor(name, config = {}) {
-    super({ [name]: config })
+    super({ [name]: config });
   }
 
   /**
@@ -22,7 +22,7 @@ export default class Plugin extends Application {
    * context of the host application.
    */
   initialize(app) {
-    this.plugins.forEach(plugin => plugin.initialize(app));
+    this.plugins.forEach((plugin) => plugin.initialize(app));
     this.initializers.forEach(async (initializer) => {
       await initializer(app);
     });
@@ -38,6 +38,6 @@ export default class Plugin extends Application {
    * Prevent this plugin from running a server on its own.
    */
   start() {
-    throw new Error("Plugins cannot be run on their own.")
+    throw new Error("Plugins cannot be run on their own.");
   }
 }

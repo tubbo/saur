@@ -11,7 +11,7 @@ export default class Routes {
   constructor(app) {
     this.app = app;
     this.router = new Router();
-    this.set = new RouteSet(this.router);
+    this.set = new RouteSet(this.router, this.app);
     this.draw = this.set.draw.bind(this.set);
   }
 
