@@ -5,6 +5,7 @@ import New from "./cli/new.js";
 import Generate from "./cli/generate.js";
 import Help from "./cli/help.js";
 import Run from "./cli/run.js";
+import Server from "./cli/server.js";
 
 const {
   _: [command, ...argv],
@@ -21,12 +22,7 @@ switch (command) {
     New(...argv);
     break;
   case "server":
-    try {
-      Deno.run({ cmd: ["bin/server"] });
-    } catch (e) {
-      console.error("Server script not found. Are you in a Saur app?");
-      Deno.exit(1);
-    }
+    Server();
     break;
   case "generate":
     Generate(...argv);

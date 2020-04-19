@@ -56,3 +56,6 @@ install:
 uninstall:
 	@rm -f /usr/local/bin/saur
 .PHONY: uninstall
+
+start:
+	@cd example; bin/server
