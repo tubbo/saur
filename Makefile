@@ -29,7 +29,7 @@ clean: distclean mostlyclean
 .PHONY: clean
 
 mostlyclean:
-	@rm -rf bin docs node_modules
+	@rm -rf bin docs/api
 .PHONY: mostlyclean
 
 maintainer-clean: clean

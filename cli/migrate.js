@@ -1,15 +1,17 @@
 import { walkSync } from "https://deno.land/std/path/fs.ts";
 
 export default async function Migrate(direction = "up") {
-  await import("./index.js");
+  const { default: App } = await import("./index.js");
 
-  for (const { path } of walkSync(`${Deno.cwd()}/migrations/*.js`)) {
-    const [version, name] = path.split("_");
-    const Migration = await import(path);
-    const migration = new Migration(name, version, App.db);
+  for (const { filename } of walkSync(`${Deno.cwd()}/migrations`)) {
+    if (filename.match(/\.js$/)) {
+      const [version, name] = filename.split("_");
+      const { default: Migration } = await import(filename);
+      const migration = new Migration(name, version, App);
 
-    if (!migration.executed) {
-      migration.exec(direction);
+      if (!migration.executed) {
+        migration.exec(direction);
+      }
     }
   }
 }

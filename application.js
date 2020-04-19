@@ -1,5 +1,5 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import { Application as Oak } from "https://deno.land/x/oak/mod.ts";
+import { Application } from "https://denopkg.com/Soremwar/oak@v0.41/mod.ts";
 import Routes from "./routes.js";
 import Database from "./application/database.js";
 import Cache from "./application/cache.js";
@@ -15,10 +15,10 @@ import DefaultMiddleware from "./application/initializers/default-middleware.js"
 
 import MissingRoute from "./application/middleware/missing-route.js";
 
-export default class Application {
+export default class {
   constructor(config = {}) {
     this.config = { ...DEFAULTS, ...config };
-    this.oak = new Oak();
+    this.oak = new Application();
     this.routes = new Routes();
     this.use = this.oak.use.bind(this.oak);
     this.root = path.resolve(this.config.root || Deno.cwd());

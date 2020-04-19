@@ -6,11 +6,11 @@ import { Query } from "https://deno.land/x/sql_builder/mod.ts";
  * version is stored in the DB so they won't be re-run.
  */
 export default class Migration {
-  constructor(name, version, client) {
+  constructor(name, version, app) {
     this.name = name;
     this.version = parseInt(version);
     this.query = new Query();
-    this.execute = client.execute.bind(client);
+    this.execute = app.db.execute.bind(app.db);
   }
 
   /**

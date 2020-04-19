@@ -74,10 +74,13 @@ export default async function New(name) {
         `${name}/config/server.js`,
       ],
     });
-
-    console.log("Installing frontend dependencies...");
-    command = Deno.run({ cmd: ["yarn", "init", "-yps"], cwd: name });
     errors = await command.errors;
+
+    if (!errors) {
+      console.log("Installing frontend dependencies...");
+      command = Deno.run({ cmd: ["yarn", "init", "-yps"], cwd: name });
+      errors = await command.errors;
+    }
 
     if (!errors) {
       command = Deno.run({
