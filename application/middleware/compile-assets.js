@@ -1,4 +1,4 @@
-import { extname } from "https://deno.land/std/fs/mod.ts";
+import { extname } from "https://deno.land/std/path/mod.ts";
 
 /**
  * Run the `App.config.assets.webpack` command when an asset is

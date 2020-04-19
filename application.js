@@ -1,16 +1,16 @@
 import * as path from "https://deno.land/std/path/mod.ts";
+import * as log from "https://deno.land/std/log/mod.ts";
 import { Application } from "https://denopkg.com/Soremwar/oak@v0.41/mod.ts";
 import Routes from "./routes.js";
 import Database from "./application/database.js";
 import Cache from "./application/cache.js";
 import DEFAULTS from "./application/defaults.js";
-import Template from "./template.js";
+import Template from "./view/template.js";
 
 import ServeStaticFiles from "./application/initializers/serve-static-files.js";
 import ForceSSL from "./application/initializers/force-ssl.js";
 import EnvironmentConfig from "./application/initializers/environment-config.js";
 import Assets from "./application/initializers/assets.js";
-import Logging from "./application/initializers/logging.js";
 import DefaultMiddleware from "./application/initializers/default-middleware.js";
 
 import MissingRoute from "./application/middleware/missing-route.js";
@@ -47,7 +47,6 @@ export default class {
    * initializers getting loaded.
    */
   setup() {
-    this.initializer(Logging);
     this.initializer(EnvironmentConfig);
     this.initializer(ServeStaticFiles);
     this.initializer(Assets);
@@ -58,7 +57,25 @@ export default class {
   /**
    * Run all initializers for the application.
    */
-  initialize() {
+  async initialize() {
+    const {
+      log: { level, formatter },
+    } = this.config;
+
+    await log.setup({
+      handlers: {
+        default: new log.handlers.ConsoleHandler(level, { formatter }),
+      },
+      loggers: {
+        default: {
+          level: level,
+          handlers: ["default"],
+        },
+      },
+    });
+
+    this.log = log.getLogger();
+
     this.log.info("Initializing Saur application");
     this.plugins.forEach((plugin) => plugin.initialize(this));
     this.initializers.forEach((init) => init(this));

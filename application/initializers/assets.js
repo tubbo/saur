@@ -5,7 +5,7 @@ import CompileAssets from "../middleware/compile-assets.js";
  * when enabled in configuration.
  */
 export default function Assets(app) {
-  if (app.assets.enabled) {
+  if (app.config.assets.enabled) {
     app.use(CompileAssets);
   }
 }

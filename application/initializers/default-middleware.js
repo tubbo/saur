@@ -12,5 +12,4 @@ export default function DefaultMiddleware(app) {
   app.use(AuthenticityToken);
   app.use(CSP);
   app.use(CORS);
-  app.use(Assets);
 }
