@@ -22,6 +22,7 @@ export default class Plugin extends Application {
    * context of the host application.
    */
   initialize(app) {
+    this.log = app.log;
     this.plugins.forEach((plugin) => plugin.initialize(app));
     this.initializers.forEach(async (initializer) => {
       await initializer(app);

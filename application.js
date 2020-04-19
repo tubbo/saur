@@ -16,7 +16,6 @@ export default class {
     this.config = { ...DEFAULTS, ...config };
     this.oak = new Application();
     this.routes = new Routes(this);
-    // this.use = this.oak.use.bind(this.oak);
     this.root = path.resolve(this.config.root || Deno.cwd());
     this.initializers = [];
     this.plugins = [];
@@ -37,6 +36,11 @@ export default class {
     this.plugins.push(plugin);
   }
 
+  /**
+   * Append an application middleware function to the Oak stack.
+   * Application middleware functions apply an additional argument, the
+   * current instance of the application.
+   */
   use(middleware) {
     const appified = (context, next) => middleware(context, next, this);
 
@@ -50,7 +54,6 @@ export default class {
    */
   setup() {
     this.initializer(EnvironmentConfig);
-    // this.initializer(ServeStaticFiles);
     this.initializer(DefaultMiddleware);
   }
 
@@ -58,23 +61,7 @@ export default class {
    * Run all initializers for the application.
    */
   async initialize() {
-    const {
-      log: { level, formatter },
-    } = this.config;
-
-    await log.setup({
-      handlers: {
-        default: new log.handlers.ConsoleHandler(level, { formatter }),
-      },
-      loggers: {
-        default: {
-          level: level,
-          handlers: ["default"],
-        },
-      },
-    });
-
-    this.log = log.getLogger();
+    this.log = await this._setupLogging();
 
     this.log.info("Initializing Saur application");
     this.plugins.forEach((plugin) => plugin.initialize(this));
@@ -117,5 +104,25 @@ export default class {
     const Adapter = Cache.adapt(this.config.cache.adapter);
 
     return new Adapter(this.config.cache, this.log);
+  }
+
+  async _setupLogging() {
+    const {
+      log: { level, formatter },
+    } = this.config;
+
+    await log.setup({
+      handlers: {
+        default: new log.handlers.ConsoleHandler(level, { formatter }),
+      },
+      loggers: {
+        default: {
+          level: level,
+          handlers: ["default"],
+        },
+      },
+    });
+
+    return log.getLogger();
   }
 }
