@@ -2,8 +2,9 @@ import Adapter from "./adapter.js";
 import { connect } from "https://denopkg.com/keroxp/deno-redis/mod.ts";
 
 class Cache extends Adapter {
-  constructor(config = {}) {
+  constructor(config = {}, log) {
     super(config);
+    this.log = log;
     this.config = config;
     this.keys = [];
     this.initialize();
@@ -19,8 +20,10 @@ class Cache extends Adapter {
    */
   fetch(key, options = {}, fresh) {
     if (this.contains(key)) {
+      this.log.info(`Reading "${key}" from cache`);
       return this.readFromCache(key, (options = {}));
     } else {
+      this.log.info(`Writing new cache entry for "${key}"`);
       return this.writeToCache(key, options, fresh());
     }
   }
@@ -95,13 +98,20 @@ export class MemoryCache extends Cache {
   }
 
   read(key) {
-    return this.data[key];
+    return this.data[key].value;
   }
 
-  write(key, value) {
-    this.data[key] = value;
+  write(key, value, { expires }) {
+    const added = new Date();
+    this.data[key] = { value, expires, added };
 
     return value;
+  }
+
+  contains(key) {
+    const entry = this.data[key];
+
+    return entry && entry.added <= entry.expires;
   }
 }
 

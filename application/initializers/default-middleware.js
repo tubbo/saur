@@ -8,6 +8,7 @@ import MethodOverride from "../middleware/method-override.js";
 import CSP from "../middleware/content-security-policy.js";
 import CORS from "../middleware/cors.js";
 import AuthenticityToken from "../middleware/authenticity-token.js";
+import HTTPCaching from "../middleware/http-cache.js";
 
 export default function DefaultMiddleware(app) {
   app.use(RequestLogger);
@@ -17,12 +18,16 @@ export default function DefaultMiddleware(app) {
     app.use(SSLRedirect);
   }
 
-  if (app.config.assets.enabled) {
-    app.use(CompileAssets);
+  if (app.config.cache.http.enabled) {
+    app.use(HTTPCaching);
   }
 
   if (app.config.serveStaticFiles) {
     app.use(StaticFiles);
+  }
+
+  if (app.config.assets.enabled) {
+    app.use(CompileAssets);
   }
 
   app.use(MethodOverride);

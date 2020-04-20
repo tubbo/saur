@@ -7,14 +7,15 @@ import Help from "./cli/help.js";
 import Run from "./cli/run.js";
 import Server from "./cli/server.js";
 
-const {
+let {
   _: [command, ...argv],
   help,
   ...options
 } = parse(args);
+help = help || options.h || options.help;
 
 if (help) {
-  Help(command);
+  await Help(options, command, ...argv);
   Deno.exit(0);
 }
 

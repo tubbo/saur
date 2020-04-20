@@ -34,78 +34,36 @@ Once that's complete, create your first application by running:
 
     saur new my-first-app
 
-## Architecture
+## Why?
 
-Saur is strucutured similarly to other "Web MVC" frameworks like
-[Django][] and [Ruby on Rails][]. Each object in your application
-represents a different role that's played:
+In JavaScript backend development, there aren't very many resources for
+a fully-featured web application framework. While smaller components can
+be cobbled together to make an application, there's nothing that can get
+you started as quickly as something like Rails. For many developers,
+running `rails new` is a lot easier than setting up a project with
+`yarn` and including all the dependencies you'll need to get started. In
+addition, once you get a sufficient framework of sorts going, you still
+don't have any generators or a common way of running tasks that can be
+exported and modularized.
 
-- **Controllers** are used to respond to requests from the main
-  application router. After parsing the URL, a new instance of the
-  Controller is created to fulfill the request. Controllers come
-  pre-packed with abstractions meant to help you in this effort.
-- **Models** encapsulate the database logic with an Object-Relational
-  Mapper, pre-populating your model objects with the data from the
-  database and validating input before it's persisted.
-- **Views** are objects used to render templates within a given context.
-  Similar to helpers and presenters in Rails, you can define View
-  methods and have them automatically appear in the rendered template.
-- **Templates** are [EJS][] files that live in `./templates`, and
-  populated with a `View` object as context when they are rendered from
-  file.
-
-### Quick Start: Hello World
-
-Create a new application:
-
-    saur new hello
-    cd hello
-
-Generate the controller and action:
-
-    saur generate application index
-
-Edit **templates/application/hello.html.ejs**:
-
-```html
-<h1>hello world</h1>
-```
-
-Open **index.js** and add your route:
-
-```javascript
-import Application from "https://deno.land/x/saur/application.js"
-import ApplicationController from "./controllers/application"
-
-const App = new Application({
-  // enter your config settings here
-})
-
-App.routes.draw(({ root }) => {
-  root("index", ApplicationController)
-})
-
-export default App
-```
-
-Start the server, and browse to <http://localhost:3000>
-
-    saur server
-
-You should see a big ol' "Hello World!"
-
-
+Saur attempts to solve these problems by taking a lot of what we've
+learned from Rails, Django, and other "web MVC" frameworks and applying
+them in the world of server-side JavaScript. By imitating their
+successes, and addressing some of their faults, we're ensuring that
+backend applications are 
 
 ## Documentation
 
 If you're already up to speed with what Deno Saur is and want to learn
 more, this site has a wealth of guides to help you get your job done.
 
-- [Models](/models.html)
-- [Controllers and Routing](/controllers.html)
-- [Views and Templates](/views.html)
-- [Mailers](/mailers.html)
-- [Configuration Settings](/configuration.html)
+- [Quick Start](/start.html)
+- [Architecture](/architecture.html)
+  - [Models](/models.html)
+  - [Controllers and Routing](/controllers.html)
+  - [Views and Templates](/views.html)
+  - [Mailers](/mailers.html)
+- [Configuration](/configuration.html)
 - [CLI](/cli.html)
 - [Cache](/cache.html)
 
