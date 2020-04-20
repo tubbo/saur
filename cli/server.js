@@ -11,7 +11,7 @@ export default async function Server() {
 
   while (!done) {
     await proc.stdout.read(buff);
-    console.log(decoder.decode(buff));
+    console.log(decoder.decode(buff).replace("\n", ""));
     done = buff.toString() === "";
   }
 
