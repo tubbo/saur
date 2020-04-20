@@ -28,11 +28,46 @@ monolithic, server-side applications with [Deno][].
 
 To install Deno Saur, make sure you have [Deno][] installed, then run:
 
-    deno install saur https://deno.land/x/saur/cli.js
+```bash
+deno install --allow-read --allow-write --allow-run saur https://deno.land/x/saur/cli.js
+```
 
-Once that's complete, create your first application by running:
+This will install the CLI to **~/.deno/bin/**, and give it permissions
+to read and write to the filesystem, as well as run commands. You can
+define which directory it has write access to by passing that
+directory into the command:
 
-    saur new my-first-app
+```bash
+deno install --allow-read --allow-write=~/Code --allow-run saur https://deno.land/x/saur/cli.js
+```
+
+Once everything is installed and compiled, you'll want to have the
+`saur` command in your `$PATH` if you haven't done so already:
+
+```bash
+export PATH=~/.deno/bin:$PATH
+```
+
+You can now create your first application by running:
+
+```bash
+saur new my-first-app
+```
+
+This command will create a new directory and generate some boilerplate
+files you'll need for Saur to work. It will also install the
+`bin/server` script for easily starting the application server, which is
+used by `saur server` to run your application. This is due to Deno's
+security model. The `saur` CLI has no network access, meaning it can't
+make outbound calls to the Internet, however, it has read/write access
+to your entire filesystem and the ability to run commands. The `bin/server`
+script does have network access, but only the ability to write to the
+filesystem within its own directory, and no ability to run arbitrary
+commands. This means that even if you download a malicious plugin or
+module, it won't be able to change any information outside of your app,
+so you can isolate and contain its impact. The most it can do is affect
+your actual application code and make outbound calls to the Internet,
+which is still bad, but not as bad as losing your identity.
 
 ## Why?
 
