@@ -50,7 +50,23 @@ Saur attempts to solve these problems by taking a lot of what we've
 learned from Rails, Django, and other "web MVC" frameworks and applying
 them in the world of server-side JavaScript. By imitating their
 successes, and addressing some of their faults, we're ensuring that
-backend applications are 
+backend applications can be made quickly, easily, and securely in
+JavaScript without having to reach for additional tools.
+
+Much like how the beauty of Ruby spurred the pragmatic development of
+Rails, Saur probably wouldn't have been as straightforward to use
+without the accomplishments of the [Deno][] JavaScript runtime. Deno's
+built-in TypeScript, code formatting, external module importing (without
+the need for a centralized package manager!) and Promise-based
+asynchronous I/O is a major positive boon to the Saur framework,
+bringing with it the speed and correctness you've come to expect from
+your backend, without the weird hacks and questionable runtimes that
+plague Node.js applications. No need to set `--use-experimental` here,
+ECMAScript modules and top-level async/await are fully supported in
+Deno, and the runtime itself is written in Rust to ensure maximum
+compatibility and minimize nasty segfault bugs that are rampant
+throughout the C-based interpreted languages that most of the Web runs
+on.
 
 ## Documentation
 
