@@ -1,5 +1,13 @@
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
+const packages = [
+  "mini-css-extract-plugin",
+  "css-loader",
+  "eslint-plugin-prettier",
+  "eslint",
+  "stylelint-config-recommended",
+  "webpack-cli",
+];
 
 export default async function New(options, name) {
   let errors;
@@ -86,7 +94,7 @@ export default async function New(options, name) {
 
     if (!errors) {
       command = Deno.run({
-        cmd: ["yarn", "add", "webpack", "mini-css-extract-plugin", "-D", "-s"],
+        cmd: ["yarn", "add", "webpack", "-D", "-s", ...packages],
         cwd: name,
       });
       errors = await command.errors;
