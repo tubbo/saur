@@ -41,7 +41,7 @@ export default {
 
   hosts: ["localhost"],
 
-  contentSecurityPolicy: {},
+  contentSecurityPolicy: null,
   cors: {},
 
   // Cache configuration passed to the client, except the `enabled` and
