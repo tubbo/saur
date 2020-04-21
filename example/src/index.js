@@ -1,5 +1,9 @@
+import Saur from "saur";
+
 import "./index.css";
 
-const Saur = { start() {} };
+const context = require.context("./components", true, /\.js$/);
+const App = new Saur(context);
+const ready = "DOMContentLoaded";
 
-document.addEventListener("DOMContentLoaded", Saur.start);
+document.addEventListener(ready, ({ target }) => App.start(target));

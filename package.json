@@ -1,5 +1,6 @@
 {
   "name": "saur",
+  "description": "full-stack web app framework",
   "version": "0.0.1",
   "license": "MIT",
   "devDependencies": {
@@ -28,7 +29,8 @@
       "console": true,
       "TextEncoder": true,
       "TextDecoder": true,
-      "Uint8Array": true
+      "Uint8Array": true,
+      "MutationObserver": true
     }
   },
   "prettier": {
@@ -38,5 +40,9 @@
   "scripts": {
     "lint": "eslint .",
     "pretty": "prettier"
-  }
+  },
+  "files": [
+    "ui/*.js",
+    "ui.js"
+  ]
 }

@@ -5,6 +5,7 @@ const packages = [
   "css-loader",
   "eslint-plugin-prettier",
   "eslint",
+  "babel-eslint",
   "stylelint-config-recommended",
   "webpack-cli",
 ];
@@ -104,6 +105,24 @@ export default async function New(options, name) {
     if (errors) {
       throw new Error(`Error installing dependencies: ${errors}`);
     }
+
+    const config = await import(`${name}/package.json`);
+
+    config.scripts = {
+      build: "webpack",
+      start: "saur server",
+    };
+    config.eslintConfig = {
+      extends: ["eslint:recommended", "prettier"],
+      parser: "babel-eslint",
+      env: { browser: true },
+    };
+    config.stylelint = {
+      extends: "stylelint-config-recommended",
+    };
+    const json = encoder.encode(JSON.stringify(config, null, 2));
+
+    Deno.writeFile(`${name}/package.json`, json);
 
     console.log(`Application '${name}' has been created!`);
     Deno.exit(0);
