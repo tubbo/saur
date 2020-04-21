@@ -36,7 +36,8 @@ export default class UI {
    */
   initialize(target) {
     this.components.forEach((Component) => {
-      const elements = target.querySelectorAll(Component.selector);
+      const parent = target.parentElement || target;
+      const elements = parent.querySelectorAll(Component.selector);
 
       elements.forEach((element) => {
         const component = new Component(element);

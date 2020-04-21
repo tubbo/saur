@@ -1,3 +1,11 @@
 .title {
   color: green;
 }
+
+.title--initialized {
+  color: blue;
+}
+
+.title--clicked: {
+  color: red;
+}

@@ -3,13 +3,15 @@ import "./title.css";
 
 export default class Title extends Component {
   static selector = ".title";
-  static events = { click: "changeColor" };
+  static events = { click: ["changeColor"] };
 
   initialize() {
-    this.element.style.color = "blue";
+    this.element.classList.add("title--initialized");
   }
 
   changeColor() {
-    this.element.style.color = "red";
+    this.element.classList.add("title--clicked");
+
+    document.insertAdjacentHTML("beforeend", `<p="title">test</p>`);
   }
 }
