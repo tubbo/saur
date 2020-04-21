@@ -14,8 +14,8 @@ export default class Template {
     this.format = format;
     this.language = "ejs";
     this.ext = `${this.format}.${this.language}`;
-    const root = view.app.root.replace("file://", "");
-    this.path = `${root}/templates/${this.name}.${this.ext}`;
+    this.root = view.app.root.replace("file://", "");
+    this.path = `${this.root}/templates/${this.name}.${this.ext}`;
     this.handler =
       view.app.config.template.handlers[this.language] ||
       view.app.config.template.handlers.txt;
@@ -28,7 +28,7 @@ export default class Template {
   }
 
   get layout() {
-    return `${this.app.root}/templates/layouts/${this.layoutName}.${this.ext}`;
+    return `${this.root}/templates/layouts/${this.layoutName}.${this.ext}`;
   }
 
   /**

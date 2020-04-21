@@ -11,9 +11,6 @@ const App = new Application({
   log: {
     level: "DEBUG",
   },
-  assets: {
-    enabled: false,
-  },
 });
 
 window.App = App;

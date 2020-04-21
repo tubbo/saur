@@ -87,7 +87,10 @@ export default {
 
   assets: {
     enabled: true,
-    matcher: /\.(js|css)$/,
+    formats: {
+      js: "text/javascript",
+      css: "text/css",
+    },
   },
 
   authenticity: {

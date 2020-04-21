@@ -5,20 +5,31 @@ import { extname } from "https://deno.land/std/path/mod.ts";
  * requested, then serve it.
  */
 export default async function CompileAssets(context, next, app) {
-  const ext = extname(context.request.url);
-  const type = ext === ".js" ? "text/javascript" : "text/css";
-  const path = `${App.root}/public/${context.request.url}`;
+  const ext = extname(context.request.url).replace(".", "");
+  const type = app.config.assets.formats[ext];
+  const root = app.root.replace("file://", "");
+  const path = `${root}/public${context.request.url}`;
 
-  if (!app.config.assets.formats.contains(type)) {
-    app.log.info(`${type} assets are not compiled, rendering static file`);
-    next();
+  if (!type) {
+    await next();
+    return;
   }
 
   app.log.info("Compiling assets...");
   try {
-    Deno.run({ cwd: app.root, cmd: ["yarn", "run", "webpack"] });
+    const command = Deno.run({
+      cwd: root,
+      cmd: ["yarn", "build"],
+    });
+    const errors = await command.errors;
+
+    if (errors) {
+      throw new Error(errors);
+    }
+
+    await command.status();
   } catch (e) {
-    app.log.error("Compilation failed:", e);
+    app.log.error(`Compilation failed for ${path}: ${e.message}`);
 
     context.response.status = 500;
     context.response.body = e.message;

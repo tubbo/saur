@@ -9,6 +9,7 @@ export default async function New(options, name) {
     // const title = titleCase(name);
     const app = await Deno.readFile("./cli/generate/templates/application.js");
     const server = await Deno.readFile("./cli/generate/templates/server.js");
+    const webpack = await Deno.readFile("./cli/generate/templates/webpack.js");
     const layout = ""; //await renderFile("./cli/generate/templates/layout.ejs", {
     //title,
     //});
@@ -35,6 +36,10 @@ export default async function New(options, name) {
     await Deno.writeFile(
       `${name}/index.js`,
       encoder.encode(decoder.decode(app)),
+    );
+    await Deno.writeFile(
+      `${name}/webpack.config.js`,
+      encoder.encode(decoder.decode(webpack)),
     );
     await Deno.writeFile(
       `${name}/config/server.js`,
@@ -81,7 +86,7 @@ export default async function New(options, name) {
 
     if (!errors) {
       command = Deno.run({
-        cmd: ["yarn", "add", "webpack", "prettier", "-D", "-s"],
+        cmd: ["yarn", "add", "webpack", "mini-css-extract-plugin", "-D", "-s"],
         cwd: name,
       });
       errors = await command.errors;
