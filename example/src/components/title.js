@@ -1,17 +1,22 @@
-import Component from "saur/component";
+import Component from "saur/ui/component";
 import "./title.css";
 
-export default class Title extends Component {
-  static selector = ".title";
-  static events = { click: ["changeColor"] };
-
+class Title extends Component {
   initialize() {
     this.element.classList.add("title--initialized");
   }
 
-  changeColor() {
+  changeColor(event) {
     this.element.classList.add("title--clicked");
 
-    document.insertAdjacentHTML("beforeend", `<p="title">test</p>`);
+    this.element.parentElement.insertAdjacentHTML(
+      "beforeend",
+      `<div><p class="title">test</p></div>`,
+    );
   }
 }
+
+Title.selector = ".title";
+Title.events = { click: ["changeColor"] };
+
+export default Title;

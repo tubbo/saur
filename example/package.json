@@ -28,5 +28,8 @@
   },
   "stylelint": {
     "extends": "stylelint-config-recommended"
+  },
+  "dependencies": {
+    "saur": "../"
   }
 }

@@ -7,9 +7,9 @@ Create a new application:
 
 Generate the controller and action:
 
-    saur generate application index
+    saur generate home index
 
-Edit **templates/application/hello.html.ejs**:
+Edit **templates/home/index.html.ejs**:
 
 ```html
 <h1>hello world</h1>
@@ -18,18 +18,25 @@ Edit **templates/application/hello.html.ejs**:
 Open **index.js** and add your route:
 
 ```javascript
-import Application from "https://deno.land/x/saur/application.js"
-import ApplicationController from "./controllers/application"
+import Application from "../application.js";
+import HomeController from "./controllers/home.js";
+
+// `import` your code here:
 
 const App = new Application({
-  // enter your config settings here
-})
+  root: import.meta.url,
+  // Place your default configuration here. Environments can override
+  // this configuration in their respective `./config/environments/*.js`
+  // file.
+});
 
 App.routes.draw(({ root }) => {
-  root("index", ApplicationController)
-})
+  root("index", HomeController);
+});
 
-export default App
+await App.initialize();
+
+export default App;
 ```
 
 Start the server, and browse to <http://localhost:3000>

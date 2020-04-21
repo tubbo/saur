@@ -2267,6 +2267,9 @@ safe-regex@^1.1.0:
   dependencies:
     ret "~0.1.10"
 
+saur@../:
+  version "0.0.1"
+
 schema-utils@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-1.0.0.tgz#0b79a93204d7b600d4b2850d1f66c2a34951c770"

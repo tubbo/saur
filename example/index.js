@@ -13,8 +13,6 @@ const App = new Application({
   },
 });
 
-window.App = App;
-
 App.routes.draw(({ root }) => {
   root("index", HomeController);
 });

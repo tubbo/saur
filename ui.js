@@ -5,13 +5,14 @@ export default class UI {
   constructor(context) {
     this.require = context;
     this.observer = new MutationObserver((records) => this.update(records));
+    this.changed = [];
   }
 
   /**
    * All filenames in the `./components` dir.
    */
   get files() {
-    return this.require.entries();
+    return this.require.keys();
   }
 
   /**
@@ -27,7 +28,7 @@ export default class UI {
    */
   start(target) {
     this.initialize(target);
-    this.observer.observe(target);
+    this.observer.observe(target, { childList: true, subtree: true });
   }
 
   /**
@@ -36,13 +37,12 @@ export default class UI {
    */
   initialize(target) {
     this.components.forEach((Component) => {
-      const parent = target.parentElement || target;
-      const elements = parent.querySelectorAll(Component.selector);
+      const elements = target.querySelectorAll(Component.selector);
 
       elements.forEach((element) => {
         const component = new Component(element);
 
-        Object.entries(component.events, (event, methods) => {
+        Object.entries(Component.events).forEach(([event, methods]) => {
           methods.forEach((property) => {
             const method = component[property];
             const handler = method.bind(component);
@@ -52,6 +52,8 @@ export default class UI {
         });
       });
     });
+
+    this.changed = [...this.changed, ...this.observer.takeRecords()];
   }
 
   /**
@@ -59,6 +61,8 @@ export default class UI {
    * components within the scope of the change.
    */
   update(records) {
-    records.forEach(({ target }) => this.initialize(target));
+    records.forEach(({ addedNodes }) => {
+      [...addedNodes].forEach((target) => this.initialize(target));
+    });
   }
 }

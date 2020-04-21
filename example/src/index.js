@@ -1,4 +1,4 @@
-import Saur from "saur";
+import Saur from "saur/ui";
 
 import "./index.css";
 

@@ -1,7 +1,4 @@
-export default class Component {
-  static selector = null;
-  static events = {};
-
+class Component {
   constructor(element) {
     this.element = element;
     this.initialize();
@@ -9,3 +6,8 @@ export default class Component {
 
   initialize() {}
 }
+
+Component.selector = null;
+Component.events = {};
+
+export default Component;
