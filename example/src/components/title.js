@@ -1,14 +1,15 @@
 import Component from "saur/component";
+import "./title.css";
 
 export default class Title extends Component {
   static selector = ".title";
-  static events = { click: "alertWhenClicked" };
+  static events = { click: "changeColor" };
 
   initialize() {
-    alert("initialized");
+    this.element.style.color = "blue";
   }
 
-  alertWhenClicked() {
-    alert("clicked");
+  changeColor() {
+    this.element.style.color = "red";
   }
 }
