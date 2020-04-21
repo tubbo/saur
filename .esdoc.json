@@ -2,6 +2,7 @@
   "source": ".",
   "destination": "./docs/api",
   "excludes": ["node_modules"],
+  "index": "etc/api-index.md",
   "plugins": [
     {
       "name": "esdoc-standard-plugin"

@@ -5,6 +5,7 @@ on:
 jobs:
   reference:
     name: Reference
+    runs-on: ubuntu
     steps:
       - uses: bobheadxi/deployments@master
         id: deployment
