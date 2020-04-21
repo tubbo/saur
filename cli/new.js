@@ -62,7 +62,6 @@ export default async function New(options, name) {
       cmd: [
         "deno",
         "install",
-        "--quiet",
         `--allow-read=./${name}`,
         `--allow-write=./${name}`,
         "--allow-net",
