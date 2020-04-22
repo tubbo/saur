@@ -15,12 +15,11 @@ const packages = [
 ];
 
 export default async function New(options, name) {
-  const title = titleCase(name);
   let errors;
   let command;
 
   try {
-    // const title = titleCase(name);
+    const title = titleCase(name);
     const root = dirname(import.meta.url).replace("file://", "");
     const app = await Deno.readFile(
       `${root}/generate/templates/application.js`,
@@ -33,6 +32,8 @@ export default async function New(options, name) {
       title,
     });
     const env = await Deno.readFile(`${root}/generate/templates/env-config.js`);
+    const ui = await Deno.readFile(`${root}/generate/templates/ui.js`);
+    const css = await Deno.readFile(`${root}/generate/templates/ui.css`);
 
     console.log(`Creating new application '${name}'...`);
 
@@ -80,7 +81,20 @@ export default async function New(options, name) {
       `${name}/config/environments/production.js`,
       encoder.encode(decoder.decode(env)),
     );
-    console.log("Creating bin/server...");
+    await Deno.writeFile(
+      `${name}/index.js`,
+      encoder.encode(decoder.decode(app)),
+    );
+    await Deno.writeFile(
+      `${name}/src/index.js`,
+      encoder.encode(decoder.decode(ui)),
+    );
+    await Deno.writeFile(
+      `${name}/src/index.css`,
+      encoder.encode(decoder.decode(css)),
+    );
+
+    console.log("Installing dependencies...");
 
     command = Deno.run({
       cmd: [
@@ -96,11 +110,13 @@ export default async function New(options, name) {
       ],
     });
     errors = await command.errors;
+    await command.status();
 
     if (!errors) {
       console.log("Installing frontend dependencies...");
       command = Deno.run({ cmd: ["yarn", "init", "-yps"], cwd: name });
       errors = await command.errors;
+      await command.status();
     }
 
     if (!errors) {
@@ -116,7 +132,8 @@ export default async function New(options, name) {
       throw new Error(`Error installing dependencies: ${errors}`);
     }
 
-    const config = await import(`${name}/package.json`);
+    const original = await import(`${Deno.cwd()}/${name}/package.json`);
+    const config = { ...original };
 
     config.scripts = {
       build: "webpack",
