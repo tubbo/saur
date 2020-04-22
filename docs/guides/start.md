@@ -1,3 +1,8 @@
+---
+layout: page
+path: /guides/start.html
+---
+
 # Quick Start: Hello World
 
 Create a new application:

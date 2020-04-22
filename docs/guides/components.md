@@ -1,3 +1,8 @@
+---
+layout: page
+path: /guides/components.html
+---
+
 # Front-End Components
 
 In Saur, Components are objects coupled to HTML elements, which respond

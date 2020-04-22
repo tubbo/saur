@@ -1,3 +1,8 @@
+---
+layout: page
+path: /guides/controllers.html
+---
+
 # Controllers and Routing
 
 The controller layer is used for parsing requests and rendering

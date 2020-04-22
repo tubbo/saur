@@ -1,3 +1,8 @@
+---
+layout: page
+path: /guides/cache.html
+---
+
 # Caching
 
 A caching layer is also built in, with support for "russian-doll"

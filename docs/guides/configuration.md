@@ -1,3 +1,9 @@
+---
+layout: page
+path: /guides/configuration.html
+---
+
+
 # Configuration
 
 A Saur app is configured in the **index.js** file at the root of your

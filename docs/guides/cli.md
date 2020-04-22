@@ -1,3 +1,8 @@
+---
+layout: page
+path: /guides/cli.html
+---
+
 # Command-Line Interface
 
 The `saur` CLI allows easy administration of your app from the Terminal.

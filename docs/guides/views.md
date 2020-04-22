@@ -1,3 +1,9 @@
+---
+layout: page
+path: /guides/views.html
+---
+
+
 # Views and Templates
 
 View objects are used to encapsulate template rendering and data

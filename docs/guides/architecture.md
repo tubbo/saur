@@ -1,6 +1,6 @@
 ---
 layout: page
-path: /architecture.html
+path: /guides/architecture.html
 ---
 
 # Architecture

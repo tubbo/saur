@@ -1,3 +1,9 @@
+---
+layout: page
+path: /guides/models.html
+---
+
+
 # Models
 
 Models are structured very similar to ActiveRecord. Here's an example of
