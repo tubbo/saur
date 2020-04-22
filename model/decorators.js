@@ -3,7 +3,7 @@
  *
  * @example
  *   import Model, { validates } from "https://deno.land/x/saur/model.js";
- *   import { titleCase } from "https://deno.land/std/case/mod.ts";
+ *   import { titleCase } from "https://deno.land/x/case/mod.ts";
  *
  *   @validates("name", { presence: true })
  *   export default class YourModel extends Model {

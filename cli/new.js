@@ -1,3 +1,7 @@
+import { dirname } from "https://deno.land/std/path/mod.ts";
+import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+import { titleCase } from "https://deno.land/x/case/mod.ts";
+
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const packages = [
@@ -11,18 +15,24 @@ const packages = [
 ];
 
 export default async function New(options, name) {
+  const title = titleCase(name);
   let errors;
   let command;
 
   try {
     // const title = titleCase(name);
-    const app = await Deno.readFile("./cli/generate/templates/application.js");
-    const server = await Deno.readFile("./cli/generate/templates/server.js");
-    const webpack = await Deno.readFile("./cli/generate/templates/webpack.js");
-    const layout = ""; //await renderFile("./cli/generate/templates/layout.ejs", {
-    //title,
-    //});
-    const env = await Deno.readFile("./cli/generate/templates/env-config.js");
+    const root = dirname(import.meta.url).replace("file://", "");
+    const app = await Deno.readFile(
+      `${root}/generate/templates/application.js`,
+    );
+    const server = await Deno.readFile(`${root}/generate/templates/server.js`);
+    const webpack = await Deno.readFile(
+      `${root}/generate/templates/webpack.js`,
+    );
+    const layout = await renderFile(`${root}/generate/templates/layout.ejs`, {
+      title,
+    });
+    const env = await Deno.readFile(`${root}/generate/templates/env-config.js`);
 
     console.log(`Creating new application '${name}'...`);
 
