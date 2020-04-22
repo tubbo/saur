@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack"
+    "build": "webpack --silent"
   },
   "dependencies": {
     "saur": "^0.0.1"

@@ -9,7 +9,7 @@ import Token from "./application/token.js";
 
 import EnvironmentConfig from "./application/initializers/environment-config.js";
 import DefaultMiddleware from "./application/initializers/default-middleware.js";
-import Assets from "./application/initializers/assets.js";
+import SetupAssets from "./application/initializers/setup-assets.js";
 
 import MissingRoute from "./application/middleware/missing-route.js";
 
@@ -57,7 +57,7 @@ export default class {
   setup() {
     this.initializer(EnvironmentConfig);
     this.initializer(DefaultMiddleware);
-    this.initializer(Assets);
+    this.initializer(SetupAssets);
   }
 
   /**

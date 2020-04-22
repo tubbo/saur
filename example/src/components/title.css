@@ -1,5 +1,6 @@
 .title {
   color: green;
+  cursor: pointer;
 }
 
 .title--initialized {
