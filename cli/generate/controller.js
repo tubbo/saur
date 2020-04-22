@@ -15,11 +15,16 @@ export default async function (name, klass, encoder, options, ...actions) {
   const className = `${klass}Controller`;
   const methods = actions.map((action) => `  ${action}() {}`).join("\n");
   const context = { name, className, methods };
-  const controller = await renderFile(
-    `${root}/templates/controller.ejs`,
-    context,
-  );
+  const controllerPath = `${root}/templates/controller.ejs`;
+  const controller = await renderFile(controllerPath, context);
   const test = await renderFile(`${root}/templates/test.ejs`, context);
+  const needsView = (action) => !action.match(/(:bare)$/);
+  const writeView = (action) => {
+    const path = `${name}/${action}`;
+    const className = pascalCase(path);
+
+    GenerateView(path, className, options, encoder);
+  };
 
   await writeFile(
     `${cwd()}/controllers/${name}.js`,
@@ -31,10 +36,5 @@ export default async function (name, klass, encoder, options, ...actions) {
   );
   console.log(`Created ${className} in controllers/${name}.js`);
 
-  actions.forEach((action) => {
-    const path = `${name}/${action}`;
-    const className = pascalCase(path);
-
-    GenerateView(path, className, options, encoder);
-  });
+  actions.filter(needsView).forEach(writeView);
 }
