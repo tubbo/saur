@@ -1,5 +1,6 @@
 const { args } = Deno;
 import { parse } from "https://deno.land/std/flags/mod.ts";
+import config from "./package.json";
 
 import New from "./cli/new.js";
 import Generate from "./cli/generate.js";
@@ -11,12 +12,19 @@ import Upgrade from "./cli/upgrade.js";
 let {
   _: [command, ...argv],
   help,
+  v,
+  version,
   ...options
 } = parse(args);
 help = help || options.h || options.help;
 
 if (help) {
   await Help(options, command, ...argv);
+  Deno.exit(0);
+}
+
+if (v || version) {
+  console.log(`Saur ${config.version}`);
   Deno.exit(0);
 }
 
