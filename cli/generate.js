@@ -3,6 +3,9 @@ import GenerateController from "./generate/controller.js";
 import GenerateView from "./generate/view.js";
 import GenerateTemplate from "./generate/template.js";
 import pascalCase from "https://deno.land/x/case/pascalCase.ts";
+import { existsSync } from "https://deno.land/std/fs/mod.ts";
+
+const { cwd, exit } = Deno;
 
 /**
  * The `saur generate` command is used to generate boilerplate code for
@@ -13,6 +16,14 @@ export default function Generate(options, type, name, ...args) {
   const USAGE =
     "Usage: saur generate [model|view|controller|template|help] NAME [OPTIONS]";
   const encoder = new TextEncoder();
+  const config = "config/server.js";
+  const app = existsSync(`${cwd()}/${config}`);
+
+  if (!app) {
+    console.error(`Error: ${config} not found. Are you in a Saur application?`);
+    exit(1);
+    return;
+  }
 
   switch (type) {
     case "model":
@@ -35,7 +46,7 @@ export default function Generate(options, type, name, ...args) {
     default:
       console.log("Invalid generator", type);
       console.log(USAGE);
-      Deno.exit(1);
+      exit(1);
       break;
   }
 }
