@@ -1,9 +1,8 @@
 /**
  * Wrap `Deno.test` methods in a group for easier organization.
  */
-export function describe(groupName, callback) {
-  const test = (testName, assertions) =>
-    Deno.test(`${testName}#${groupName}`, assertions);
+export function describe(group, callback) {
+  const test = (name, fn) => Deno.test({ name: `${group}#${name}`, fn });
 
   return callback({ test });
 }
