@@ -1,4 +1,5 @@
 import Route from "./route.js";
+
 /**
  * RouteSet defines the routing DSL used by the top-level application
  * router. It uses `Oak.Router` under the hood, but pre-fills

@@ -6,6 +6,7 @@ import Generate from "./cli/generate.js";
 import Help from "./cli/help.js";
 import Run from "./cli/run.js";
 import Server from "./cli/server.js";
+import Upgrade from "./cli/upgrade.js";
 
 let {
   _: [command, ...argv],
@@ -31,6 +32,9 @@ switch (command) {
     break;
   case "run":
     Run(options, ...argv);
+    break;
+  case "upgrade":
+    Upgrade();
     break;
   case "help":
     Help(options, ...argv);

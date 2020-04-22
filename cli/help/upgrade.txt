@@ -1,0 +1,5 @@
+USAGE:
+  saur upgrade
+
+DESCRIPTION:
+  Upgrades the `saur` CLI by reinstalling it using `deno install`.

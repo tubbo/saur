@@ -1,4 +1,5 @@
 import each from "https://deno.land/x/lodash/each.js";
+import ActionMissingError from "./errors/action-missing.js";
 
 export default class Controller {
   static get name() {
@@ -10,11 +11,17 @@ export default class Controller {
    */
   static perform(action, app) {
     return async (context) => {
-      const controller = new this(context, app);
-      const handler = controller[action].bind(controller);
-      const params = context.request.params;
-
       try {
+        const controller = new this(context, app);
+        const method = controller[action];
+
+        if (!method) {
+          throw new ActionMissingError(this.name, action);
+        }
+
+        const handler = method.bind(controller);
+        const params = context.request.params;
+
         app.log.info(`Performing ${this.name}#${action}`);
         await handler(params);
       } catch (e) {
