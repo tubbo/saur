@@ -7,6 +7,7 @@ export default async function Upgrade() {
   const cmd = [
     "deno",
     "install",
+    "--force",
     "--allow-read=.",
     "--allow-write",
     "--allow-run",

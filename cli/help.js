@@ -1,17 +1,17 @@
-import { __ } from "https://deno.land/x/dirname/mod.ts";
+import { dirname } from "https://deno.land/std/path/mod.ts";
 import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import { Task } from "../task.js";
 
 const { readFile } = Deno;
-const { __dirname } = __(import.meta);
+const root = dirname(import.meta.url).replace("file://", "");
 const decoder = new TextDecoder("utf-8");
 
 export default async function Help(options, cmd, ...argv) {
   const command = !cmd || cmd === "help" ? "usage" : [cmd, ...argv].join("/");
   const path =
     command === "usage"
-      ? `${__dirname}/help/usage.ejs`
-      : `${__dirname}/help/${command}.txt`;
+      ? `${root}/help/usage.ejs`
+      : `${root}/help/${command}.txt`;
   let txt;
 
   try {
