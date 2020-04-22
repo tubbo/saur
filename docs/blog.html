@@ -1,0 +1,24 @@
+---
+layout: page
+---
+
+<h1 class="title title--blog">Blog</h1>
+
+{% for post in site.posts %}
+  <article class="summary">
+    <header class="header">
+      <h2 class="title">
+        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      </h2>
+      <time class="date" datetime="{{ post.date }}">
+        {{ post.date | date: "%B %e, %Y" }}.
+      </time>
+    </header>
+    <main class="summary__entry">
+      {{ post.excerpt }}
+    </main>
+    <footer>
+      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
+    </footer>
+  </article>
+{% endfor %}
