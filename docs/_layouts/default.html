@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% seo %}
+    <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
+    <style type="text/css">
+      .header {
+        border-bottom: 1px solid #DDD;
+        padding-bottom: 0.3em;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 2em;
+      }
+
+      h1.title {
+        border-bottom: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav {
+        width: 100%;
+        text-align: right;
+        padding-top: 1em;
+      }
+
+      .nav__link {
+        margin-left: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="container-lg px-3 my-5 markdown-body">
+      <header class="header">
+        {% if site.title and site.title != page.title %}
+        <h1 class="title">
+          <a href="{{ "/" | absolute_url }}">{{ site.title }}</a>
+        </h1>
+        {% endif %}
+        <nav class="nav">
+          <a class="nav__link" href="/guides">Guides</a>
+          <a class="nav__link" href="/blog">Blog</a>
+          <a class="nav__link" href="http://api.denosaur.org">Docs</a>
+          <a class="nav__link" href="https://github.com/tubbo/denosaur">Source</a>
+        </nav>
+      </header>
+      <main>
+        {{ content }}
+      </main>
+      <footer class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. {% github_edit_link "Improve this page" %}.
+      </div>
+    </article>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+    {% if site.google_analytics %}
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', '{{ site.google_analytics }}', 'auto');
+      ga('send', 'pageview');
+    </script>
+    {% endif %}
+  </body>
+</html>

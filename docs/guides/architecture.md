@@ -1,3 +1,8 @@
+---
+layout: page
+path: /architecture.html
+---
+
 # Architecture
 
 Saur is strucutured similarly to other "Web MVC" frameworks like
