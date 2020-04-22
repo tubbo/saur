@@ -17,7 +17,7 @@ monolithic, server-side applications with [Deno][].
   and migrations for schema updates.
 - **Modularity:** Saur was designed from the ground up to be a
   decoupled, modular architecture. This is to promote reusability of
-  components within the framework and outside of it. Almost anything
+  your objects within the framework and outside of it. Almost anything
   from Saur's core codebase can be `export`-ed and used without
   depending on the full framework.
 - **Modernity:** Use the latest features of JavaScript without pulling
@@ -72,7 +72,7 @@ which is still bad, but not as bad as losing your identity.
 ## Why?
 
 In JavaScript backend development, there aren't very many resources for
-a fully-featured web application framework. While smaller components can
+a fully-featured web application framework. While smaller libraries can
 be cobbled together to make an application, there's nothing that can get
 you started as quickly as something like Rails. For many developers,
 running `rails new` is a lot easier than setting up a project with
@@ -114,6 +114,7 @@ more, this site has a wealth of guides to help you get your job done.
   - [Controllers and Routing](controllers.html)
   - [Views and Templates](views.html)
   - [Mailers](mailers.html)
+  - [Front-End Components](components.html)
 - [Configuration](configuration.html)
 - [CLI](cli.html)
 - [Cache](cache.html)
