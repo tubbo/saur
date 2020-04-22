@@ -1,50 +1,12 @@
 import reduce from "https://deno.land/x/lodash/reduce.js";
 import merge from "https://deno.land/x/lodash/merge.js";
-import each from "https://deno.land/x/lodash/each.js";
+import each from "https://deno.land/x/lodash/forEach.js";
 import flatten from "https://deno.land/x/lodash/flatten.js";
 import Validations, { GenericValidation } from "./model/validations.js";
 import Errors from "./model/errors.js";
-import Relation from "./model/query.js";
-
-/**
- * Decorator for adding pre-defined validators to a model.
- *
- * @example
- *   import Model, { validates } from "https://deno.land/x/saur/model.js";
- *   import { titleCase } from "https://deno.land/std/case/mod.ts";
- *
- *   @validates("name", { presence: true })
- *   export default class YourModel extends Model {
- *      get title() {
- *        return titleCase(this.name)
- *      }
- *   }
- * @param string name - Name of the property
- * @param Object validations - Validations to add
- */
-export function validates(name, validations = {}) {
-  return (target) => target.validates(name, validations);
-}
-
-/**
- * Decorator for adding a custom validator to a model.
- *
- * @example
- *   import Model, { validate } from "https://deno.land/x/saur/model.js";
- *
- *   @validate("nameNotFoo");
- *   export default class YourModel extends Model {
- *     nameNotFoo() {
- *       if (this.name === "foo") {
- *          this.errors.add("name", "cannot be foo");
- *       }
- *     }
- *   }
- * @param string method - Method name to run in validations.
- */
-export function validate(method) {
-  return (target) => target.validate(method);
-}
+import Relation from "./model/relation.js";
+import { camelCase, snakeCase } from "https://deno.land/x/case/mod.ts";
+// import "https://deno.land/x/humanizer.ts/vocabularies.ts";
 
 export default class Model {
   /**
@@ -55,14 +17,34 @@ export default class Model {
   }
 
   /**
+   * Name used in parameters.
+   */
+  static get paramName() {
+    return camelCase(this.name);
+  }
+
+  static get collectionName() {
+    return snakeCase(this.name) + "s";
+  }
+
+  /**
    * All validations on this model.
    */
   static validations = [];
 
   /**
+   * All associations to other models.
+   */
+  static associations = {
+    belongsTo: {},
+    hasMany: {},
+    hasOne: {},
+  };
+
+  /**
    * Table name for this model.
    */
-  static table = null;
+  static table = this.tableName;
 
   /**
    * A macro for creating a new `Validation` object in the list of
@@ -133,6 +115,9 @@ export default class Model {
   constructor(attributes = {}) {
     this.attributes = attributes;
     this.errors = new Errors();
+    this.associated = {};
+
+    this._buildAssociations();
     this.initialize();
   }
 
@@ -230,5 +215,49 @@ export default class Model {
     merge(this, model.attributes);
 
     return this;
+  }
+
+  /**
+   * Build model associations from the `.associations` static property
+   * when constructed.
+   *
+   * @private
+   */
+  _buildAssociations() {
+    Object.entries(this.constructor.associations, (type, associations) => {
+      Object.entries(associations, (name, Model) => {
+        Object.defineProperty(this, name, {
+          get() {
+            if (typeof this.associated[name] !== "undefined") {
+              return this.associated[name];
+            }
+
+            const param = this.constructor.paramName;
+            const fk = `${param}ID`;
+            const id = this[`${name}ID`];
+            let value;
+
+            if (type === "hasMany") {
+              value = Model.where({ [fk]: this.id });
+            } else if (type === "hasOne") {
+              value = Model.where({ [fk]: this.id });
+            } else if (type === "belongsTo") {
+              value = Model.find(id);
+            } else {
+              throw new Error(`Invalid association type: "${type}"`);
+            }
+
+            this.associated[name] = value;
+
+            return value;
+          },
+
+          set(value) {
+            this.associated[name] = value;
+            this[`${name}ID`] = value.id;
+          },
+        });
+      });
+    });
   }
 }

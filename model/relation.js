@@ -1,5 +1,5 @@
 import { Query } from "https://deno.land/x/sql_builder/mod.ts";
-import each from "https://deno.land/x/lodash/each.ts";
+import each from "https://deno.land/x/lodash/each.js";
 
 /**
  * An extension of `SQLBuilder.Query`, Relations are used to both build

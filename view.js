@@ -2,6 +2,15 @@ import reduce from "https://deno.land/x/lodash/reduce.js";
 import Template from "./view/template.js";
 
 /**
+ * A decorator for defining the `template` of a given view.
+ */
+export function template(name) {
+  return (target) => {
+    target.template = name;
+  };
+}
+
+/**
  * View encapsulates the presentation code and template rendering for a
  * given UI.
  */
