@@ -1,10 +1,10 @@
 import GenerateView from "./view.js";
 import { renderFile } from "https://deno.land/x/dejs/mod.ts";
-import { __ } from "https://deno.land/x/dirname/mod.ts";
+import { dirname } from "https://deno.land/std/path/mod.ts";
 import pascalCase from "https://deno.land/x/case/pascalCase.ts";
 
-const { __dirname } = __(import.meta);
-const { cwd } = Deno;
+const root = dirname(import.meta.url);
+const { cwd, writeFile } = Deno;
 
 /**
  * `saur generate controller NAME`
@@ -16,16 +16,16 @@ export default async function (name, klass, encoder, options, ...actions) {
   const methods = actions.map((action) => `  ${action}() {}`).join("\n");
   const context = { name, className, methods };
   const controller = await renderFile(
-    `${__dirname}/templates/controller.ejs`,
+    `${root}/templates/controller.ejs`,
     context,
   );
-  const test = await renderFile(`${__dirname}/templates/test.ejs`, context);
+  const test = await renderFile(`${root}/templates/test.ejs`, context);
 
-  await Deno.writeFile(
+  await writeFile(
     `${cwd()}/controllers/${name}.js`,
     encoder.encode(controller.toString()),
   );
-  await Deno.writeFile(
+  await writeFile(
     `${cwd()}/tests/controllers/${name}_test.js`,
     encoder.encode(test.toString()),
   );
@@ -33,7 +33,8 @@ export default async function (name, klass, encoder, options, ...actions) {
 
   actions.forEach((action) => {
     const path = `${name}/${action}`;
+    const className = pascalCase(path);
 
-    GenerateView(path, pascalCase(path), options, encoder);
+    GenerateView(path, className, options, encoder);
   });
 }
