@@ -61,10 +61,25 @@ export default class RouteSet {
     }
   }
 
-  add({ as, path, controller, action }) {
+  async add(method, name, options = {}, config = {}) {
+    let action, controller, controllerName;
+
     const { app } = this;
+    const as = options.as || config.as || name;
+    const path = this.base ? `${this.base}/${name}` : name;
+
+    if (typeof options === "string") {
+      [controllerName, action] = options.split("#");
+      const controllerPath = `${app.root}/controllers/${controllerName}.js`;
+      const exports = await import(controllerPath);
+      controller = exports.default;
+    } else {
+      action = options.action || name;
+      controller = options.controller || this.controller;
+    }
 
     this.routes.push(new Route({ as, path, controller, action, app }));
+    this.router[method](path, controller.perform(action, this.app));
   }
 
   /**
@@ -74,13 +89,7 @@ export default class RouteSet {
    * name of the path, respectively.
    */
   get(path, options = {}) {
-    const action = options.action || path;
-    const as = options.as || action;
-    const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path;
-
-    this.add({ as, path, controller, action });
-    this.router.get(path, controller.perform(action, this.app));
+    this.add("get", path, options);
   }
 
   use(middleware) {
@@ -93,15 +102,8 @@ export default class RouteSet {
    * top-level controller (if you're in a `resources()` block) and the
    * name of the path, respectively.
    */
-
   post(path, options = {}) {
-    const action = options.action || path;
-    const as = options.as || action;
-    const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path;
-
-    this.add({ as, path, controller, action });
-    this.router.post(path, controller.perform(action, this.app));
+    this.add("post", path, options);
   }
 
   /**
@@ -111,13 +113,7 @@ export default class RouteSet {
    * name of the path, respectively.
    */
   put(path, options = {}) {
-    const action = options.action || path;
-    const as = options.as || action;
-    const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path;
-
-    this.add({ as, path, controller, action });
-    this.router.put(path, controller.perform(action, this.app));
+    this.add("put", path, options);
   }
 
   /**
@@ -127,13 +123,7 @@ export default class RouteSet {
    * name of the path, respectively.
    */
   patch(path, options = {}) {
-    const action = options.action || path;
-    const as = options.as || action;
-    const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path;
-
-    this.add({ as, path, controller, action });
-    this.router.patch(path, controller.perform(action, this.app));
+    this.add("patch", path, options);
   }
 
   /**
@@ -143,13 +133,7 @@ export default class RouteSet {
    * name of the path, respectively.
    */
   delete(path, options = {}) {
-    const action = options.action || path;
-    const as = options.as || action;
-    const controller = options.controller || this.controller;
-    path = this.base ? `${this.base}/${path}` : path;
-
-    this.add({ as, path, controller, action });
-    this.router.delete(path, controller.perform(action, this.app));
+    this.add("delete", path, options);
   }
 
   /**
@@ -169,9 +153,14 @@ export default class RouteSet {
    * Define the index route to the application. This is always a GET
    * request.
    */
-  root(action, controller) {
-    this.add({ path: "/", as: "root", controller, action });
-    this.get("/", { controller, action });
+  root(action, controller = null) {
+    const as = "root";
+
+    if (!controller) {
+      return this.add("get", "/", action, { as });
+    }
+
+    this.add("get", "/", { as, controller, action });
   }
 
   /**

@@ -14,7 +14,7 @@ const App = new Application({
 });
 
 App.routes.draw(({ root }) => {
-  root("index", HomeController);
+  root("home#index");
 });
 
 await App.initialize();
