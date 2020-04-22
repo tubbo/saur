@@ -2267,8 +2267,10 @@ safe-regex@^1.1.0:
   dependencies:
     ret "~0.1.10"
 
-saur@../:
+saur@^0.0.1:
   version "0.0.1"
+  resolved "https://registry.yarnpkg.com/saur/-/saur-0.0.1.tgz#5faa908c13c12849e18e9ee75fd615f5a3054258"
+  integrity sha512-2E3klFbzD/jest/7KiuwzauR5qg2mWL7lACRlTaZCmYTA8l2xKkscu+ZvITfJQjGrAM71PUFwJ3liAHn6qNpBw==
 
 schema-utils@^1.0.0:
   version "1.0.0"

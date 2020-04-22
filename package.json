@@ -1,6 +1,6 @@
 {
   "name": "saur",
-  "description": "full-stack web app framework",
+  "description": "UI components for Deno's full-stack web application framework",
   "version": "0.0.1",
   "license": "MIT",
   "devDependencies": {

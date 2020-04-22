@@ -7,6 +7,9 @@
   "scripts": {
     "build": "webpack"
   },
+  "dependencies": {
+    "saur": "^0.0.1"
+  },
   "devDependencies": {
     "css-loader": "^3.5.2",
     "eslint-plugin-prettier": "^3.1.3",
@@ -28,8 +31,5 @@
   },
   "stylelint": {
     "extends": "stylelint-config-recommended"
-  },
-  "dependencies": {
-    "saur": "../"
   }
 }
