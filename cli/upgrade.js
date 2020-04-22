@@ -1,4 +1,4 @@
-const { run, exit } = Deno;
+const { run } = Deno;
 
 /**
  * Reinstall the `saur` CLI.
@@ -16,7 +16,6 @@ export default async function Upgrade() {
   ];
   const stdout = "piped";
   const upgrade = run({ cmd, stdout });
-  const status = await upgrade.status();
 
-  exit(status);
+  await upgrade.status();
 }
