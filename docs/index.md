@@ -32,7 +32,7 @@ monolithic, server-side applications with [Deno][].
 To install Deno Saur, make sure you have [Deno][] installed, then run:
 
 ```bash
-deno install --allow-read --allow-write --allow-run saur https://deno.land/x/saur/cli.js
+deno install --allow-read=. --allow-write --allow-run saur https://deno.land/x/saur/cli.js
 ```
 
 This will install the CLI to **~/.deno/bin/**, and give it permissions
@@ -41,7 +41,7 @@ define which directory it has write access to by passing that
 directory into the command:
 
 ```bash
-deno install --allow-read --allow-write=~/Code --allow-run saur https://deno.land/x/saur/cli.js
+deno install --allow-read=. --allow-write=~/Code --allow-run saur https://deno.land/x/saur/cli.js
 ```
 
 Once everything is installed and compiled, you'll want to have the
@@ -82,7 +82,8 @@ running `rails new` is a lot easier than setting up a project with
 `yarn` and including all the dependencies you'll need to get started. In
 addition, once you get a sufficient framework of sorts going, you still
 don't have any generators or a common way of running tasks that can be
-exported and modularized.
+exported and modularized. The result is a lot of projects out there are
+difficult to navigate, which makes developing on them much harder.
 
 Saur attempts to solve these problems by taking a lot of what we've
 learned from Rails, Django, and other "web MVC" frameworks and applying
