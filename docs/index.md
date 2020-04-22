@@ -1,5 +1,3 @@
-# Deno Saur
-
 [Deno Saur][] is a web application framework optimized for rapid
 development. Its goal is to provide a full set of features for creating
 monolithic, server-side applications with [Deno][].
