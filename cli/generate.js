@@ -2,6 +2,7 @@ import GenerateModel from "./generate/model.js";
 import GenerateController from "./generate/controller.js";
 import GenerateView from "./generate/view.js";
 import GenerateTemplate from "./generate/template.js";
+import GenerateComponent from "./generate/component.js";
 import pascalCase from "https://deno.land/x/case/pascalCase.ts";
 import { existsSync } from "https://deno.land/std/fs/mod.ts";
 
@@ -38,6 +39,9 @@ export default function Generate(options, type, name, ...args) {
       break;
     case "template":
       GenerateTemplate(name, className, encoder, options, ...args);
+      break;
+    case "component":
+      GenerateComponent(name, className, encoder, options, ...args);
       break;
     case "resource":
       GenerateModel(name, className, encoder, options, ...args);
