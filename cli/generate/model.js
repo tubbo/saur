@@ -3,7 +3,7 @@ import GenerateTest from "./test.js";
 import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import { dirname } from "https://deno.land/std/path/mod.ts";
 
-const root = dirname(import.meta.url);
+const root = dirname(import.meta.url).replace("file://", "");
 
 export default async function (name, className, encoder, options, ...fields) {
   const context = { name, className };

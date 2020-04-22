@@ -3,7 +3,7 @@ import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import { paramCase } from "https://deno.land/x/case/mod.ts";
 
 const { cwd, writeFile } = Deno;
-const root = dirname(import.meta.url);
+const root = dirname(import.meta.url).replace("file://", "");
 
 export default async function (name, className, encoder) {
   const template = `${root}/templates/component.ejs`;

@@ -3,7 +3,7 @@ import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import { dirname } from "https://deno.land/std/path/mod.ts";
 import pascalCase from "https://deno.land/x/case/pascalCase.ts";
 
-const root = dirname(import.meta.url);
+const root = dirname(import.meta.url).replace("file://", "");
 const { cwd, writeFile } = Deno;
 
 /**
