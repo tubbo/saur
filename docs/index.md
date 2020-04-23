@@ -25,7 +25,13 @@ monolithic, server-side applications with [Deno][].
   depending on the full framework.
 - **Modernity:** Use the latest features of JavaScript without pulling
   your hair out. Deno, and Saur, have first-class support for the latest
-  features in the language. You can even write your code in TypeScript!
+  features in the ECMAScript standard, as well as TypeScript. Saur
+  includes decorators for TypeScript users that make writing models,
+  views, and components a breeze.
+- **Familiarity:** Saur looks and feels like the technology you already
+  know, without the overhead of learning an additional language. Learn
+  how writing your backend application in JavaScript can be just as
+  expressive, if not more so, than in PHP, Ruby, or Python.
 
 ## Installation
 
