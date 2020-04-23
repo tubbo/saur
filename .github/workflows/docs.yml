@@ -18,7 +18,7 @@ jobs:
         with:
           node_version: 13.x
       - run: yarn install --check-files
-      - run: make
+      - run: make docs/api
       - uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
