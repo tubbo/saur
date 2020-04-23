@@ -26,11 +26,13 @@ export default class View {
     this.controller = controller;
     this.app = controller.app;
     this.request = controller.request;
-    this.template = new Template(
-      this.constructor.template,
-      controller.format,
-      this,
-    );
+    if (this.constructor.template) {
+      this.template = new Template(
+        this.constructor.template,
+        controller.format,
+        this,
+      );
+    }
     this.urlFor = this.app.routes.resolve.bind(this.app.routes);
 
     this.app.routes.forEach((route) => route.hydrate(this));
@@ -56,7 +58,7 @@ export default class View {
    */
   async partial(View, context = {}) {
     const view = new View(this, { ...this.context, ...context });
-    const result = await view.template.partial(view);
+    const result = await view.toHTML();
 
     this.app.log.info(`Rendering partial ${view.template.path}`);
 
@@ -64,12 +66,23 @@ export default class View {
   }
 
   /**
-   * Render the given View's template as the response to a Controller
-   * request. This method can be overridden to return a String of HTML
-   * or JSX.
+   * Render this View's template as a String of HTML.
+   *
+   * @return string
    */
-  render(view) {
-    return view.template.render(view);
+  toHTML() {
+    return this.template.partial(this);
+  }
+
+  /**
+   * Render this View's template as the response to a Controller
+   * request. This method can be overridden to return a String of HTML
+   * or JSX, rather than use the configured template.
+   *
+   * @return string
+   */
+  render() {
+    return this.template.render(this);
   }
 
   /**
