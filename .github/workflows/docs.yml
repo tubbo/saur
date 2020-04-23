@@ -12,7 +12,7 @@ jobs:
         with:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
-          env: api
+          env: api-reference
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
