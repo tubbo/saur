@@ -5,8 +5,7 @@ import each from "https://deno.land/x/lodash/each.js";
  * response to the cache.
  */
 export default function HTTPCaching(ctx, next, app) {
-  const shouldHTTPCache =
-    app.cache.httpEnabled &&
+  const shouldHTTPCache = app.cache.httpEnabled &&
     ctx.response.method === "GET" &&
     ctx.response.headers.has("Cache-Control") &&
     ctx.response.headers.has("ETag");

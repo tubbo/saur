@@ -44,7 +44,7 @@ check:
 .PHONY: check
 
 fmt:
-	@setopt extendedglob; deno fmt ^(node_modules)/**/*.js
+	@setopt extendedglob; deno fmt ^(node_modules|example)/**/*.js
 .PHONY: fmt
 
 distclean:
