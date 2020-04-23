@@ -2,13 +2,11 @@ import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import ReactDOMServer from "https://dev.jspm.io/react-dom/server";
 
 const { readFile } = Deno;
-const renderJSX = async (path) => {
-  const file = await Deno.readFile(path);
-  const decoder = new TextDecoder();
-  const source = decoder.decode(file);
-  const jsx = eval(source);
+const renderJSX = async (path, view) => {
+  const exports = await import(path);
+  const jsx = exports.default;
 
-  return ReactDOMServer.renderToString(jsx);
+  return ReactDOMServer.renderToStaticMarkup(jsx(view));
 };
 
 export default {

@@ -54,13 +54,22 @@ export default class View {
    * using this View as context. You can also pass in other context as
    * the last argument to this method.
    */
-  async render(View, context = {}) {
+  async partial(View, context = {}) {
     const view = new View(this, { ...this.context, ...context });
     const result = await view.template.partial(view);
 
     this.app.log.info(`Rendering partial ${view.template.path}`);
 
     return result.toString();
+  }
+
+  /**
+   * Render the given View's template as the response to a Controller
+   * request. This method can be overridden to return a String of HTML
+   * or JSX.
+   */
+  render(view) {
+    return view.template.render(view);
   }
 
   /**

@@ -86,7 +86,7 @@ export default class Controller {
    */
   async render(View, context = {}) {
     const view = new View(this, context);
-    const result = await view.template.render(view);
+    const result = await view.render(view);
     const html = result.toString();
 
     this.response.body = html;
