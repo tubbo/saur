@@ -8,6 +8,13 @@ import Relation from "./model/relation.js";
 import { camelCase, snakeCase } from "https://deno.land/x/case/mod.ts";
 // import "https://deno.land/x/humanizer.ts/vocabularies.ts";
 
+/**
+ * Models are classes that construct the data model for your
+ * application, as well as perform any database-related business logic
+ * such as validations and data massaging or aggregation. They follow
+ * the active record pattern, and therefore encapsulate all logic
+ * related to the querying and persistence of a table in your database.
+ */
 export default class Model {
   /**
    * Name of the class, used in logging.
