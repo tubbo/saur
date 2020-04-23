@@ -16,7 +16,7 @@ tags:
 	@ctags -R .
 
 docs/api:
-	@esdoc
+	@yarn run esdoc
 .PHONY: docs/api
 
 node_modules:
