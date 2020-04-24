@@ -30,7 +30,8 @@
       "TextEncoder": true,
       "TextDecoder": true,
       "Uint8Array": true,
-      "MutationObserver": true
+      "MutationObserver": true,
+      "Set": true
     }
   },
   "prettier": {
