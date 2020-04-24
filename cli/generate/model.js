@@ -15,7 +15,7 @@ export default async function (name, className, encoder, options, ...fields) {
   GenerateTest(`models/${name}`, className, options, encoder);
 
   if (fields.length) {
-    const migration = `Create${name}s`;
+    const migration = `Create${className}s`;
     const table = `create_${name}s`;
 
     GenerateMigration(table, migration, options, encoder, ...fields);

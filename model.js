@@ -17,6 +17,11 @@ import { camelCase, snakeCase } from "https://deno.land/x/case/mod.ts";
  */
 export default class Model {
   /**
+   * The app this model is a part of.
+   */
+  static app = null
+
+  /**
    * Name of the class, used in logging.
    */
   static get name() {

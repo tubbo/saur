@@ -10,6 +10,7 @@ export default class Relation extends Query {
   constructor(model) {
     super();
     this.model = model;
+    this.db = model.app.db;
     this.table(this.model.table);
     this.filters = {};
   }
@@ -29,13 +30,13 @@ export default class Relation extends Query {
    * Perform the compiled query specified by this object.
    */
   run() {
-    const result = App.db.exec(this.sql);
+    const result = this.db.exec(this.sql);
 
     if (!Array.isArray(result)) {
       return result;
     }
 
-    rows.map((row) => new this.model(row));
+    result.map((row) => new this.model(row));
   }
 
   /**

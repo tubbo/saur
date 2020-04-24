@@ -2,8 +2,8 @@ import Migration from "https://deno.land/x/saur/model/migration.js";
 
 export default class <%= className %> extends Migration {
   up(db) {
-    db.table("<%= tableName %>").alter({
-      <%= fields %>
+    db.table("<%= tableName %>").create({
+<%- fields %>
     });
   }
 }

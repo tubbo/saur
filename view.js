@@ -15,6 +15,13 @@ export function template(name) {
  * given UI.
  */
 export default class View {
+  /**
+   * Optional configuration for this View's template. This is the
+   * template file that will be rendered when the `render()` method is
+   * called on this View, out-of-box.
+   *
+   * @return string
+   */
   static template = null;
 
   static get name() {
@@ -26,13 +33,11 @@ export default class View {
     this.controller = controller;
     this.app = controller.app;
     this.request = controller.request;
-    if (this.constructor.template) {
-      this.template = new Template(
-        this.constructor.template,
-        controller.format,
-        this,
-      );
-    }
+    this.template = new Template(
+      this.constructor.template,
+      controller.format,
+      this,
+    );
     this.urlFor = this.app.routes.resolve.bind(this.app.routes);
 
     this.app.routes.forEach((route) => route.hydrate(this));

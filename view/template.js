@@ -8,16 +8,22 @@
  */
 export default class Template {
   constructor(path, format, view) {
+    const {
+      app: {
+        config: { template: handlers },
+        root,
+      },
+    } = view;
+
     this.view = view;
     this.app = view.app;
     this.name = path;
     this.format = format;
     this.language = "ejs";
     this.ext = `${this.format}.${this.language}`;
-    this.root = view.app.root.replace("file://", "");
+    this.root = root.replace("file://", "");
     this.path = `${this.root}/templates/${this.name}.${this.ext}`;
-    this.handler = view.app.config.template.handlers[this.language] ||
-      view.app.config.template.handlers.txt;
+    this.handler = handlers[this.language] || handlers.txt;
   }
 
   get layoutName() {
