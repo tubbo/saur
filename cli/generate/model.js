@@ -9,11 +9,15 @@ export default async function (name, className, encoder, options, ...fields) {
   const context = { name, className };
   const model = await renderFile(`${root}/templates/model.ejs`, context);
 
-  await Deno.writeFile(`models/${name}.js`, encoder.encode(model));
+  await Deno.writeFile(`models/${name}.js`, encoder.encode(model.toString()));
+
   console.log(`Created new model ${className} in models/${name}.js`);
-  GenerateTest(`models/${name}`, className, encoder);
+  GenerateTest(`models/${name}`, className, options, encoder);
 
   if (fields.length) {
-    GenerateMigration(`create_${name}s`, `Create${name}s`, options, ...fields);
+    const migration = `Create${name}s`;
+    const table = `create_${name}s`;
+
+    GenerateMigration(table, migration, options, encoder, ...fields);
   }
 }

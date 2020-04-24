@@ -13,22 +13,22 @@ function statementize(field) {
     return `${name}: { type: "${type}", ${options} },`;
   }
 
-  return `{ ${name}: "${type}" }`;
+  return `${name}: "${type}",`;
 }
 
 const ACTIONS = ["create", "drop"];
 
-export default async function (name, className, encoder, options, ...fields) {
+export default async function (name, className, options, encoder, ...args) {
   const version = new Date().getTime();
   const path = `migrations/${version}_${name}.js`;
-  const statements = fields.map(statementize);
+  const fields = args.map(statementize);
   const splitName = name.split("-");
-  const action = ACTIONS.contains(splitName[0]) ? splitName[0] : "update";
+  const action = ACTIONS.includes(splitName[0]) ? splitName[0] : "update";
   const tableName = splitName[splitName.length];
-  const context = { className, statements, tableName };
+  const context = { className, fields, tableName };
   const template = `${root}/templates/migration/${action}.ejs`;
   const source = await renderFile(template, context);
 
-  await Deno.writeFile(path, encoder.encode(source));
+  await Deno.writeFile(path, encoder.encode(source.toString()));
   console.log("Created new migration", className, "in", path);
 }
