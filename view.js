@@ -40,9 +40,9 @@ export default class View {
     );
     this.urlFor = this.app.routes.resolve.bind(this.app.routes);
 
+    Object.entries(this.context).forEach((value, key) => (this[key] = value));
     this.app.routes.forEach((route) => route.hydrate(this));
     this.initialize();
-    this.app.log.info(`Rendering ${this.constructor.name}`);
   }
 
   /**

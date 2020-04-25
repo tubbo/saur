@@ -43,7 +43,8 @@ export default class Mailer {
 
     if (View) {
       const view = new View(this, context);
-      const result = await view.template.render(view);
+      const result = await view.render();
+      this.app.log.info(`Rendered ${View.name}`);
       message.content = result.toString();
     }
 

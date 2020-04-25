@@ -33,7 +33,7 @@ export default {
     adapter: "postgres",
     host: "localhost",
     port: 5432,
-    username: "postgres",
+    user: "postgres",
     password: null,
   },
 

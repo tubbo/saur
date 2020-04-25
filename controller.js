@@ -93,6 +93,7 @@ export default class Controller {
     this.headers["Content-Type"] = this.request.accepts()[0];
 
     this.prepare();
+    this.app.log.info(`Rendered ${View.name}`);
   }
 
   /**

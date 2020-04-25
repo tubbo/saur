@@ -8,6 +8,7 @@ import Help from "./cli/help.js";
 import Run from "./cli/run.js";
 import Server from "./cli/server.js";
 import Upgrade from "./cli/upgrade.js";
+import Migrate from "./cli/migrate.js";
 
 let {
   _: [command, ...argv],
@@ -43,6 +44,9 @@ switch (command) {
     break;
   case "upgrade":
     Upgrade();
+    break;
+  case "migrate":
+    Migrate();
     break;
   case "help":
     Help(options, ...argv);

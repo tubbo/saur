@@ -1,4 +1,4 @@
-import Migration from "https://deno.land/x/saur/model/migration.js";
+import Migration from "../../model/migration.js";
 
 export default class CreateUsers extends Migration {
   up(db) {

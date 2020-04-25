@@ -5,13 +5,10 @@ import HomeController from "./controllers/home.js";
 
 const App = new Application({
   root: import.meta.url,
-  // Place your default configuration here. Environments can override
-  // this configuration in their respective `./config/environments/*.js`
-  // file.
-  log: {
-    level: "DEBUG",
-  },
 });
+
+App.config.log.level = "DEBUG";
+App.config.db.database = "example";
 
 App.routes.draw(({ root }) => {
   root("home#index");

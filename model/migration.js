@@ -10,7 +10,7 @@ export default class Migration {
     this.name = name;
     this.version = parseInt(version);
     this.query = new Query();
-    this.execute = app.db.execute.bind(app.db);
+    this.execute = app.db.exec.bind(app.db);
   }
 
   /**
@@ -20,20 +20,34 @@ export default class Migration {
     return this.query.build();
   }
 
+  get latestVersion() {
+    const query = new Query();
+
+    query
+      .table("schema_migrations")
+      .select("version")
+      .limit(1, 1)
+      .order("version", "desc")
+      .build();
+
+    return query;
+  }
+
+  get appendVersions() {
+    const query = new Query();
+
+    query.table("schema_migrations").insert("version", this.version).build();
+
+    return query;
+  }
+
   /**
    * Query for the latest version from the database, and test whether
    * this version is higher than the one specified by the migration. If
    * so, this migration was already executed.
    */
-  get executed() {
-    const query = new Query();
-    const rows = this.execute(
-      query
-        .table("schema_migrations")
-        .select("version")
-        .order("version", "asc")
-        .limit(1),
-    );
+  async executed() {
+    const rows = await this.execute(this.latestVersion);
     const current = parseInt(rows[0].version);
 
     return current <= this.version;
@@ -53,11 +67,8 @@ export default class Migration {
     action(this.query);
 
     const value = this.execute(this.sql);
-    const query = new Query();
 
-    this.execute(
-      query.table("schema_migrations").insert("version", this.version).build(),
-    );
+    this.execute(this.appendVersions);
 
     return value;
   }
