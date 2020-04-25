@@ -30,11 +30,8 @@ export default {
   // Database configuration passed to the client, except the `adapter`
   // which is used to find the database adapter to instantiate.
   db: {
-    adapter: "postgres",
-    host: "localhost",
-    port: 5432,
-    user: "postgres",
-    password: null,
+    adapter: "sqlite",
+    database: "db/development.sqlite",
   },
 
   hosts: ["localhost"],
