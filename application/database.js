@@ -1,6 +1,7 @@
 import Adapter from "./adapter.js";
 import * as PostgreSQL from "https://deno.land/x/postgres/mod.ts";
 import * as MySQL from "https://deno.land/x/mysql/mod.ts";
+import SQLite from "https://deno.land/x/sqlite/mod.ts";
 
 class Database extends Adapter {
   constructor(config = {}, logger) {
@@ -57,9 +58,21 @@ export class MysqlAdapter extends Database {
   }
 }
 
+export class SqliteAdapter extends Database {
+  async exec(sql) {
+    const db = await SQLite.open(this.config.database);
+    const results = db.query(sql);
+
+    await SQLite.save(db);
+
+    return results;
+  }
+}
+
 Database.adapters = {
   postgres: PostgresAdapter,
   mysql: MysqlAdapter,
+  sqlite: SqliteAdapter,
 };
 
 export default Database;
