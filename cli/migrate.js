@@ -1,4 +1,4 @@
-import { walkSync } from "https://deno.land/std/fs/mod.ts";
+import { walkSync } from "https://deno.land/std/fs/walk.ts";
 
 export default async function Migrate(options, direction = "up") {
   const root = Deno.cwd();

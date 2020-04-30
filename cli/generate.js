@@ -4,7 +4,7 @@ import GenerateView from "./generate/view.js";
 import GenerateTemplate from "./generate/template.js";
 import GenerateComponent from "./generate/component.js";
 import pascalCase from "https://deno.land/x/case/pascalCase.ts";
-import { existsSync } from "https://deno.land/std/fs/mod.ts";
+import { existsSync } from "https://deno.land/std/fs/exists.ts";
 
 const { cwd, exit } = Deno;
 
