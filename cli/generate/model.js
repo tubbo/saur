@@ -1,13 +1,10 @@
 import GenerateMigration from "./migration.js";
 import GenerateTest from "./test.js";
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
-import { dirname } from "https://deno.land/std/path/mod.ts";
-
-const root = dirname(import.meta.url).replace("file://", "");
+import { ejs } from "../assets.js";
 
 export default async function (name, className, encoder, options, ...fields) {
   const context = { name, className };
-  const model = await renderFile(`${root}/templates/model.ejs`, context);
+  const model = ejs(`cli/templates/model.ejs`, context);
 
   await Deno.writeFile(`models/${name}.js`, encoder.encode(model.toString()));
 

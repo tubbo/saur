@@ -1,9 +1,6 @@
 import { dirname, basename } from "https://deno.land/std/path/mod.ts";
 import { existsSync } from "https://deno.land/std/fs/exists.ts";
-import { __ } from "https://deno.land/x/dirname/mod.ts";
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
-
-const { __dirname } = __(import.meta);
+import { ejs } from "../assets.js";
 
 export default async function GenerateTemplate(name, cn, encoder, options) {
   const format = options.f || "html";
@@ -12,10 +9,7 @@ export default async function GenerateTemplate(name, cn, encoder, options) {
   const dir = `${root}/${dirname(name)}`;
   const file = `${root}/${name}.${format}.${language}`;
   const base = basename(name);
-  const template = await renderFile(`${__dirname}/templates/template.ejs`, {
-    name,
-    file,
-  });
+  const template = await ejs("cli/templates/template.ejs", { name, file });
   const source = encoder.encode(template.toString());
 
   if (!existsSync(dir)) {

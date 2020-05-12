@@ -1,17 +1,11 @@
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import GenerateTemplate from "./template.js";
-import { dirname } from "https://deno.land/std/path/mod.ts";
 import { existsSync } from "https://deno.land/std/fs/exists.ts";
-import { __ } from "https://deno.land/x/dirname/mod.ts";
-
-const { __dirname } = __(import.meta);
+import { dirname } from "https://deno.land/std/path/mod.ts";
+import { ejs } from "../assets.js";
 
 export default async function GenerateView(name, klass, encoder, options) {
   const className = `${klass}View`;
-  const view = await renderFile(`${__dirname}/templates/view.ejs`, {
-    name,
-    className,
-  });
+  const view = ejs(`cli/templates/view.ejs`, { name, className });
   const file = `views/${name}.js`;
   const dir = dirname(file);
 

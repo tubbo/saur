@@ -1,7 +1,4 @@
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
-import { dirname } from "https://deno.land/std/path/mod.ts";
-
-const root = dirname(import.meta.url).replace("file://", "");
+import { ejs } from "../assets.js";
 
 function statementize(field) {
   let [name, type, ...options] = field.split(":");
@@ -26,8 +23,8 @@ export default async function (name, className, options, encoder, ...args) {
   const action = ACTIONS.includes(splitName[0]) ? splitName[0] : "update";
   const tableName = splitName[splitName.length - 1];
   const context = { className, fields, tableName };
-  const template = `${root}/templates/migration/${action}.ejs`;
-  const source = await renderFile(template, context);
+  const template = `cli/templates/migration/${action}.ejs`;
+  const source = ejs(template, context);
 
   await Deno.writeFile(path, encoder.encode(source.toString()));
   console.log("Created new migration", className, "in", path);

@@ -1,13 +1,10 @@
-import { dirname } from "https://deno.land/std/path/mod.ts";
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+import { ejs } from ".../assets.js";
 import { paramCase } from "https://deno.land/x/case/mod.ts";
 
 const { cwd, writeFile } = Deno;
-const root = dirname(import.meta.url).replace("file://", "");
 
-export default async function (name, className, encoder) {
-  const template = `${root}/templates/component.ejs`;
-  const component = await renderFile(template, { name, className });
+export default async function GenerateComponent(name, className, encoder) {
+  const component = ejs("cli/templates/component.ejs", { name, className });
   const app = cwd();
   const source = encoder.encode(component);
   const path = `src/components/${name}`;
