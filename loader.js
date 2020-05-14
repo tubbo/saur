@@ -1,5 +1,5 @@
 import Asset from "./loader/asset.js";
-import LoadError from "./loader/error.js";
+// import LoadError from "./loader/error.js";
 
 const { readFile } = Deno;
 
@@ -44,13 +44,7 @@ export default class Loader {
     }
 
     const response = await fetch(asset.url);
-
-    if (!response.status.ok) {
-      throw new LoadError(asset.url);
-    }
-
-    const raw = await response.blob();
-    const body = this.process(raw);
+    const body = await response.text();
 
     asset.cache({ body });
 

@@ -24,13 +24,13 @@ export default class Asset {
   }
 
   async cache(response) {
-    if (!existsSync(dirname(this.path))) {
-      mkdir(dirname(this.path));
-    }
+    // if (!existsSync(dirname(this.path))) {
+    //   mkdir(dirname(this.path));
+    // }
 
-    const json = JSON.stringify(response);
+    // const json = JSON.stringify(response);
 
-    await writeFile(this.path, json);
+    // await writeFile(this.path, json);
   }
 
   async body() {

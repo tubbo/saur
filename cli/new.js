@@ -1,8 +1,8 @@
 import { ejs } from "./assets.js";
 import Loader from "../loader.js";
-import JSONProcessor from "./json-processor.js";
 import { titleCase } from "https://deno.land/x/case/mod.ts";
 import { encode, decode } from "https://deno.land/std/encoding/utf8.ts";
+import { readJson } from "https://deno.land/std/fs/read_json.ts";
 
 const { mkdir, writeFile, run } = Deno;
 const packages = [
@@ -16,10 +16,6 @@ const packages = [
 ];
 
 const loader = new Loader({ base: "https://deno.land/x/saur" });
-const json = new Loader({
-  base: "https://deno.land/x/saur",
-  processor: JSONProcessor,
-});
 const require = loader.require.bind(loader);
 
 export default async function New(options, name) {
@@ -28,17 +24,19 @@ export default async function New(options, name) {
 
   try {
     const title = titleCase(name);
-    const app = require(`cli/generate/templates/application.js`);
-    const server = require(`cli/generate/templates/server.js`);
-    const webpack = require(`cli/generate/templates/webpack.js`);
-    const layout = ejs(`cli/generate/templates/layout.ejs`, {
+    const app = await require(`cli/generate/templates/application.js`);
+    const server = await require(`cli/generate/templates/server.js`);
+    const webpack = await require(`cli/generate/templates/webpack.js`);
+    const layout = await ejs(`cli/generate/templates/layout.ejs`, {
       title,
     });
-    const env = require(`cli/generate/templates/env-config.js`);
-    const ui = require(`cli/generate/templates/ui.js`);
-    const css = require(`cli/generate/templates/ui.css`);
+    const env = await require(`cli/generate/templates/env-config.js`);
+    const ui = await require(`cli/generate/templates/ui.js`);
+    const css = await require(`cli/generate/templates/ui.css`);
 
     console.log(`Creating new application '${name}'...`);
+
+    //throw new Error(app);
 
     await mkdir(name);
     await mkdir(`${name}/bin`);
@@ -56,9 +54,9 @@ export default async function New(options, name) {
     await mkdir(`${name}/tests/views`);
     await mkdir(`${name}/views`);
     await mkdir(`${name}/src`);
-    await writeFile(`${name}/index.js`, encode(decode(app)));
-    await writeFile(`${name}/webpack.config.js`, encode(decode(webpack)));
-    await writeFile(`${name}/config/server.js`, encode(decode(server)));
+    await writeFile(`${name}/index.js`, encode(app));
+    await writeFile(`${name}/webpack.config.js`, encode(webpack));
+    await writeFile(`${name}/config/server.js`, encode(server));
     await writeFile(
       `${name}/templates/layouts/default.html.ejs`,
       encode(layout.toString()),
@@ -67,14 +65,14 @@ export default async function New(options, name) {
       `${name}/config/environments/development.js`,
       encode(decode(env)),
     );
-    await writeFile(`${name}/config/environments/test.js`, encode(decode(env)));
+    await writeFile(`${name}/config/environments/test.js`, encode(env));
     await writeFile(
       `${name}/config/environments/production.js`,
       encode(decode(env)),
     );
-    await writeFile(`${name}/index.js`, encode(decode(app)));
-    await writeFile(`${name}/src/index.js`, encode(decode(ui)));
-    await writeFile(`${name}/src/index.css`, encode(decode(css)));
+    await writeFile(`${name}/index.js`, encode(app));
+    await writeFile(`${name}/src/index.js`, encode(ui));
+    await writeFile(`${name}/src/index.css`, encode(css));
 
     console.log("Installing dependencies...");
 
@@ -116,7 +114,7 @@ export default async function New(options, name) {
       throw new Error(`Error installing dependencies: ${errors}`);
     }
 
-    const original = json.require(`${Deno.cwd()}/${name}/package.json`);
+    const original = await readJson(`${Deno.cwd()}/${name}/package.json`);
     const config = { ...original };
 
     config.scripts = {

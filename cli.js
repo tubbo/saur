@@ -1,5 +1,6 @@
 const { args } = Deno;
 import { parse } from "https://deno.land/std/flags/mod.ts";
+import { readJsonSync } from "https://deno.land/std/fs/read_json.ts";
 
 import New from "./cli/new.js";
 import Generate from "./cli/generate.js";
@@ -9,7 +10,6 @@ import Server from "./cli/server.js";
 import Upgrade from "./cli/upgrade.js";
 import Migrate from "./cli/migrate.js";
 import Loader from "./loader.js";
-import JSONProcessor from "./cli/json-processor.js";
 
 let {
   _: [command, ...argv],
@@ -27,9 +27,9 @@ if (help) {
 
 const json = new Loader({
   base: "https://deno.land/x/saur",
-  processor: JSONProcessor,
+  reader: readJsonSync,
 });
-const config = json.require("./package.json");
+const config = await json.require("./package.json");
 
 if (v || version) {
   console.log(`Saur ${config.version}`);
