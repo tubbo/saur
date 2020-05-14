@@ -38,7 +38,7 @@ monolithic, server-side applications with [Deno][].
 To install Deno Saur, make sure you have [Deno][] installed, then run:
 
 ```bash
-deno install --allow-read=. --allow-write --allow-run saur https://deno.land/x/saur/cli.js
+deno install --unstable --allow-read=. --allow-write --allow-run --name saur https://deno.land/x/saur/cli.js
 ```
 
 This will install the CLI to **~/.deno/bin/**, and give it permissions
