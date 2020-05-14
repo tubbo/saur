@@ -1,15 +1,22 @@
-const { fetch } = Deno;
 import { render } from "https://deno.land/x/dejs/mod.ts";
+import Loader from "../loader.js";
+import Processor from "../loader/processor.js";
 
-export async function require(path) {
-  const response = await fetch(`https://deno.land/x/saur/${path}`);
-  const source = await response.text();
+class EJSProcessor extends Processor {
+  async process() {
+    const compiled = await render(this.source, this.loader.params);
 
-  return source;
+    return compiled;
+  }
 }
 
-export async function ejs(path, params = {}) {
-  const source = require(path);
+const EJS = new Loader({
+  processor: EJSProcessor,
+  base: "https://deno.land/x/saur",
+});
 
-  return render(source, params);
+export async function ejs(path, params = {}) {
+  EJS.params = params;
+
+  return EJS.require(path);
 }

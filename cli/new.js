@@ -1,8 +1,10 @@
-import { require, ejs } from "./assets.js";
+import { ejs } from "./assets.js";
+import Loader from "../loader.js";
+import JSONProcessor from "./json-processor.js";
 import { titleCase } from "https://deno.land/x/case/mod.ts";
+import { encode, decode } from "https://deno.land/std/encoding/utf8.ts";
 
-const encoder = new TextEncoder();
-const decoder = new TextDecoder();
+const { mkdir, writeFile, run } = Deno;
 const packages = [
   "mini-css-extract-plugin",
   "css-loader",
@@ -12,6 +14,13 @@ const packages = [
   "stylelint-config-recommended",
   "webpack-cli",
 ];
+
+const loader = new Loader({ base: "https://deno.land/x/saur" });
+const json = new Loader({
+  base: "https://deno.land/x/saur",
+  processor: JSONProcessor,
+});
+const require = loader.require.bind(loader);
 
 export default async function New(options, name) {
   let errors;
@@ -31,74 +40,55 @@ export default async function New(options, name) {
 
     console.log(`Creating new application '${name}'...`);
 
-    await Deno.mkdir(name);
-    await Deno.mkdir(`${name}/bin`);
-    await Deno.mkdir(`${name}/controllers`);
-    await Deno.mkdir(`${name}/config`);
-    await Deno.mkdir(`${name}/config/environments`);
-    await Deno.mkdir(`${name}/models`);
-    await Deno.mkdir(`${name}/mailers`);
-    await Deno.mkdir(`${name}/templates`);
-    await Deno.mkdir(`${name}/templates/layouts`);
-    await Deno.mkdir(`${name}/tests`);
-    await Deno.mkdir(`${name}/tests/controllers`);
-    await Deno.mkdir(`${name}/tests/models`);
-    await Deno.mkdir(`${name}/tests/mailers`);
-    await Deno.mkdir(`${name}/tests/views`);
-    await Deno.mkdir(`${name}/views`);
-    await Deno.mkdir(`${name}/src`);
-    await Deno.writeFile(
-      `${name}/index.js`,
-      encoder.encode(decoder.decode(app)),
-    );
-    await Deno.writeFile(
-      `${name}/webpack.config.js`,
-      encoder.encode(decoder.decode(webpack)),
-    );
-    await Deno.writeFile(
-      `${name}/config/server.js`,
-      encoder.encode(decoder.decode(server)),
-    );
-    await Deno.writeFile(
+    await mkdir(name);
+    await mkdir(`${name}/bin`);
+    await mkdir(`${name}/controllers`);
+    await mkdir(`${name}/config`);
+    await mkdir(`${name}/config/environments`);
+    await mkdir(`${name}/models`);
+    await mkdir(`${name}/mailers`);
+    await mkdir(`${name}/templates`);
+    await mkdir(`${name}/templates/layouts`);
+    await mkdir(`${name}/tests`);
+    await mkdir(`${name}/tests/controllers`);
+    await mkdir(`${name}/tests/models`);
+    await mkdir(`${name}/tests/mailers`);
+    await mkdir(`${name}/tests/views`);
+    await mkdir(`${name}/views`);
+    await mkdir(`${name}/src`);
+    await writeFile(`${name}/index.js`, encode(decode(app)));
+    await writeFile(`${name}/webpack.config.js`, encode(decode(webpack)));
+    await writeFile(`${name}/config/server.js`, encode(decode(server)));
+    await writeFile(
       `${name}/templates/layouts/default.html.ejs`,
-      encoder.encode(layout.toString()),
+      encode(layout.toString()),
     );
-    await Deno.writeFile(
+    await writeFile(
       `${name}/config/environments/development.js`,
-      encoder.encode(decoder.decode(env)),
+      encode(decode(env)),
     );
-    await Deno.writeFile(
-      `${name}/config/environments/test.js`,
-      encoder.encode(decoder.decode(env)),
-    );
-    await Deno.writeFile(
+    await writeFile(`${name}/config/environments/test.js`, encode(decode(env)));
+    await writeFile(
       `${name}/config/environments/production.js`,
-      encoder.encode(decoder.decode(env)),
+      encode(decode(env)),
     );
-    await Deno.writeFile(
-      `${name}/index.js`,
-      encoder.encode(decoder.decode(app)),
-    );
-    await Deno.writeFile(
-      `${name}/src/index.js`,
-      encoder.encode(decoder.decode(ui)),
-    );
-    await Deno.writeFile(
-      `${name}/src/index.css`,
-      encoder.encode(decoder.decode(css)),
-    );
+    await writeFile(`${name}/index.js`, encode(decode(app)));
+    await writeFile(`${name}/src/index.js`, encode(decode(ui)));
+    await writeFile(`${name}/src/index.css`, encode(decode(css)));
 
     console.log("Installing dependencies...");
 
-    command = Deno.run({
+    command = run({
       cmd: [
         "deno",
         "install",
+        "--unstable",
         `--allow-read=./${name}`,
         `--allow-write=./${name}`,
         "--allow-net",
         "--root",
         `./${name}/bin`,
+        "--name",
         "server",
         `${name}/config/server.js`,
       ],
@@ -108,13 +98,13 @@ export default async function New(options, name) {
 
     if (!errors) {
       console.log("Installing frontend dependencies...");
-      command = Deno.run({ cmd: ["yarn", "init", "-yps"], cwd: name });
+      command = run({ cmd: ["yarn", "init", "-yps"], cwd: name });
       errors = await command.errors;
       await command.status();
     }
 
     if (!errors) {
-      command = Deno.run({
+      command = run({
         cmd: ["yarn", "add", "webpack", "-D", "-s", ...packages],
         cwd: name,
       });
@@ -126,7 +116,7 @@ export default async function New(options, name) {
       throw new Error(`Error installing dependencies: ${errors}`);
     }
 
-    const original = await import(`${Deno.cwd()}/${name}/package.json`);
+    const original = json.require(`${Deno.cwd()}/${name}/package.json`);
     const config = { ...original };
 
     config.scripts = {
@@ -141,9 +131,8 @@ export default async function New(options, name) {
     config.stylelint = {
       extends: "stylelint-config-recommended",
     };
-    const json = encoder.encode(JSON.stringify(config, null, 2));
 
-    Deno.writeFile(`${name}/package.json`, json);
+    writeFile(`${name}/package.json`, encode(JSON.stringify(config, null, 2)));
 
     console.log(`Application '${name}' has been created!`);
     Deno.exit(0);

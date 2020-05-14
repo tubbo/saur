@@ -31,7 +31,8 @@
       "TextDecoder": true,
       "Uint8Array": true,
       "MutationObserver": true,
-      "Set": true
+      "Set": true,
+      "fetch": true
     }
   },
   "prettier": {

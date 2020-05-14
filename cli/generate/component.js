@@ -1,4 +1,4 @@
-import { ejs } from ".../assets.js";
+import { ejs } from "../assets.js";
 import { paramCase } from "https://deno.land/x/case/mod.ts";
 
 const { cwd, writeFile } = Deno;

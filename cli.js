@@ -1,6 +1,5 @@
 const { args } = Deno;
 import { parse } from "https://deno.land/std/flags/mod.ts";
-import config from "./package.json";
 
 import New from "./cli/new.js";
 import Generate from "./cli/generate.js";
@@ -9,6 +8,8 @@ import Run from "./cli/run.js";
 import Server from "./cli/server.js";
 import Upgrade from "./cli/upgrade.js";
 import Migrate from "./cli/migrate.js";
+import Loader from "./loader.js";
+import JSONProcessor from "./cli/json-processor.js";
 
 let {
   _: [command, ...argv],
@@ -23,6 +24,12 @@ if (help) {
   await Help(options, command, ...argv);
   Deno.exit(0);
 }
+
+const json = new Loader({
+  base: "https://deno.land/x/saur",
+  processor: JSONProcessor,
+});
+const config = json.require("./package.json");
 
 if (v || version) {
   console.log(`Saur ${config.version}`);

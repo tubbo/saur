@@ -1,5 +1,5 @@
 import GenerateView from "./view.js";
-import { ejs } from ".../assets.js";
+import { ejs } from "../assets.js";
 import pascalCase from "https://deno.land/x/case/pascalCase.ts";
 
 const { cwd, writeFile } = Deno;
