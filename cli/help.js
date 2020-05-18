@@ -1,5 +1,5 @@
 import { dirname } from "https://deno.land/std/path/mod.ts";
-import { renderFile } from "https://denopkg.com/tubbo/dejs@v1/mod.ts";
+import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import { Task } from "../task.js";
 
 const { readFile } = Deno;
