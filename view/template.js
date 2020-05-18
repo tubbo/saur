@@ -10,7 +10,7 @@ export default class Template {
   constructor(path, format, view) {
     const {
       app: {
-        config: { template: handlers },
+        config: { template },
         root,
       },
     } = view;
@@ -23,7 +23,7 @@ export default class Template {
     this.ext = `${this.format}.${this.language}`;
     this.root = root.replace("file://", "");
     this.path = `${this.root}/templates/${this.name}.${this.ext}`;
-    this.handler = handlers[this.language] || handlers.txt;
+    this.handler = template.handlers[this.language] || template.handlers.txt;
   }
 
   get layoutName() {

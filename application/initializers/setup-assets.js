@@ -1,8 +1,8 @@
 import { existsSync } from "https://deno.land/std/fs/mod.ts";
 import CompileAssets from "../middleware/compile-assets.js";
-//import AssetsCompiler from "../assets-compiler.js";
+import AssetsCompiler from "../assets-compiler.js";
 
-const { removeSync, fsEvents } = Deno;
+const { removeSync } = Deno;
 
 function clean(root) {
   if (existsSync(`${root}/public/main.js`)) {
@@ -17,15 +17,15 @@ function clean(root) {
 export default async function SetupAssets(app) {
   if (app.config.assets.enabled) {
     const root = app.root.replace("file://", "");
-    const watcher = fsEvents(`${root}/src`);
+    // const watcher = fsEvents(`${root}/src`);
 
     app.use(CompileAssets);
     clean(root);
-    //AssetsCompiler(app, "/main.js");
+    AssetsCompiler(app, "/main.js");
 
-    for await (const event of watcher) {
+    /*for await (const event of watcher) {
       event.paths.forEach((path) => app.log.debug(`Reloading ${path}`));
       clean(root);
-    }
+    }*/
   }
 }

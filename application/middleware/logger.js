@@ -1,14 +1,17 @@
 import reduce from "https://deno.land/x/lodash/reduce.js";
 
 export default async function logger(ctx, next, app) {
-  const { method, url } = ctx.request;
+  const {
+    method,
+    url: { pathname },
+  } = ctx.request;
   const params = reduce(
     ctx.params || {},
     (value, key, p) => `${p}, ${key}: "${value}"`,
     "",
   );
 
-  app.log.info(`Requesting ${method} "${url}" (Parameters: {${params}})`);
+  app.log.info(`Requesting ${method} "${pathname}" (Parameters: {${params}})`);
 
   await next();
 

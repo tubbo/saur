@@ -1,3 +1,5 @@
+import { existsSync } from "https://deno.land/std/fs/mod.ts";
+
 const { readFile } = Deno;
 
 /**
@@ -8,25 +10,25 @@ export default async function AssetsCompiler(app, url) {
   const root = app.root.replace("file://", "");
   const path = `${root}/public${url}`;
 
-  app.log.info("Compiling assets...");
-
   try {
-    const command = Deno.run({
-      cwd: root,
-      cmd: ["yarn", "--silent", "build"],
-    });
-    const errors = await command.errors;
+    if (!existsSync(path)) {
+      app.log.info("Compiling assets...");
+      const command = Deno.run({
+        cwd: root,
+        cmd: ["yarn", "--silent", "build"],
+      });
+      const errors = await command.errors;
 
-    if (errors) {
-      throw new Error(errors);
+      if (errors) {
+        throw new Error(errors);
+      }
+
+      await command.status();
+      app.log.info("Compilation succeeded!");
     }
-
-    await command.status();
 
     body = await readFile(path);
     status = 200;
-
-    app.log.info("Compilation succeeded!");
   } catch (e) {
     status = 500;
     body = e.message;

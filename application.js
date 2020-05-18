@@ -88,6 +88,7 @@ export default class Application {
     this.log.info(
       `Starting application server on port ${this.config.server.port}`,
     );
+
     await this.oak.listen(this.config.server);
   }
 

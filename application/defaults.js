@@ -1,4 +1,4 @@
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+import { renderFileToString } from "https://deno.land/x/dejs/mod.ts";
 import ReactDOMServer from "https://dev.jspm.io/react-dom/server";
 
 const { readFile } = Deno;
@@ -75,7 +75,7 @@ export default {
     layout: "default",
     handlers: {
       txt: readFile,
-      ejs: renderFile,
+      ejs: renderFileToString,
       jsx: renderJSX,
     },
   },
