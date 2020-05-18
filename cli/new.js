@@ -85,7 +85,7 @@ export default async function New(options, name) {
         `--allow-write=./${name}`,
         "--allow-net",
         "--root",
-        `./${name}/bin`,
+        `./${name}`,
         "--name",
         "server",
         `${name}/config/server.js`,
