@@ -1,4 +1,4 @@
-import { send } from "https://denopkg.com/Soremwar/oak@v0.41/mod.ts";
+import { send } from "https://deno.land/x/oak/mod.ts";
 import { existsSync } from "https://deno.land/std/fs/mod.ts";
 
 /**

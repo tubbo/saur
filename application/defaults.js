@@ -1,4 +1,4 @@
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+import { renderFile } from "https://denopkg.com/tubbo/dejs@v1/mod.ts";
 import ReactDOMServer from "https://dev.jspm.io/react-dom/server";
 
 const { readFile } = Deno;

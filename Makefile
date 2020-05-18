@@ -6,7 +6,7 @@ all: bin/saur tags docs/api
 
 bin/saur:
 	@mkdir -p bin
-	@deno install --allow-run --allow-write --allow-read -d bin saur cli.js
+	@deno install --unstable --allow-net --allow-env --allow-run --allow-write --allow-read --root . --name saur cli.js
 
 dist:
 	@mkdir -p dist

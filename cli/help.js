@@ -1,5 +1,5 @@
 import { dirname } from "https://deno.land/std/path/mod.ts";
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
+import { renderFile } from "https://denopkg.com/tubbo/dejs@v1/mod.ts";
 import { Task } from "../task.js";
 
 const { readFile } = Deno;
@@ -8,9 +8,10 @@ const decoder = new TextDecoder("utf-8");
 
 export default async function Help(options, cmd, ...argv) {
   const command = !cmd || cmd === "help" ? "usage" : [cmd, ...argv].join("/");
-  const path = command === "usage"
-    ? `${root}/help/usage.ejs`
-    : `${root}/help/${command}.txt`;
+  const path =
+    command === "usage"
+      ? `${root}/help/usage.ejs`
+      : `${root}/help/${command}.txt`;
   let txt;
 
   try {

@@ -1,4 +1,4 @@
-import { Router } from "https://denopkg.com/Soremwar/oak@v0.41/mod.ts";
+import { Router } from "https://deno.land/x/oak/mod.ts";
 import RouteSet from "./routes/route-set.js";
 import MissingRouteError from "./errors/missing-route.js";
 

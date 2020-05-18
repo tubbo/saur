@@ -1,4 +1,4 @@
-import { Hash } from "https://deno.land/x/checksum@1.2.0/mod.ts";
+import { Hash } from "https://deno.land/x/checksum/mod.ts";
 import { dirname } from "https://deno.land/std/path/mod.ts";
 import { existsSync } from "https://deno.land/std/fs/mod.ts";
 

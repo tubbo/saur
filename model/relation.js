@@ -1,4 +1,4 @@
-import { Query } from "https://deno.land/x/sql_builder/mod.ts";
+import { Query } from "https://denopkg.com/tubbo/sql-builder@fix-deps/mod.ts";
 import each from "https://deno.land/x/lodash/each.js";
 
 /**

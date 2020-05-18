@@ -1,6 +1,6 @@
 import * as path from "https://deno.land/std/path/mod.ts";
 import * as log from "https://deno.land/std/log/mod.ts";
-import { Application as Oak } from "https://denopkg.com/Soremwar/oak@v0.41/mod.ts";
+import { Application as Oak } from "https://deno.land/x/oak/mod.ts";
 import Routes from "./routes.js";
 import Database from "./application/database.js";
 import Cache from "./application/cache.js";
