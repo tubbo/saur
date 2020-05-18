@@ -1,7 +1,7 @@
 import Adapter from "./adapter.js";
 import * as PostgreSQL from "https://deno.land/x/postgres/mod.ts";
 import * as MySQL from "https://deno.land/x/mysql/mod.ts";
-import SQLite from "https://deno.land/x/sqlite/mod.ts";
+import * as SQLite from "https://deno.land/x/sqlite/mod.ts";
 
 class Database extends Adapter {
   constructor(config = {}, logger) {
