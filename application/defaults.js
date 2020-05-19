@@ -1,4 +1,4 @@
-import { renderFileToString } from "https://denopkg.com/tubbo/dejs@v1/mod.ts";
+import { renderFileToString } from "https://denopkg.com/tubbo/dejs@fuck-you-github/mod.ts";
 import ReactDOMServer from "https://dev.jspm.io/react-dom/server";
 
 const { readFile } = Deno;
