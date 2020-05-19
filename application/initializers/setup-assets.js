@@ -1,4 +1,4 @@
-import { existsSync } from "https://deno.land/std/fs/mod.ts";
+import { existsSync } from "https://deno.land/std/fs/exists.ts";
 import CompileAssets from "../middleware/compile-assets.js";
 import AssetsCompiler from "../assets-compiler.js";
 

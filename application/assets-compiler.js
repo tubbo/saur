@@ -1,4 +1,4 @@
-import { existsSync } from "https://deno.land/std/fs/mod.ts";
+import { existsSync } from "https://deno.land/std/fs/exists.ts";
 
 const { readFile } = Deno;
 

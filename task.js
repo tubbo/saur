@@ -1,4 +1,4 @@
-import { walkSync } from "https://deno.land/std/fs/mod.ts";
+import { walkSync } from "https://deno.land/std/fs/walk.ts";
 
 /**
  * Tasks are user-defined subcommands of the `saur` CLI that are active

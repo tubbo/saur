@@ -1,8 +1,8 @@
 import { Hash } from "https://deno.land/x/checksum/mod.ts";
-import { dirname } from "https://deno.land/std/path/mod.ts";
-import { existsSync } from "https://deno.land/std/fs/mod.ts";
+//import { dirname } from "https://deno.land/std/path/mod.ts";
+import { existsSync } from "https://deno.land/std/fs/exists.ts";
 
-const { dir, mkdir, writeFile, readFile } = Deno;
+const { dir, readFile } = Deno;
 const SHA1 = new Hash("sha1");
 
 export default class Asset {
@@ -27,9 +27,7 @@ export default class Asset {
     // if (!existsSync(dirname(this.path))) {
     //   mkdir(dirname(this.path));
     // }
-
     // const json = JSON.stringify(response);
-
     // await writeFile(this.path, json);
   }
 

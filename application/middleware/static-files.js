@@ -1,5 +1,5 @@
 import { send } from "https://deno.land/x/oak/mod.ts";
-import { existsSync } from "https://deno.land/std/fs/mod.ts";
+import { existsSync } from "https://deno.land/std/fs/exists.ts";
 
 /**
  * Serve static files from the ./public directory.
