@@ -1,4 +1,4 @@
-import { render } from "https://deno.land/x/dejs/mod.ts";
+import { render } from "https://denopkg.com/tubbo/dejs@v1/mod.ts";
 import Loader from "../loader.js";
 import Processor from "../loader/processor.js";
 import { decode } from "https://deno.land/std/encoding/utf8.ts";
